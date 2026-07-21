@@ -267,3 +267,27 @@ header p {
   grid-column: 1 / -1;
   display: none;
 }
+
+/* Style des boutons d'onglets */
+.view-switcher {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.switch-btn {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--border, #e2e8f0);
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.switch-btn.active {
+  background: var(--primary, #2563eb);
+  color: white;
+  border-color: var(--primary, #2563eb);
+}

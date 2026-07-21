@@ -3,209 +3,357 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hub de Ressources & Présentations</title>
-  <link rel="stylesheet" href="./css/main.css">
+  <title>Hub de Ressources & Documents</title>
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 
   <div class="container">
-    <!-- En-tête de la page -->
-    <header>
-      <span class="logo-badge">Espace Partagé</span>
-      <h1>Hub de Ressources & Formations</h1>
-      <p>Accédez facilement à l'ensemble des outils, présentations et documents.</p>
+    
+    <!-- En-tête -->
+    <header class="header">
+      <h1>Hub de Ressources</h1>
+      <p>Retrouvez l'ensemble des documents, outils et présentations centralisés.</p>
+      
+      <!-- Boutons de basculement de Vue -->
+      <div class="view-switcher">
+        <button class="switch-btn active" onclick="switchView(event, 'view-types')">📁 Vue par Types</button>
+        <button class="switch-btn" onclick="switchView(event, 'view-projects')">🎯 Vue par Projets</button>
+      </div>
     </header>
 
-    <!-- Barre de contrôle : Recherche + Onglets -->
-    <div class="controls-bar">
-      <!-- Moteur de recherche rapide -->
-      <div class="search-box">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-        </svg>
-        <input type="text" id="searchInput" placeholder="Rechercher une ressource, un outil, une formation..." onkeyup="filterCards()">
+    <main>
+
+      <!-- ================================================================= -->
+      <!-- VUE 1 : PAR TYPES DE DOCUMENTS (Documents, Outils, Présentations) -->
+      <!-- ================================================================= -->
+      <div id="view-types" class="view-content active">
+        
+        <!-- Section Documents -->
+        <section class="section">
+          <h2 class="section-title">📄 Documents & Formations</h2>
+          <div class="grid">
+            
+            <a href="./documents/journees-formation/niv1-niv2/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-documents">Document</span>
+                </div>
+                <h3>Formation IA — Niv 1 & 2</h3>
+                <p>Supports et ressources pour le niveau initial des formations IA.</p>
+              </div>
+              <div class="card-footer">
+                <span>Journées Formation</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./documents/journees-formation/niv3-niv4/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-documents">Document</span>
+                </div>
+                <h3>Formation IA — Niv 3 & 4</h3>
+                <p>Supports avancés et cas pratiques pour le niveau expérimenté.</p>
+              </div>
+              <div class="card-footer">
+                <span>Journées Formation</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./documents/liste-outils-ia/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-documents">Document</span>
+                </div>
+                <h3>Liste des Outils IA</h3>
+                <p>Répertoire récapitulatif des outils IA recommandés et testés.</p>
+              </div>
+              <div class="card-footer">
+                <span>Ressources</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./documents/miro/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-documents">Document</span>
+                </div>
+                <h3>Espace Miro</h3>
+                <p>Lien et restitution des tableaux blancs collaboratifs Miro.</p>
+              </div>
+              <div class="card-footer">
+                <span>Ressources</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+          </div>
+        </section>
+
+        <!-- Section Outils -->
+        <section class="section">
+          <h2 class="section-title">🛠️ Outils & Scripts</h2>
+          <div class="grid">
+
+            <a href="./outils/hoc-capture/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-outils">Outil</span>
+                </div>
+                <h3>HOC Capture</h3>
+                <p>Outil de capture et de documentation rapide.</p>
+              </div>
+              <div class="card-footer">
+                <span>Application</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./outils/hoc-formation/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-outils">Outil</span>
+                </div>
+                <h3>HOC Formation</h3>
+                <p>Module interactif dédié au suivi des formations.</p>
+              </div>
+              <div class="card-footer">
+                <span>Application</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./outils/scripts/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-outils">Outil</span>
+                </div>
+                <h3>Scripts & Automatisation</h3>
+                <p>Recueil des scripts utilitaires et automatismes.</p>
+              </div>
+              <div class="card-footer">
+                <span>Code</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+          </div>
+        </section>
+
+        <!-- Section Présentations -->
+        <section class="section">
+          <h2 class="section-title">📊 Présentations</h2>
+          <div class="grid">
+
+            <a href="./presentations/histoire-ia/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-presentations">Présentation</span>
+                </div>
+                <h3>Histoire de l'IA</h3>
+                <p>Retracez les grandes étapes et évolutions de l'Intelligence Artificielle.</p>
+              </div>
+              <div class="card-footer">
+                <span>Diaporama</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./presentations/notebooklm/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-presentations">Présentation</span>
+                </div>
+                <h3>Guide NotebookLM</h3>
+                <p>Présentation complète de l'outil NotebookLM et de ses usages.</p>
+              </div>
+              <div class="card-footer">
+                <span>Diaporama</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+          </div>
+        </section>
+
       </div>
 
-      <!-- Navigation par onglets -->
-      <div class="tabs">
-        <button class="tab-btn active" onclick="setTab('all', this)">Tous</button>
-        <button class="tab-btn" onclick="setTab('outils', this)">Outils</button>
-        <button class="tab-btn" onclick="setTab('presentations', this)">Présentations</button>
-        <button class="tab-btn" onclick="setTab('documents', this)">Documents</button>
-      </div>
-    </div>
 
-    <!-- Grille globale des contenus -->
-    <main class="grid" id="cardsGrid">
+      <!-- ================================================================= -->
+      <!-- VUE 2 : PAR PROJETS (Formations IA, Outils Métier, etc.)          -->
+      <!-- ================================================================= -->
+      <div id="view-projects" class="view-content" style="display: none;">
+        
+        <!-- Projet : Formations à l'IA -->
+        <section class="section">
+          <h2 class="section-title">🎓 Projet : Formations à l'IA</h2>
+          <p class="section-subtitle">Retrouvez tous les documents, cours et diaporamas associés aux parcours de formation IA.</p>
+          
+          <div class="grid">
 
-      <!-- ==========================================
-           ONGLET : PRÉSENTATIONS
-           ========================================== -->
-      <a href="./presentations/notebooklm/" class="card" data-category="presentations">
-        <div class="card-body">
-          <div class="card-header">
-            <span class="badge badge-presentations">Présentation</span>
+            <a href="./documents/journees-formation/niv1-niv2/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-documents">Document</span>
+                </div>
+                <h3>Formation IA — Niv 1 & 2</h3>
+                <p>Supports de cours et cas d'usage pratiques pour débuter.</p>
+              </div>
+              <div class="card-footer">
+                <span>Niveau 1 & 2</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./documents/journees-formation/niv3-niv4/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-documents">Document</span>
+                </div>
+                <h3>Formation IA — Niv 3 & 4</h3>
+                <p>Approfondissement et automatisation avancée.</p>
+              </div>
+              <div class="card-footer">
+                <span>Niveau 3 & 4</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./presentations/histoire-ia/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-presentations">Présentation</span>
+                </div>
+                <h3>Histoire de l'IA</h3>
+                <p>Introduction à la culture générale et historique de l'IA.</p>
+              </div>
+              <div class="card-footer">
+                <span>Introduction</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./presentations/notebooklm/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-presentations">Présentation</span>
+                </div>
+                <h3>Guide NotebookLM</h3>
+                <p>Analyse de documents et génération de résumés intelligents.</p>
+              </div>
+              <div class="card-footer">
+                <span>Outil IA</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./documents/liste-outils-ia/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-documents">Document</span>
+                </div>
+                <h3>Liste des Outils IA</h3>
+                <p>Catalogue des solutions testées pendant la formation.</p>
+              </div>
+              <div class="card-footer">
+                <span>Répertoire</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
           </div>
-          <h3>Présentation NotebookLM</h3>
-          <p>Démonstration et cas d'usage de l'outil NotebookLM pour la synthèse et l'analyse documentaire.</p>
-        </div>
-        <div class="card-footer">
-          <span>Support HTML</span>
-          <span class="card-link-text">Voir &rarr;</span>
-        </div>
-      </a>
+        </section>
 
-      <a href="./presentations/histoire-ia/" class="card" data-category="presentations">
-        <div class="card-body">
-          <div class="card-header">
-            <span class="badge badge-presentations">Présentation</span>
+        <!-- Projet : Suite d'Outils HOC & Scripts -->
+        <section class="section">
+          <h2 class="section-title">⚙️ Projet : Suite HOC & Scripts Internes</h2>
+          <p class="section-subtitle">Applications et utilitaires développés pour la capture et le suivi.</p>
+
+          <div class="grid">
+
+            <a href="./outils/hoc-capture/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-outils">Outil</span>
+                </div>
+                <h3>HOC Capture</h3>
+                <p>Logiciel/Module de capture rapide.</p>
+              </div>
+              <div class="card-footer">
+                <span>Capture</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./outils/hoc-formation/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-outils">Outil</span>
+                </div>
+                <h3>HOC Formation</h3>
+                <p>Tableau de suivi des formations HOC.</p>
+              </div>
+              <div class="card-footer">
+                <span>Suivi</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./outils/scripts/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-outils">Outil</span>
+                </div>
+                <h3>Scripts Automatisés</h3>
+                <p>Scripts shell/python de maintenance et traitement.</p>
+              </div>
+              <div class="card-footer">
+                <span>Scripts</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
+            <a href="./documents/miro/" class="card">
+              <div class="card-body">
+                <div class="card-header">
+                  <span class="badge badge-documents">Document</span>
+                </div>
+                <h3>Espace Miro</h3>
+                <p>Tableaux de cadrage et réflexion collaborative.</p>
+              </div>
+              <div class="card-footer">
+                <span>Miro</span>
+                <span class="card-link-text">Voir &rarr;</span>
+              </div>
+            </a>
+
           </div>
-          <h3>Histoire de l'IA</h3>
-          <p>Rétrospective et évolutions clés de l'Intelligence Artificielle, des origines aux modèles génératifs.</p>
-        </div>
-        <div class="card-footer">
-          <span>Support HTML</span>
-          <span class="card-link-text">Voir &rarr;</span>
-        </div>
-      </a>
+        </section>
 
-      <!-- ==========================================
-           ONGLET : DOCUMENTS
-           ========================================== -->
-      <a href="./documents/journees-formation/" class="card" data-category="documents">
-        <div class="card-body">
-          <div class="card-header">
-            <span class="badge badge-documents">Document</span>
-          </div>
-          <h3>Journées de formation</h3>
-          <p>Planning, modules et contenus pédagogiques pour les sessions de formation programmées.</p>
-        </div>
-        <div class="card-footer">
-          <span>Programme & Docs</span>
-          <span class="card-link-text">Consulter &rarr;</span>
-        </div>
-      </a>
-
-      <a href="./documents/liste-outils-ia/" class="card" data-category="documents">
-        <div class="card-body">
-          <div class="card-header">
-            <span class="badge badge-documents">Document</span>
-          </div>
-          <h3>Liste des outils IA</h3>
-          <p>Inventaire référençant l'ensemble des outils IA recommandés et testés par l'équipe.</p>
-        </div>
-        <div class="card-footer">
-          <span>Référentiel</span>
-          <span class="card-link-text">Consulter &rarr;</span>
-        </div>
-      </a>
-
-      <a href="./documents/tableau-miro/" class="card" data-category="documents">
-        <div class="card-body">
-          <div class="card-header">
-            <span class="badge badge-documents">Document</span>
-          </div>
-          <h3>Tableau Miro</h3>
-          <p>Espace de travail collaboratif Miro (Brainstorming, cartographies et ateliers visuels).</p>
-        </div>
-        <div class="card-footer">
-          <span>Lien Miro</span>
-          <span class="card-link-text">Ouvrir &rarr;</span>
-        </div>
-      </a>
-
-      <!-- ==========================================
-           ONGLET : OUTILS
-           ========================================== -->
-      <a href="./outils/scripts/" class="card" data-category="outils">
-        <div class="card-body">
-          <div class="card-header">
-            <span class="badge badge-outils">Outil</span>
-          </div>
-          <h3>Scripts Google Apps</h3>
-          <p>Collection de scripts Google Apps Scripts et workflows d'automatisation interne.</p>
-        </div>
-        <div class="card-footer">
-          <span>Scripts & Code</span>
-          <span class="card-link-text">Accéder &rarr;</span>
-        </div>
-      </a>
-
-      <a href="./outils/hoc-capture/" class="card" data-category="outils">
-        <div class="card-body">
-          <div class="card-header">
-            <span class="badge badge-outils">Outil</span>
-          </div>
-          <h3>HOC Capture</h3>
-          <p>Outil d'enregistrement et de capture de données HOC.</p>
-        </div>
-        <div class="card-footer">
-          <span>Application</span>
-          <span class="card-link-text">Lancer &rarr;</span>
-        </div>
-      </a>
-
-      <a href="./outils/hoc-formation/" class="card" data-category="outils">
-        <div class="card-body">
-          <div class="card-header">
-            <span class="badge badge-outils">Outil</span>
-          </div>
-          <h3>HOC Formation</h3>
-          <p>Plateforme / outil dédié au suivi et à la réalisation des formations HOC.</p>
-        </div>
-        <div class="card-footer">
-          <span>Application</span>
-          <span class="card-link-text">Lancer &rarr;</span>
-        </div>
-      </a>
-
-      <!-- Message d'absence de résultat lors de la recherche -->
-      <div id="emptyState" class="empty-state">
-        <p>Aucune ressource ne correspond à votre recherche.</p>
       </div>
 
     </main>
   </div>
 
-  <!-- Logique JavaScript intégrée pour les filtres et onglets -->
+  <!-- Script JS pour basculer entre les deux vues -->
   <script>
-    let currentCategory = 'all';
+    function switchView(event, targetViewId) {
+      // 1. Cacher toutes les vues
+      const views = document.querySelectorAll('.view-content');
+      views.forEach(view => view.style.display = 'none');
 
-    function setTab(category, element) {
-      currentCategory = category;
-      
-      // Mise à jour de l'onglet actif
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      element.classList.add('active');
-      
-      filterCards();
-    }
+      // 2. Désactiver le style "active" sur tous les boutons
+      const buttons = document.querySelectorAll('.switch-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
 
-    function filterCards() {
-      const searchValue = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.querySelectorAll('.card');
-      let visibleCount = 0;
+      // 3. Afficher la vue demandée
+      document.getElementById(targetViewId).style.display = 'block';
 
-      cards.forEach(card => {
-        const matchesCategory = (currentCategory === 'all' || card.dataset.category === currentCategory);
-        const textContent = card.innerText.toLowerCase();
-        const matchesSearch = textContent.includes(searchValue);
-
-        if (matchesCategory && matchesSearch) {
-          card.style.display = 'flex';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      // Gestion du message "Aucun résultat"
-      const emptyState = document.getElementById('emptyState');
-      if (visibleCount === 0) {
-        emptyState.style.display = 'block';
-      } else {
-        emptyState.style.display = 'none';
-      }
+      // 4. Mettre en valeur le bouton cliqué
+      event.currentTarget.classList.add('active');
     }
   </script>
 
