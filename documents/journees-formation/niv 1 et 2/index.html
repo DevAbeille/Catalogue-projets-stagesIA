@@ -3,273 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord - Formation IA</title>
+    <title>Tableau de Bord — Formation IA Niv 1 & 2</title>
+    <!-- Import du CSS centralisé House of Codesign -->
+    <link rel="stylesheet" href="../../css/main.css">
     <style>
+        /* Variables spécifiques au tableau de bord (étendues depuis main.css) */
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            
-            --presentation-color: #a855f7;
-            --presentation-bg: rgba(168, 85, 247, 0.15);
-            --pause-color: #eab308;
-            --pause-bg: rgba(234, 179, 8, 0.15);
-            --atelier-color: #f97316;
-            --atelier-bg: rgba(249, 115, 22, 0.15);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --badge-pres-color: #c084fc;
+            --badge-pres-bg: rgba(192, 132, 252, 0.12);
+            --badge-pause-color: #fde047;
+            --badge-pause-bg: rgba(253, 224, 71, 0.12);
+            --badge-atelier-color: #ff5e3a;
+            --badge-atelier-bg: rgba(255, 94, 58, 0.12);
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            padding: 20px;
+            padding: 1.5rem;
         }
 
-        header {
+        /* Top Bar / Header */
+        .dashboard-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
             border-bottom: 1px solid var(--border-color);
             flex-shrink: 0;
         }
 
-        h1 {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+        .dashboard-header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .dashboard-header h1::after {
+            content: '.';
+            color: var(--primary);
         }
 
         .current-time {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
             background: var(--card-bg);
-            padding: 5px 15px;
-            border-radius: 20px;
+            padding: 0.35rem 1rem;
+            border-radius: var(--radius-pill);
             border: 1px solid var(--border-color);
+            font-variant-numeric: tabular-nums;
         }
 
         .legend {
             display: flex;
-            gap: 20px;
-            font-size: 13px;
+            gap: 1.25rem;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
+            color: var(--text-secondary);
         }
 
         .legend-badge {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 3px;
         }
 
-        /* 2-Column Layout */
+        /* Disposition en 2 colonnes */
         .columns-container {
             flex-grow: 1;
-            display: table;
-            width: 100%;
-            table-layout: fixed;
-            border-spacing: 20px 0;
-            margin: 0 -20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            height: calc(100vh - 110px);
+            overflow: hidden;
         }
 
         .column-half {
-            display: table-cell;
-            vertical-align: top;
+            display: flex;
+            flex-direction: column;
             height: 100%;
         }
 
         .column-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            padding-left: 5px;
-            letter-spacing: 0.5px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            padding-left: 0.25rem;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
         }
 
         .dashboard-container {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            height: calc(100vh - 120px);
+            gap: 0.5rem;
             overflow-y: auto;
-            padding-right: 5px;
+            padding-right: 0.35rem;
+            height: 100%;
         }
 
-        /* Custom scrollbar to keep it clean */
+        /* Custom Scrollbar */
         .dashboard-container::-webkit-scrollbar {
-            width: 6px;
+            width: 5px;
         }
         .dashboard-container::-webkit-scrollbar-track {
-            background: var(--bg-color);
+            background: transparent;
         }
         .dashboard-container::-webkit-scrollbar-thumb {
             background: var(--border-color);
-            border-radius: 3px;
+            border-radius: 9999px;
         }
 
+        /* Ligne de programme */
         .row-item {
             display: flex;
             align-items: center;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 10px 16px;
-            transition: all 0.2s ease;
+            border-radius: var(--radius-lg);
+            padding: 0.75rem 1rem;
+            transition: var(--transition);
             position: relative;
         }
 
         .row-item:hover {
             transform: translateX(4px);
-            border-color: #475569;
+            background-color: var(--card-bg-hover);
+            border-color: rgba(255, 94, 58, 0.3);
         }
 
         .time-col {
-            width: 105px;
+            width: 110px;
             font-weight: 700;
-            font-size: 14px;
-            color: var(--text-color);
+            font-size: 0.875rem;
+            color: var(--text-primary);
             flex-shrink: 0;
         }
 
         .duration-col {
-            width: 65px;
-            font-size: 12px;
+            width: 60px;
+            font-size: 0.775rem;
             color: var(--text-muted);
             flex-shrink: 0;
+            font-weight: 500;
         }
 
         .title-col {
             flex-grow: 1;
-            padding-right: 15px;
+            padding-right: 1rem;
         }
 
         .main-title {
-            font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 2px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
         }
 
         .subtitle {
-            font-size: 12px;
-            color: var(--text-muted);
+            font-size: 0.775rem;
+            color: var(--text-secondary);
         }
 
         .type-col {
-            width: 125px;
+            width: 120px;
             flex-shrink: 0;
+            text-align: center;
         }
 
-        .badge {
+        .badge-dash {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.675rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
+            width: 100px;
             text-align: center;
-            width: 115px;
         }
 
         .action-col {
-            width: 110px;
+            width: 100px;
             text-align: right;
             flex-shrink: 0;
         }
 
-        .btn {
+        .btn-dash {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
+            gap: 0.35rem;
+            padding: 0.4rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: var(--transition);
             border: none;
             text-decoration: none;
             width: 100%;
         }
 
-        /* Color configurations */
+        /* Variations Thématiques des Cartes */
         .presentation {
-            border-left: 4px solid var(--presentation-color);
+            border-left: 3px solid var(--badge-pres-color);
         }
-        .presentation .badge {
-            background: var(--presentation-bg);
-            color: #c084fc;
+        .presentation .badge-dash {
+            background: var(--badge-pres-bg);
+            color: var(--badge-pres-color);
+            border: 1px solid rgba(192, 132, 252, 0.2);
         }
-        .presentation .btn {
-            background: var(--presentation-color);
-            color: white;
+        .presentation .btn-dash {
+            background: var(--badge-pres-bg);
+            color: var(--badge-pres-color);
+            border: 1px solid rgba(192, 132, 252, 0.3);
         }
-        .presentation .btn:hover {
-            background: #9333ea;
+        .presentation .btn-dash:hover {
+            background: var(--badge-pres-color);
+            color: #161b22;
         }
 
         .pause {
-            border-left: 4px solid var(--pause-color);
+            border-left: 3px solid var(--badge-pause-color);
         }
-        .pause .badge {
-            background: var(--pause-bg);
-            color: #fde047;
+        .pause .badge-dash {
+            background: var(--badge-pause-bg);
+            color: var(--badge-pause-color);
+            border: 1px solid rgba(253, 224, 71, 0.2);
         }
-        .pause .btn {
-            background: var(--pause-color);
-            color: #0f172a;
+        .pause .btn-dash {
+            background: var(--badge-pause-bg);
+            color: var(--badge-pause-color);
+            border: 1px solid rgba(253, 224, 71, 0.3);
         }
-        .pause .btn:hover {
-            background: #ca8a04;
+        .pause .btn-dash:hover {
+            background: var(--badge-pause-color);
+            color: #161b22;
         }
 
         .atelier {
-            border-left: 4px solid var(--atelier-color);
+            border-left: 3px solid var(--primary);
         }
-        .atelier .badge {
-            background: var(--atelier-bg);
-            color: #fdba74;
+        .atelier .badge-dash {
+            background: var(--badge-atelier-bg);
+            color: var(--primary);
+            border: 1px solid rgba(255, 94, 58, 0.2);
         }
-        .atelier .btn {
-            background: rgba(249, 115, 22, 0.2);
-            color: #fdba74;
-            border: 1px solid rgba(249, 115, 22, 0.4);
+        .atelier .btn-dash {
+            background: var(--badge-atelier-bg);
+            color: var(--primary);
+            border: 1px solid rgba(255, 94, 58, 0.3);
         }
-        .atelier .btn:hover {
-            background: rgba(249, 115, 22, 0.3);
+        .atelier .btn-dash:hover {
+            background: var(--primary);
+            color: #ffffff;
         }
 
-        /* Modal / Pop-up Styles */
+        /* Style Pop-up Modale HOC */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(6px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -277,15 +288,15 @@
         }
 
         .modal-box {
-            background: #1e293b;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            box-shadow: var(--shadow-hover);
             position: relative;
-            animation: modalScale 0.2s ease-out;
+            animation: modalScale 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes modalScale {
@@ -294,66 +305,69 @@
         }
 
         .modal-title {
-            font-size: 20px;
-            margin-bottom: 15px;
-            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.5rem;
         }
 
         .modal-body {
-            font-size: 15px;
+            font-size: 0.95rem;
             line-height: 1.6;
-            color: #cbd5e1;
-            margin-bottom: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
         }
 
         .modal-close {
-            background: #334155;
-            color: var(--text-color);
+            background: var(--primary);
+            color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 700;
             cursor: pointer;
             float: right;
+            transition: var(--transition);
         }
 
         .modal-close:hover {
-            background: #475569;
+            background: var(--primary-hover);
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <div class="dashboard-header">
         <div>
-            <h1>Sommaire Interactif de la Journée</h1>
-            <div class="legend" style="margin-top: 5px;">
+            <a href="../../index.html" style="text-decoration:none; color:var(--primary); font-size:0.85rem; font-weight:700; display:block; margin-bottom:0.25rem;">&larr; RETOUR AU HUB</a>
+            <h1>Planning Interactif — Formation IA Niv 1 & 2</h1>
+            <div class="legend" style="margin-top: 6px;">
                 <div class="legend-item">
-                    <div class="legend-badge" style="background: var(--presentation-color)"></div>
-                    <span style="color: var(--text-muted)">Présentation</span>
+                    <div class="legend-badge" style="background: var(--badge-pres-color)"></div>
+                    <span>Présentation</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-badge" style="background: var(--pause-color)"></div>
-                    <span style="color: var(--text-muted)">Pause</span>
+                    <div class="legend-badge" style="background: var(--badge-pause-color)"></div>
+                    <span>Pause</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-badge" style="background: var(--atelier-color)"></div>
-                    <span style="color: var(--text-muted)">Atelier / Exercice</span>
+                    <div class="legend-badge" style="background: var(--primary)"></div>
+                    <span>Atelier / Exercice</span>
                 </div>
             </div>
         </div>
         <div class="current-time" id="clock">00:00</div>
-    </header>
+    </div>
 
     <div class="columns-container">
-        <!-- MATIN COLUMN -->
+        <!-- COLONNE MATIN -->
         <div class="column-half">
             <div class="column-title">☀️ Matinée</div>
             <div class="dashboard-container">
-                <!-- 09:30 -->
+                
                 <div class="row-item pause">
                     <div class="time-col">09:30 - 10:00</div>
                     <div class="duration-col">30 min</div>
@@ -361,13 +375,12 @@
                         <div class="main-title">Accueil café</div>
                         <div class="subtitle">Plage d'arrivée des participants</div>
                     </div>
-                    <div class="type-col"><span class="badge">Pause</span></div>
+                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="action-col">
-                        <button class="btn" onclick="openModal('Accueil café', 'Bienvenue ! Profitez de ce moment pour vous installer, prendre un café et échanger avant le lancement de la journée.')">ℹ️ Infos</button>
+                        <button class="btn-dash" onclick="openModal('Accueil café', 'Bienvenue ! Profitez de ce moment pour vous installer, prendre un café et échanger avant le lancement de la journée.')">ℹ️ Infos</button>
                     </div>
                 </div>
 
-                <!-- 10:00 -->
                 <div class="row-item presentation">
                     <div class="time-col">10:00 - 10:10</div>
                     <div class="duration-col">10 min</div>
@@ -375,13 +388,12 @@
                         <div class="main-title">Intro HOC</div>
                         <div class="subtitle">Une présentation de HOC</div>
                     </div>
-                    <div class="type-col"><span class="badge">Présentation</span></div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
-                        <a href="#" class="btn">🔗 Lien</a>
+                        <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
                 </div>
 
-                <!-- 10:10 -->
                 <div class="row-item presentation">
                     <div class="time-col">10:10 - 10:20</div>
                     <div class="duration-col">10 min</div>
@@ -389,13 +401,12 @@
                         <div class="main-title">Intro journée</div>
                         <div class="subtitle">Introduction & Présentation du programme</div>
                     </div>
-                    <div class="type-col"><span class="badge">Présentation</span></div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
-                        <a href="#" class="btn">🔗 Lien</a>
+                        <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
                 </div>
 
-                <!-- 10:20 -->
                 <div class="row-item presentation">
                     <div class="time-col">10:20 - 11:00</div>
                     <div class="duration-col">40 min</div>
@@ -403,13 +414,12 @@
                         <div class="main-title">Histoire de l'IA</div>
                         <div class="subtitle">Présentation générale</div>
                     </div>
-                    <div class="type-col"><span class="badge">Présentation</span></div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
-                        <a href="#" class="btn">🔗 Lien</a>
+                        <a href="../presentations/histoire-ia/" class="btn-dash">🔗 Lien</a>
                     </div>
                 </div>
 
-                <!-- 11:00 -->
                 <div class="row-item atelier">
                     <div class="time-col">11:00 - 11:15</div>
                     <div class="duration-col">15 min</div>
@@ -417,13 +427,12 @@
                         <div class="main-title">Gemini V1</div>
                         <div class="subtitle">Connexion & Prompt</div>
                     </div>
-                    <div class="type-col"><span class="badge">Atelier / Ex</span></div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
-                        <button class="btn" onclick="openModal('Gemini V1', '<strong>Exercice pratique :</strong><br>1. Connexion à la plateforme.<br>2. Premier exercice pratique de prompt engineering.<br><br><a href="https://gemini.google.com" target="_blank" style="color:#f97316; font-weight:bold;">Accéder à Gemini ↗</a>')">💬 Pop-up</button>
+                        <button class="btn-dash" onclick="openModal('Gemini V1', '<strong>Exercice pratique :</strong><br>1. Connexion à la plateforme.<br>2. Premier exercice pratique de prompt engineering.<br><br><a href=\'https://gemini.google.com\' target=\'_blank\' style=\'color:var(--primary); font-weight:bold;\'>Accéder à Gemini ↗</a>')">💬 Pop-up</button>
                     </div>
                 </div>
 
-                <!-- 11:15 -->
                 <div class="row-item pause">
                     <div class="time-col">11:15 - 11:30</div>
                     <div class="duration-col">15 min</div>
@@ -431,13 +440,12 @@
                         <div class="main-title">Pause</div>
                         <div class="subtitle">Pause de la matinée</div>
                     </div>
-                    <div class="type-col"><span class="badge">Pause</span></div>
+                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="action-col">
-                        <button class="btn" onclick="openModal('Pause', 'Prenez l'air, étirez-vous ! Reprise exacte à 11h30.')">⏱️ Timer</button>
+                        <button class="btn-dash" onclick="openModal('Pause', 'Prenez l\'air, étirez-vous ! Reprise exacte à 11h30.')">⏱️ Timer</button>
                     </div>
                 </div>
 
-                <!-- 11:30 -->
                 <div class="row-item atelier">
                     <div class="time-col">11:30 - 12:30</div>
                     <div class="duration-col">1 h</div>
@@ -445,47 +453,60 @@
                         <div class="main-title">PIX : Intro à l'IA</div>
                         <div class="subtitle">Un moment de débrief libre ou de pause active</div>
                     </div>
-                    <div class="type-col"><span class="badge">Atelier / Ex</span></div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
-                        <button class="btn" onclick="openModal('PIX : Intro à l'IA', 'Espace de débriefing libre, questions ouvertes et évaluation/découverte via la plateforme PIX IA.')">💬 Pop-up</button>
+                        <button class="btn-dash" onclick="openModal('PIX : Intro à l\'IA', 'Espace de débriefing libre, questions ouvertes et évaluation/découverte via la plateforme PIX IA.')">💬 Pop-up</button>
                     </div>
                 </div>
 
-                <!-- 12:30 -->
                 <div class="row-item presentation">
                     <div class="time-col">12:30 - 13:00</div>
                     <div class="duration-col">30 min</div>
                     <div class="title-col">
                         <div class="main-title">Fonctionnement IA et Environnement</div>
-                        <div class="subtitle">Présentation [Atelier?]</div>
+                        <div class="subtitle">Présentation interactive</div>
                     </div>
-                    <div class="type-col"><span class="badge">Présentation</span></div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
-                        <a href="#" class="btn">🔗 Lien</a>
+                        <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- AFTERNOON COLUMN -->
+        <!-- COLONNE APRÈS-MIDI -->
         <div class="column-half">
             <div class="column-title">🌌 Après-midi</div>
             <div class="dashboard-container">
-                <!-- 14:00 -->
+                
+                <!-- Présentation réajustée à 40 min -->
                 <div class="row-item presentation">
-                    <div class="time-col">14:00 - 15:00</div>
-                    <div class="duration-col">1 h</div>
+                    <div class="time-col">14:00 - 14:40</div>
+                    <div class="duration-col">40 min</div>
                     <div class="title-col">
                         <div class="main-title">Machine Learning et Hallucination</div>
                         <div class="subtitle">Présentation approfondie</div>
                     </div>
-                    <div class="type-col"><span class="badge">Présentation</span></div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
-                        <a href="#" class="btn">🔗 Lien</a>
+                        <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
                 </div>
 
-                <!-- 15:00 -->
+                <!-- Nouvel Energizer inséré (20 min) -->
+                <div class="row-item atelier">
+                    <div class="time-col">14:40 - 15:00</div>
+                    <div class="duration-col">20 min</div>
+                    <div class="title-col">
+                        <div class="main-title">Energizer</div>
+                        <div class="subtitle">Activité de dynamisation de groupe</div>
+                    </div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
+                    <div class="action-col">
+                        <button class="btn-dash" onclick="openModal('Energizer', 'Session interactive de réactivation d\'énergie pour aborder l\'après-midi dans les meilleures conditions.')">⚡ Activity</button>
+                    </div>
+                </div>
+
                 <div class="row-item atelier">
                     <div class="time-col">15:00 - 15:20</div>
                     <div class="duration-col">20 min</div>
@@ -493,13 +514,12 @@
                         <div class="main-title">Gemini V2</div>
                         <div class="subtitle">Usages de nos documents</div>
                     </div>
-                    <div class="type-col"><span class="badge">Atelier / Ex</span></div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
-                        <button class="btn" onclick="openModal('Gemini V2', '<strong>Exercice pratique :</strong><br>Analyse de documents internes, extraction de données et synthèses automatisées avec Gemini V2.')">💬 Pop-up</button>
+                        <button class="btn-dash" onclick="openModal('Gemini V2', '<strong>Exercice pratique :</strong><br>Analyse de documents internes, extraction de données et synthèses automatisées avec Gemini V2.')">💬 Pop-up</button>
                     </div>
                 </div>
 
-                <!-- 15:20 -->
                 <div class="row-item atelier">
                     <div class="time-col">15:20 - 16:00</div>
                     <div class="duration-col">40 min</div>
@@ -507,13 +527,12 @@
                         <div class="main-title">Découverte NotebookLM</div>
                         <div class="subtitle">Utiliser NotebookLM pour créer des espaces de travail.</div>
                     </div>
-                    <div class="type-col"><span class="badge">Atelier / Ex</span></div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
-                        <button class="btn" onclick="openModal('NotebookLM', '<strong>Exercice de configuration :</strong><br>Importez vos documents de travail dans NotebookLM et apprenez à générer des bases de connaissances collaboratives.')">💬 Pop-up</button>
+                        <button class="btn-dash" onclick="openModal('NotebookLM', '<strong>Exercice de configuration :</strong><br>Importez vos documents de travail dans NotebookLM et apprenez à générer des bases de connaissances collaboratives.')">💬 Pop-up</button>
                     </div>
                 </div>
 
-                <!-- 16:00 -->
                 <div class="row-item pause">
                     <div class="time-col">16:00 - 16:15</div>
                     <div class="duration-col">15 min</div>
@@ -521,13 +540,12 @@
                         <div class="main-title">Pause</div>
                         <div class="subtitle">Pause de l'après-midi</div>
                     </div>
-                    <div class="type-col"><span class="badge">Pause</span></div>
+                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="action-col">
-                        <button class="btn" onclick="openModal('Pause', 'Courte pause de recharge avant le dernier atelier de co-création.')">⏱️ Timer</button>
+                        <button class="btn-dash" onclick="openModal('Pause', 'Courte pause de recharge avant le dernier atelier de co-création.')">⏱️ Timer</button>
                     </div>
                 </div>
 
-                <!-- 16:15 -->
                 <div class="row-item atelier">
                     <div class="time-col">16:15 - 17:00</div>
                     <div class="duration-col">45 min</div>
@@ -535,13 +553,12 @@
                         <div class="main-title">Atelier : Charte collaborative</div>
                         <div class="subtitle">Créer ensemble notre charte IA</div>
                     </div>
-                    <div class="type-col"><span class="badge">Atelier / Ex</span></div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
-                        <button class="btn" onclick="openModal('Atelier Charte', '<strong>Co-construction :</strong><br>Mise en commun des idées pour rédiger la charte de bonne conduite et d'usage de l'IA au sein de notre structure.')">💬 Pop-up</button>
+                        <button class="btn-dash" onclick="openModal('Atelier Charte', '<strong>Co-construction :</strong><br>Mise en commun des idées pour rédiger la charte de bonne conduite et d\'usage de l\'IA au sein de notre structure.')">💬 Pop-up</button>
                     </div>
                 </div>
 
-                <!-- 17:00 -->
                 <div class="row-item atelier">
                     <div class="time-col">17:00 - 17:20</div>
                     <div class="duration-col">20 min</div>
@@ -549,13 +566,12 @@
                         <div class="main-title">Restitution Chartes</div>
                         <div class="subtitle">Un moment de débrief libre ou de pause active</div>
                     </div>
-                    <div class="type-col"><span class="badge">Atelier / Ex</span></div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
-                        <button class="btn" onclick="openModal('Restitution', 'Présentation des différentes chartes produites par les groupes et vote / ajustement en direct.')">💬 Pop-up</button>
+                        <button class="btn-dash" onclick="openModal('Restitution', 'Présentation des différentes chartes produites par les groupes et vote / ajustement en direct.')">💬 Pop-up</button>
                     </div>
                 </div>
 
-                <!-- 17:20 -->
                 <div class="row-item presentation">
                     <div class="time-col">17:20 - 17:30</div>
                     <div class="duration-col">10 min</div>
@@ -563,16 +579,17 @@
                         <div class="main-title">Synthèse</div>
                         <div class="subtitle">Clôture de la journée de formation</div>
                     </div>
-                    <div class="type-col"><span class="badge">Présentation</span></div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
-                        <a href="#" class="btn">🔗 Lien</a>
+                        <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 
-    <!-- Modal Box -->
+    <!-- Modale interactive HOC -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-title" id="modalTitle">Titre</div>
@@ -582,7 +599,7 @@
     </div>
 
     <script>
-        // Real-time clock refresh for the presenter board
+        // Horloge temps réel
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -592,7 +609,7 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Modal triggers
+        // Gestion de la modale
         function openModal(title, bodyText) {
             document.getElementById('modalTitle').innerHTML = title;
             document.getElementById('modalBody').innerHTML = bodyText;
