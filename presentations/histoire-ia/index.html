@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA : L'Expérience Cinématique - HOC</title>
+    <style>
+        :root {
+            --primary: #f15a24; /* Orange HOC */
+            --dark: #0a0a0a;
+            --grey: #161616;
+            --white: #ffffff;
+            --text-muted: #a0a0a0;
+            --transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Arial Black', sans-serif; 
+            background: var(--dark); 
+            color: var(--white); 
+            overflow: hidden; /* Désactive le scroll natif pour laisser le script gérer la transition */
+        }
+
+        /* ==========================================================================
+           1. BARRE DE PROGRESSION DISCRÈTE ET CLIQUABLE
+           ========================================================================== */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 30px 40px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+        .logo { font-size: 0.9rem; letter-spacing: 2px; font-weight: bold; }
+        .logo span { color: var(--primary); }
+
+        .progress-indicator { display: flex; gap: 8px; }
+        
+        /* Les barres sont maintenant des boutons cliquables */
+        .progress-bar { 
+            width: 35px; height: 3px; background: rgba(255,255,255,0.15); transition: var(--transition); 
+            border: none; /* Supprime le bord par défaut des boutons */
+            cursor: pointer; /* Change le curseur au survol */
+            padding: 0; /* Supprime le rembourrage par défaut */
+        }
+        .progress-bar.active { background: var(--primary); width: 55px; }
+
+        /* ==========================================================================
+           2. SYSTÈME DE POP-UP / ACCROCHE (HOOK OVERLAYS)
+           ========================================================================== */
+        #hook-overlay {
+            position: fixed; inset: 0; background: var(--dark); z-index: 2000;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 40px; animation: fadeIn 0.4s ease-out forwards;
+        }
+        #hook-overlay h1 { font-size: 3.5rem; text-transform: uppercase; margin-bottom: 35px; line-height: 1.1; max-width: 900px; }
+        #hook-overlay .btn-reveal { 
+            background: var(--primary); color: white; border: none; padding: 18px 45px; 
+            font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 50px;
+            text-transform: uppercase; transition: 0.3s; box-shadow: 0 10px 20px rgba(241, 90, 36, 0.2);
+        }
+        #hook-overlay .btn-reveal:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(241, 90, 36, 0.5); }
+
+        /* ==========================================================================
+           3. CONTENEURS FLUIDES EN SCROLL HORIZONTAL
+           ========================================================================== */
+        .master-wrapper { 
+            display: flex; 
+            width: 700vw; /* 7 pans d'histoire */
+            height: 100vh; 
+            transition: var(--transition); 
+        }
+        
+        .panel-section { 
+            width: 100vw; height: 100vh; display: flex; align-items: center; 
+            justify-content: center; padding: 60px 100px; position: relative;
+            background-size: cover; background-position: center;
+        }
+        .panel-section::after { content: ''; position: absolute; inset: 0; background: rgba(10,10,10,0.85); z-index: 1; }
+
+        .panel-container { position: relative; z-index: 2; width: 100%; max-width: 1200px; }
+
+        /* TYPOGRAPHIE ET TITRES MASSIFS */
+        .giant-title { font-size: 5rem; text-transform: uppercase; line-height: 0.9; margin-bottom: 25px; letter-spacing: -2px; }
+        .giant-title span { color: var(--primary); }
+        .desc-text { font-size: 1.3rem; font-family: 'Arial', sans-serif; color: var(--text-muted); max-width: 750px; line-height: 1.5; }
+
+        /* ==========================================================================
+           4. COMPOSANTS ET GRILLES AVEC MOTS CLÉS ÉPURÉS
+           ========================================================================== */
+        .visual-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; }
+        .grid-card { background: var(--grey); border-radius: 12px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); text-align: left; text-decoration: none; color: inherit; transition: var(--transition); }
+        .grid-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .grid-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; }
+        .grid-card h3 { font-size: 1.3rem; text-transform: uppercase; margin-bottom: 8px; color: var(--white); }
+        .grid-card p { font-size: 0.95rem; font-family: 'Arial', sans-serif; color: var(--text-muted); line-height: 1.4; }
+
+        /* GALERIE DÉFILANTE À HORIZONTALE (SECTION CAS D'USAGE) */
+        .gallery-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            display: flex;
+            gap: 25px;
+            padding: 20px 0 40px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+        .gallery-wrapper::-webkit-scrollbar { height: 6px; }
+        .gallery-wrapper::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        .video-card { 
+            flex: 0 0 350px; 
+            background: var(--grey); 
+            border-radius: 12px; 
+            padding: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            text-decoration: none; 
+            color: inherit; 
+            transition: 0.3s; 
+        }
+        .video-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .video-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
+        .video-card h3 { font-size: 1.1rem; text-transform: uppercase; margin-bottom: 8px; color: var(--white); }
+        .video-card p { font-size: 0.85rem; font-family: 'Arial', sans-serif; color: var(--text-muted); line-height: 1.4; margin-bottom: 15px; }
+        .video-tag { font-size: 0.65rem; font-weight: bold; text-transform: uppercase; color: var(--primary); border: 1px solid var(--primary); padding: 4px 10px; border-radius: 20px; display: inline-block; }
+
+        /* CHRONOLOGIE EMBELLIE (AVEC ICONES ET COULEUR) */
+        .timeline-container { background: var(--grey); border-radius: 12px; padding: 40px; margin-top: 30px; border: 1px solid rgba(255,255,255,0.05); }
+        .tm-axis { position: relative; height: 4px; background: rgba(255,255,255,0.1); margin: 60px 0; display: flex; justify-content: space-between; }
+        .tm-node { width: 34px; height: 34px; background: #222; border: 3px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer; top: -15px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: 0.3s; z-index: 10; }
+        .tm-node.active { border-color: var(--primary); background: var(--primary); box-shadow: 0 0 20px var(--primary); color: white; }
+        .tm-node-year { position: absolute; top: -35px; font-size: 1rem; font-weight: bold; }
+        
+        .tm-live-card { display: flex; gap: 25px; align-items: center; background: rgba(0,0,0,0.3); padding: 25px; border-radius: 8px; min-height: 120px; margin-top: 20px; }
+        .tm-live-icon { font-size: 3rem; background: rgba(241, 90, 36, 0.1); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 12px; color: var(--primary); }
+
+        /* POUPÉES RUSSES INTERACTIVES */
+        .doll-arena { display: flex; align-items: center; justify-content: center; height: 380px; position: relative; margin-top: 30px; }
+        .layer-doll { border: 4px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); position: absolute; background: var(--grey); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .layer-doll:hover { border-color: white; }
+        #doll1 { width: 340px; height: 340px; z-index: 4; }
+        #doll2 { width: 250px; height: 250px; z-index: 3; }
+        #doll3 { width: 160px; height: 160px; z-index: 2; }
+        #doll4 { width: 80px; height: 80px; z-index: 1; background: var(--primary); border: none; }
+        .layer-doll.extracted { opacity: 0; transform: scale(1.4) rotate(15deg); pointer-events: none; }
+
+        /* INDICATION BAS DE PAGE */
+        .scroll-tip { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 5; font-size: 0.75rem; color: rgba(255,255,255,0.3); letter-spacing: 3px; text-transform: uppercase; font-family: 'Arial', sans-serif; animation: pulse 2s infinite; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">HOC // <span>CONNAISSANCE IA</span></div>
+    <div class="progress-indicator" id="barsNav"></div>
+</header>
+
+<div class="scroll-tip">Scrollez vers le bas pour avancer</div>
+
+<div id="hook-overlay">
+    <h1 id="hook-text">Question ?</h1>
+    <button class="btn-reveal" onclick="closeHookOverlay()">Découvrir</button>
+</div>
+
+<div class="master-wrapper" id="masterWrapper">
+
+    <section class="panel-section" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop');">
+        <div class="panel-container">
+            <h1 class="giant-title">L'IA <span>INVISIBLE</span></h1>
+            <p class="desc-text">Infiltrée dans vos routines matinales sans attirer votre attention. Vous l'avez déjà sollicitée au moins 4 fois ce matin.</p>
+            <div class="visual-grid">
+                <div class="grid-card">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop" alt="Messages">
+                    <h3>01 // Tri des Messages</h3>
+                </div>
+                <div class="grid-card">
+                    <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=600&auto=format&fit=crop" alt="Streaming">
+                    <h3>02 // Flux Recommandés</h3>
+                </div>
+                <div class="grid-card">
+                    <img src="https://images.unsplash.com/photo-1546054454-aa26e2b734c7?q=80&w=600&auto=format&fit=crop" alt="Smartphones">
+                    <h3>03 // Alertes Prédictives</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel-section" style="background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1920&auto=format&fit=crop');">
+        <div class="panel-container">
+            <h1 class="giant-title">CAPTURE DE <span>PATTERNS</span></h1>
+            <p class="desc-text">Rien de magique : des modèles conçus pour repérer et mémoriser vos schémas comportementaux récurrents.</p>
+            <div class="visual-grid">
+                <div class="grid-card">
+                    <img src="https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=600&auto=format&fit=crop" alt="Spotify">
+                    <h3>Anticipation Vocale</h3>
+                    <p>Le clavier devine vos mots d'après des milliards de syntaxes croisées.</p>
+                </div>
+                <div class="grid-card">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop" alt="TikTok">
+                    <h3>Rétention de flux</h3>
+                    <p>Le fil d'actualité s'adapte à la seconde près à votre vitesse de défilement.</p>
+                </div>
+                <div class="grid-card">
+                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=600&auto=format&fit=crop" alt="Maps">
+                    <h3>GPS Prédictif</h3>
+                    <p>Google Maps modélise les ralentissements futurs avant qu'ils ne se forment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel-section" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920&auto=format&fit=crop');">
+        <div class="panel-container">
+            <h1 class="giant-title">DEPUIS <span>QUAND ?</span></h1>
+            <div class="timeline-container">
+                <div class="tm-axis" id="tmAxis"></div>
+                <div class="tm-live-card">
+                    <div class="tm-live-icon" id="liveIcon">📜</div>
+                    <div>
+                        <h3 id="liveTitle" style="font-size: 1.4rem; color: var(--primary);">Sélectionnez un jalon</h3>
+                        <p id="liveBody" style="font-size: 1rem; font-family: 'Arial', sans-serif; color: var(--text-muted); margin-top: 5px;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel-section" style="background-image: url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1920&auto=format&fit=crop');">
+        <div class="panel-container">
+            <h1 class="giant-title">LES <span>COUCHES</span></h1>
+            <p class="desc-text" style="margin-bottom: 20px;">Cliquez sur les poupées pour disséquer l'architecture de la technologie.</p>
+            <div class="doll-arena">
+                <div class="layer-doll" id="doll1" onclick="peelDollLayer(0)"><span style="font-size:0.8rem;">A.I. CONCEPT</span></div>
+                <div class="layer-doll" id="doll2" onclick="peelDollLayer(1)"><span style="font-size:0.8rem;">MACHINE LEARNING</span></div>
+                <div class="layer-doll" id="doll3" onclick="peelDollLayer(2)"><span style="font-size:0.8rem;">DEEP LEARNING</span></div>
+                <div class="layer-doll" id="doll4"><span style="font-size:0.8rem; color:white;">GEN A.I.</span></div>
+            </div>
+            <h3 id="dollLabelTitle" style="text-align: center; color: var(--primary); font-size: 1.5rem;">Couche active : L'I.A.</h3>
+            <p id="dollLabelBody" style="text-align: center; font-family:'Arial'; color: var(--text-muted); max-width:600px; margin: 5px auto 0 auto; font-size:1rem;">Tout système qui simule un comportement logique humain.</p>
+            <p style="text-align:center; margin-top:10px;"><button onclick="resetDolls()" style="background:none; border:1px solid rgba(255,255,255,0.2); color:var(--text-muted); padding:4px 12px; border-radius:20px; font-size:0.75rem; cursor:pointer;">Réinitialiser</button></p>
+        </div>
+    </section>
+
+    <section class="panel-section" style="background-image: url('https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=1920&auto=format&fit=crop');">
+        <div class="panel-container">
+            <h1 class="giant-title">CAS D'<span>USAGE</span></h1>
+            <p style="font-size: 1rem; color: var(--primary); margin-bottom: 20px;">Défilez horizontalement dans la grille pour afficher les démos →</p>
+            
+            <div class="gallery-wrapper">
+                <a href="https://www.youtube.com/results?search_query=NYC+is+a+Zoo+Runway+Gen-4" target="_blank" class="video-card">
+                    <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400" alt="NYC Zoo">
+                    <h3>New York is a Zoo</h3>
+                    <p>Vidéo générée par Runway Gen-4. Le réalisme urbain et cinématique réinventé par l'IA.</p>
+                    <span class="video-tag">Vidéo Runway ↗</span>
+                </a>
+
+                <a href="https://www.youtube.com/results?search_query=Ghostwriter+Heart+on+my+sleeve+Drake+ft.+The+Weeknd" target="_blank" class="video-card">
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400" alt="Drake AI">
+                    <h3>Musique // Drake</h3>
+                    <p>L'affaire Ghostwriter : Le clonage vocal de pointe (SVC) qui a bousculé l'industrie musicale.</p>
+                    <span class="video-tag">Musique AI ↗</span>
+                </a>
+
+                <a href="https://www.youtube.com/results?search_query=Coca-Cola+Secret+Santa+AI-Generated+2024" target="_blank" class="video-card">
+                    <img src="https://images.unsplash.com/photo-1542992015-4a0b729b1385?w=400" alt="Coca 2024">
+                    <h3>Coca-Cola Ad 2024</h3>
+                    <p>Secret Santa : La toute première campagne publicitaire de Noël majeure conçue par IA.</p>
+                    <span class="video-tag">Publicité ↗</span>
+                </a>
+
+                <a href="https://www.youtube.com/results?search_query=Coca-Cola+Holidays+Are+Coming+AI+2025" target="_blank" class="video-card">
+                    <img src="https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=400" alt="Coca 2025">
+                    <h3>Coca-Cola Ad 2025</h3>
+                    <p>Holidays Are Coming : Le bond technologique et photoréaliste effectué en seulement un an.</p>
+                    <span class="video-tag">Publicité ↗</span>
+                </a>
+
+                <a href="https://www.youtube.com/results?search_query=Brad+Pitt+vs+Tom+Cruise+fight+Deepfake+international+incident" target="_blank" class="video-card">
+                    <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400" alt="Deepfake">
+                    <h3>Brad Pitt vs Tom Cruise</h3>
+                    <p>Deepfakes hyperréalistes : Quand les faux combats d'acteurs frôlent l'incident international.</p>
+                    <span class="video-tag">Deepfake / Cinéma ↗</span>
+                </a>
+
+                <div class="video-card">
+                    <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400" alt="Audio">
+                    <h3>NotebookLM & Audio</h3>
+                    <p>Génération instantanée de revues de presse et podcasts audio bidirectionnels à partir de documents bruts.</p>
+                    <span class="video-tag">Outil Productivité</span>
+                </div>
+            </div>
+            
+            </div>
+    </section>
+
+    <section class="panel-section" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1920&auto=format&fit=crop');">
+        <div class="panel-container">
+            <h1 class="giant-title">VIGILANCE <span>CRITIQUE</span></h1>
+            <div class="visual-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="grid-card">
+                    <h2 style="color:var(--primary); font-size: 2.2rem; margin-bottom:10px;">L'Inférence planétaire</h2>
+                    <p style="font-family:'Arial'; font-size:1.05rem;">Si la phase d'entraînement initial consomme de façon ponctuelle (1 287 MWh pour GPT-3), ce sont les requêtes continues et massives des millions d'utilisateurs chaque jour (l'inférence) qui pèsent le poids électrique d'une métropole.</p>
+                </div>
+                <div class="grid-card">
+                    <h2 style="color:var(--primary); font-size: 2.2rem; margin-bottom:10px;">Hallucinations mathématiques</h2>
+                    <p style="font-family:'Arial'; font-size:1.05rem;">L'IA priorise la probabilité syntaxique au détriment de la vérité des faits. Elle peut construire une fausse information de façon parfaitement convaincante.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel-section" style="background-color: var(--primary);">
+        <div class="panel-container" style="text-align: center;">
+            <h1 class="giant-title" style="color: white; font-size: 7rem; margin-bottom: 10px;">L'OUTIL</h1>
+            <p style="font-size: 2.5rem; line-height: 1.3; max-width: 900px; margin: 0 auto;">« Un couteau peut nourrir une famille ou blesser. L'électricité peut éclairer ou foudroyer. À nous d'en choisir l'usage. »</p>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    let activeIndex = 0;
+    let isOverlayOpen = false;
+    let accumulatedDelta = 0;
+
+    const transitionHooks = [
+        "Prêt à démarrer la présentation ?",
+        "Où se cache-t-elle vraiment dans notre quotidien ?",
+        "Qui est le plus ancien : vous ou l'Intelligence Artificielle ?",
+        "Peut-on apprendre sans règles explicites ?",
+        "Jusqu'où s'étend le gain de productivité actuel ?",
+        "Quel est le coût réel de l'inférence invisible ?",
+        "Quel choix ferons-nous ?"
+    ];
+
+    // Création de la barre de progression cliquable en haut
+    const barsNav = document.getElementById('barsNav');
+    for(let i=0; i<7; i++) {
+        const bar = document.createElement('button'); // Changé div en button pour l'accessibilité et la sémantique
+        bar.className = 'progress-bar';
+        if(i===0) bar.className += ' active';
+        // Ajout de l'événement de clic pour naviguer directement vers le plan correspondant
+        bar.onclick = () => prepareHook(i);
+        barsNav.appendChild(bar);
+    }
+
+    /* SCROLL VERTICAL -> DEPLACEMENT HORIZONTAL & INTERRUPTIONS */
+    window.addEventListener('wheel', (e) => {
+        if (isOverlayOpen) return;
+        
+        accumulatedDelta += e.deltaY;
+        
+        if (Math.abs(accumulatedDelta) >= 700) { // Seuil pour déclencher le changement de section
+            if (accumulatedDelta > 0 && activeIndex < 6) {
+                // Progression vers l'avant -> Déclenchement de la Pop-up d'accroche
+                activeIndex++;
+                triggerHookPopup(activeIndex);
+            } else if (accumulatedDelta < 0 && activeIndex > 0) {
+                // Retour direct en arrière
+                activeIndex--;
+                applyHorizontalSlide(activeIndex);
+            }
+            accumulatedDelta = 0;
+        }
+    });
+
+    // Cette fonction prépare et ouvre le pop-up, peu importe si déclenché par scroll ou clic sur menu
+    function prepareHook(targetIdx) {
+        activeIndex = targetIdx;
+        triggerHookPopup(targetIdx);
+    }
+
+    function triggerHookPopup(targetIdx) {
+        isOverlayOpen = true;
+        document.getElementById('hook-text').innerText = transitionHooks[targetIdx];
+        document.getElementById('hook-overlay').style.display = 'flex';
+    }
+
+    function closeHookOverlay() {
+        document.getElementById('hook-overlay').style.display = 'none';
+        isOverlayOpen = false;
+        applyHorizontalSlide(activeIndex);
+    }
+
+    function applyHorizontalSlide(idx) {
+        document.getElementById('masterWrapper').style.transform = `translateX(-${idx * 100}vw)`;
+        const bars = document.querySelectorAll('.progress-bar');
+        bars.forEach((b, i) => b.classList.toggle('active', i === idx));
+    }
+
+    /* BASE DE DONNÉES HISTORIQUE POUR LA CHRONOLOGIE AVEC ICÔNES */
+    const historyDataset = [
+        { y: "Antiquité", i: "📜", t: "Mythes fondateurs", b: "Du colosse de bronze Talos au Frankenstein de 1818, l'obsession de la création artificielle est ancrée dans la conscience humaine." },
+        { y: "1943", i: "🧠", t: "Le neurone logique", b: "McCulloch et Pitts conçoivent l'équation initiale du traitement logique. L'IA se matérialise scientifiquement." },
+        { y: "1950", i: "💬", t: "Test de Turing", b: "Alan Turing remplace la question 'Une machine peut-elle penser ?' par le jeu d'imitation textuel." },
+        { y: "1997", i: "♟️", t: "Deep Blue (IBM)", b: "La force brute de calcul l'emporte sur Kasparov. Aucun traitement de sens, mais une accélération massive de puissance." },
+        { y: "2011", i: "📺", t: "Watson à Jeopardy!", b: "En février 2011, Watson gagne le jeu télévisé en analysant statistiquement les pièges de langage en local." },
+        { y: "2022", i: "🚀", t: "Explosion ChatGPT", b: "Le grand public accède aux grands modèles. 100 millions d'utilisateurs actifs atteints en seulement 2 mois." }
+    ];
+
+    const tmAxis = document.getElementById('tmAxis');
+    historyDataset.forEach((data, i) => {
+        const node = document.createElement('div');
+        node.className = 'tm-node';
+        node.innerHTML = `${data.i}<span class="tm-node-year">${data.y}</span>`;
+        node.onclick = () => {
+            document.querySelectorAll('.tm-node').forEach(n => n.classList.remove('active'));
+            node.classList.add('active');
+            document.getElementById('liveIcon').innerText = data.i;
+            document.getElementById('liveTitle').innerText = `${data.y} — ${data.t}`;
+            document.getElementById('liveBody').innerText = data.b;
+        };
+        tmAxis.appendChild(node);
+        if(i===0) node.click();
+    });
+
+    /* TECHNIQUE DES POUPÉES RUSSES INTERACTIVES */
+    const dollContent = [
+        {t: "Couche active : Machine Learning", b: "L'apprentissage par l'exemple. Au lieu d'écrire des règles strictes, on soumet des volumes massifs de données pour que le modèle isole seul ses critères."},
+        {t: "Couche active : Deep Learning", b: "Réseaux profonds. Des architectures neuronales multi-couches capables de disséquer des abstractions complexes comme des voix ou des images."},
+        {t: "Couche active : IA Générative", b: "Modèles d'assemblage probabiliste. Ils calculent instantanément la récurrence statistique logique du mot ou du pixel suivant."}
+    ];
+
+    function peelDollLayer(layerIdx) {
+        const layers = ['doll1', 'doll2', 'doll3'];
+        document.getElementById(layers[layerIdx]).classList.add('extracted');
+        
+        const update = dollContent[layerIdx];
+        if(update) {
+            document.getElementById('dollLabelTitle').innerText = update.t;
+            document.getElementById('dollLabelBody').innerText = update.b;
+        }
+    }
+
+    function resetDolls() {
+        document.querySelectorAll('.layer-doll').forEach(d => d.classList.remove('extracted'));
+        document.getElementById('dollLabelTitle').innerText = "Couche active : L'I.A.";
+        document.getElementById('dollLabelBody').innerText = "Tout système qui simule un comportement logique humain.";
+    }
+</script>
+
+</body>
+</html>
