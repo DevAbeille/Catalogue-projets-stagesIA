@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogue & Quiz Outils IA 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-indigo: #818cf8;
+      --accent-purple: #c084fc;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-red: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .back-link, .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      background-color: var(--bg-card);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
+    }
+
+    .back-link:hover, .source-link:hover {
+      background-color: var(--bg-card-hover);
+      border-color: var(--accent-blue);
+    }
+
+    header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    /* Onglets Principaux */
+    .tabs-navigation {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      color: var(--accent-blue);
+      background-color: var(--bg-card);
+      border-bottom: 3px solid var(--accent-blue);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Barre d'outils / Filtres */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--bg-card);
+      padding: 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.65rem 1rem 0.65rem 2.5rem;
+      background-color: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .search-box::before {
+      content: '🔍';
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.6;
+    }
+
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag-btn {
+      background-color: var(--bg-main);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tag-btn:hover, .tag-btn.active {
+      background-color: var(--accent-blue);
+      color: #0f172a;
+      border-color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    /* Tableau */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    thead {
+      background-color: #1e293b;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    th {
+      padding: 1rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    tbody tr {
+      background-color: rgba(30, 41, 59, 0.4);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    tbody tr:hover {
+      background-color: var(--bg-card-hover);
+    }
+
+    td {
+      padding: 0.9rem 1rem;
+      vertical-align: middle;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-google { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-anthropic { background: rgba(192, 132, 252, 0.15); color: var(--accent-purple); border: 1px solid rgba(192, 132, 252, 0.3); }
+    .badge-autre { background: rgba(251, 191, 36, 0.15); color: var(--accent-amber); border: 1px solid rgba(251, 191, 36, 0.3); }
+
+    .tool-name { font-weight: 600; color: #fff; font-size: 0.95rem; }
+
+    /* Styles pour le Jeu / Quiz */
+    .quiz-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .quiz-grid { grid-template-columns: 1fr; }
+    }
+
+    .quiz-column h3 {
+      font-size: 1rem;
+      color: var(--accent-blue);
+      margin-bottom: 1rem;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .quiz-card {
+      background-color: var(--bg-main);
+      border: 2px solid var(--border-color);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .quiz-card:hover {
+      border-color: var(--accent-indigo);
+    }
+
+    .quiz-card.selected {
+      border-color: var(--accent-blue);
+      background-color: rgba(56, 189, 248, 0.1);
+    }
+
+    .quiz-card.matched {
+      border-color: var(--accent-green);
+      background-color: rgba(52, 211, 153, 0.1);
+      cursor: default;
+      opacity: 0.7;
+    }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .btn {
+      background-color: var(--accent-blue);
+      color: #0f172a;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .score-board {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      color: var(--accent-green);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header-nav">
+      <a href="../../index.html" class="back-link">← Retour au Hub de Ressources</a>
+      <a href="https://docs.google.com/spreadsheets/d/1cw2ejZStqj2J9huPTcTWknsLZyrAURpbvuDRGHsw950/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer" class="source-link">
+        📊 Source Google Sheets ↗
+      </a>
+    </div>
+
+    <header>
+      <h1>Répertoire & Quiz des Outils IA</h1>
+      <p>Explorez le catalogue complet des outils ou testez vos connaissances dans l'onglet interactif.</p>
+    </header>
+
+    <!-- Navigation Onglets -->
+    <div class="tabs-navigation">
+      <button class="tab-btn active" onclick="switchTab('tab-table')">📋 Catalogue Complet (1 outil / ligne)</button>
+      <button class="tab-btn" onclick="switchTab('tab-quiz')">🎮 Jeu des Usages (5 outils tirés au sort)</button>
+    </div>
+
+    <!-- ONGLET 1 : TABLEAU -->
+    <div id="tab-table" class="tab-content active">
+      <div class="toolbar">
+        <div class="search-box">
+          <input type="text" id="searchInput" onkeyup="filterData()" placeholder="Rechercher un outil, un éditeur, un usage...">
+        </div>
+        <div class="filter-tags" id="editorFilters">
+          <button class="tag-btn active" onclick="filterEditor('ALL')">Tous</button>
+          <button class="tag-btn" onclick="filterEditor('Google')">Google</button>
+          <button class="tag-btn" onclick="filterEditor('Anthropic')">Anthropic</button>
+          <button class="tag-btn" onclick="filterEditor('Autres')">Autres Ecosystèmes & Communautés</button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table id="toolsTable">
+          <thead>
+            <tr>
+              <th>Éditeur</th>
+              <th>Nom de l'Outil</th>
+              <th>Catégorie / Public cible</th>
+              <th>Format (Web / App)</th>
+              <th>Disponibilité</th>
+              <th>Usage & Argument Clé</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Google -->
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">Gemini App (Gratuit / Pro / Ultra)</td>
+              <td>Grand Public & Curieux</td>
+              <td>Web + App Mobile</td>
+              <td>Disponible</td>
+              <td>Démocratisation de l'IA au quotidien (Deep Think, génération d'images/vidéos).</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">Google Search Labs / Live in Search</td>
+              <td>Grand Public & Curieux</td>
+              <td>App mobile Google + Web</td>
+              <td>Disponible (Labs)</td>
+              <td>L'avenir de la recherche d'information fluide, visuelle et en temps réel.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">Gemini pour Google Workspace</td>
+              <td>Productivité & PME (No-Code)</td>
+              <td>Intégré Web (Docs, Gmail, Sheets)</td>
+              <td>Disponible (@google)</td>
+              <td>IA de productivité native, intégrée là où l'utilisateur travaille déjà.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">NotebookLM</td>
+              <td>Recherche & Synthèse</td>
+              <td>Navigateur Web</td>
+              <td>Disponible</td>
+              <td>Synthèse de documents ultra-fiable et génération d'Audio Overviews (podcasts).</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">Gemini Spark (Ex-Project Mariner)</td>
+              <td>Entreprises & Processus</td>
+              <td>Web (Cloud persistante)</td>
+              <td>Beta / Early Access</td>
+              <td>L'Agent Cloud 24/7 pour automatiser l'écosystème Google avec sécurité native.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">Flow / Creation Labs (Veo, Imagen, Lyria)</td>
+              <td>Créatifs & Designers</td>
+              <td>Portails Web dédiés</td>
+              <td>Accès Dogfood</td>
+              <td>Génération multimédia professionnelle (Vidéo HD, design graphique, audio).</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">Google AI Studio</td>
+              <td>Développeurs (Prototypage)</td>
+              <td>Navigateur Web</td>
+              <td>Disponible</td>
+              <td>Atelier web rapide pour tester les invites, ajuster la température et obtenir des clés API.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">Gemini Code Assist</td>
+              <td>Développeurs (Code quotidien)</td>
+              <td>Extension IDE (VS Code, JetBrains)</td>
+              <td>Disponible</td>
+              <td>Autocomplétion et refactoring de code au fil de la frappe.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">Suite Google Antigravity (2.0, IDE, CLI, SDK)</td>
+              <td>Développeurs (Autonomie / Agents)</td>
+              <td>Desktop, IDE & CLI</td>
+              <td>Disponible (Feuille de route)</td>
+              <td>Studio de développement d'agents autonomes orchestrés de manière visuelle.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">Gemini Enterprise Agent Platform (Ex-Vertex)</td>
+              <td>Grandes Entreprises & IT</td>
+              <td>Console Google Cloud</td>
+              <td>Disponible</td>
+              <td>Connecter l'IA de Google aux bases de données géantes et sécurisées d'entreprise.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-google">Google</span></td>
+              <td class="tool-name">Project Astra</td>
+              <td>Futur de la Vision</td>
+              <td>Smartphone / Lunettes</td>
+              <td>R&D Avancée</td>
+              <td>Assistant visuel avec mémoire temporelle à long terme en temps réel.</td>
+            </tr>
+
+            <!-- Anthropic -->
+            <tr>
+              <td><span class="badge badge-anthropic">Anthropic</span></td>
+              <td class="tool-name">Claude.ai</td>
+              <td>Grand Public & Curieux</td>
+              <td>Web + App Mobile</td>
+              <td>Disponible</td>
+              <td>Interface de conversation réputée pour sa finesse de rédaction et son raisonnement.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-anthropic">Anthropic</span></td>
+              <td class="tool-name">Claude Add-ons / Extensions</td>
+              <td>Productivité & PME</td>
+              <td>Extensions Web & Connecteurs</td>
+              <td>Disponible</td>
+              <td>Intégration du modèle Claude dans les flux bureautiques et outils métiers.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-anthropic">Anthropic</span></td>
+              <td class="tool-name">Claude Cowork / Desktop (Computer Use)</td>
+              <td>Entreprises & Processus</td>
+              <td>App Desktop / Cloud Agent</td>
+              <td>Disponible (Beta)</td>
+              <td>Agent IA capable d'interagir directement avec l'écran et de cliquer/saisir à votre place.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-anthropic">Anthropic</span></td>
+              <td class="tool-name">Anthropic Console</td>
+              <td>Développeurs (Prototypage)</td>
+              <td>Navigateur Web</td>
+              <td>Disponible</td>
+              <td>Plateforme de test de prompts, gestion des clés API et suivi du coût des jetons.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-anthropic">Anthropic</span></td>
+              <td class="tool-name">Claude Code (CLI)</td>
+              <td>Développeurs (Autonomie)</td>
+              <td>Ligne de commande (CLI)</td>
+              <td>Disponible</td>
+              <td>Agent développeur autonome fonctionnant directement au cœur du terminal.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-anthropic">Anthropic</span></td>
+              <td class="tool-name">Anthropic API (AWS Bedrock / GCP)</td>
+              <td>Grandes Entreprises & IT</td>
+              <td>Cloud API</td>
+              <td>Disponible</td>
+              <td>Déploiement à grande échelle du modèle Claude au sein des architectures Cloud privées.</td>
+            </tr>
+
+            <!-- Autres / Réseaux / Communautés -->
+            <tr>
+              <td><span class="badge badge-autre">Autres</span></td>
+              <td class="tool-name">ChatGPT / OpenAI</td>
+              <td>Grand Public & Tech</td>
+              <td>Web, App Mobile & Desktop</td>
+              <td>Disponible</td>
+              <td>L'un des pionniers du domaine, idéal pour la recherche générale, la rédaction et l'analyse.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-autre">Autres</span></td>
+              <td class="tool-name">Perplexity AI / Answers</td>
+              <td>Recherche & Veille</td>
+              <td>Web & Mobile</td>
+              <td>Disponible</td>
+              <td>Moteur de réponse direct citant ses sources web en temps réel.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-autre">Autres</span></td>
+              <td class="tool-name">Reddit Answers</td>
+              <td>Recherche & Synthèse de discussions</td>
+              <td>Web & App Mobile</td>
+              <td>Disponible</td>
+              <td>Moteur de réponses IA de Reddit qui synthétise les retours d'expérience et avis d'utilisateurs réels.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-autre">Autres</span></td>
+              <td class="tool-name">Communautés Reddit (r/ChatGPT, r/LocalLLaMA)</td>
+              <td>Veille & Échanges Communautaires</td>
+              <td>Web & App Mobile</td>
+              <td>Disponible</td>
+              <td>Espaces communautaires majeurs pour partager des prompts, suivre l'actu IA et échanger sur les modèles open-source.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-autre">Autres</span></td>
+              <td class="tool-name">Midjourney / Flux.1</td>
+              <td>Créatifs & Image</td>
+              <td>Web / Discord / API</td>
+              <td>Disponible</td>
+              <td>Génération d'images artistiques et photoréalistes de très haute qualité.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-autre">Autres</span></td>
+              <td class="tool-name">Cursor IDE</td>
+              <td>Développeurs</td>
+              <td>Application Desktop (Fork VS Code)</td>
+              <td>Disponible</td>
+              <td>Éditeur de code entièrement repensé autour de l'assistance et la génération IA.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ONGLET 2 : QUIZ / JEU DE CORRESPONDANCE -->
+    <div id="tab-quiz" class="tab-content">
+      <div class="quiz-container">
+        <div class="quiz-header">
+          <h2>🎯 Associez l'Outil à son Usage principal</h2>
+          <p>5 outils ont été tirés au sort. Cliquez sur un outil à gauche, puis sur son usage correspondant à droite !</p>
+        </div>
+
+        <div class="quiz-grid">
+          <div class="quiz-column" id="toolsColumn">
+            <h3>Outils IA</h3>
+            <!-- Cartes générées en JS -->
+          </div>
+          <div class="quiz-column" id="usagesColumn">
+            <h3>Usages & Descriptions</h3>
+            <!-- Cartes générées en JS -->
+          </div>
+        </div>
+
+        <div class="quiz-actions">
+          <button class="btn btn-secondary" onclick="generateNewQuiz()">🎲 Nouveau tirage au sort</button>
+        </div>
+
+        <div class="score-board" id="quizScore">
+          Correspondances trouvées : 0 / 5
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- GESTION DES ONGLETS ---
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      if (tabId === 'tab-quiz' && quizData.length === 0) {
+        generateNewQuiz();
+      }
+    }
+
+    // --- FILTRES TABLEAU ---
+    let currentEditor = 'ALL';
+
+    function filterData() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const table = document.getElementById('toolsTable');
+      const trs = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+      for (let i = 0; i < trs.length; i++) {
+        const row = trs[i];
+        const text = row.innerText.toLowerCase();
+        const editorText = row.cells[0].innerText;
+
+        const matchesSearch = text.includes(input);
+        const matchesEditor = (currentEditor === 'ALL') || editorText.toLowerCase().includes(currentEditor.toLowerCase());
+
+        row.style.display = (matchesSearch && matchesEditor) ? '' : 'none';
+      }
+    }
+
+    function filterEditor(editor) {
+      currentEditor = editor;
+      document.querySelectorAll('.tag-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.includes(editor) || (editor === 'ALL' && btn.innerText === 'Tous'));
+      });
+      filterData();
+    }
+
+    // --- LOGIQUE DU JEU / QUIZ (5 Outils tirés au sort) ---
+    const allQuizItems = [
+      { tool: "NotebookLM", usage: "Synthèse de documents complexe et génération de podcasts audio (Audio Overviews)." },
+      { tool: "Claude Code (CLI)", usage: "Agent autonome s'exécutant directement dans le terminal du développeur." },
+      { tool: "Google AI Studio", usage: "Atelier web rapide pour tester des prompts et configurer des clés API." },
+      { tool: "Gemini pour Google Workspace", usage: "IA intégrée nativement dans Gmail, Google Docs et Sheets pour la productivité." },
+      { tool: "Perplexity AI / Answers", usage: "Moteur de recherche et de réponses directes citant ses sources web en temps réel." },
+      { tool: "Claude Cowork / Computer Use", usage: "Agent capable de contrôler l'écran d'un ordinateur pour exécuter des clics et des tâches." },
+      { tool: "Reddit Answers", usage: "Moteur de recherche IA de Reddit synthétisant les retours d'expérience et avis d'utilisateurs réels." },
+      { tool: "Communautés Reddit (r/ChatGPT, r/LocalLLaMA)", usage: "Forums majeurs de partage de prompts, d'actualités IA et de retours sur les modèles open-source." },
+      { tool: "Flow (Veo / Imagen)", usage: "Portail créatif dédié à la génération vidéo HD et graphique haute qualité." },
+      { tool: "Cursor IDE", usage: "Éditeur de code optimisé pour l'édition simultanée de plusieurs fichiers par IA." },
+      { tool: "Project Astra", usage: "Prototype d'assistant visuel multimodal intégrant une mémoire vidéo à long terme." }
+    ];
+
+    let quizData = [];
+    let selectedTool = null;
+    let selectedUsage = null;
+    let matchesCount = 0;
+
+    function generateNewQuiz() {
+      // Mélanger et prendre 5 éléments
+      const shuffled = [...allQuizItems].sort(() => 0.5 - Math.random());
+      quizData = shuffled.slice(0, 5);
+      
+      matchesCount = 0;
+      selectedTool = null;
+      selectedUsage = null;
+      updateScore();
+
+      const toolsCol = document.getElementById('toolsColumn');
+      const usagesCol = document.getElementById('usagesColumn');
+
+      toolsCol.innerHTML = '<h3>Outils IA</h3>';
+      usagesCol.innerHTML = '<h3>Usages & Descriptions</h3>';
+
+      // Mélanger les usages pour ne pas correspondre directement en vis-à-vis
+      const shuffledUsages = [...quizData].sort(() => 0.5 - Math.random());
+
+      quizData.forEach((item, index) => {
+        const toolCard = document.createElement('div');
+        toolCard.className = 'quiz-card';
+        toolCard.dataset.id = item.tool;
+        toolCard.innerText = item.tool;
+        toolCard.onclick = () => selectTool(toolCard);
+        toolsCol.appendChild(toolCard);
+      });
+
+      shuffledUsages.forEach((item, index) => {
+        const usageCard = document.createElement('div');
+        usageCard.className = 'quiz-card';
+        usageCard.dataset.id = item.tool;
+        usageCard.innerText = item.usage;
+        usageCard.onclick = () => selectUsage(usageCard);
+        usagesCol.appendChild(usageCard);
+      });
+    }
+
+    function selectTool(card) {
+      if (card.classList.contains('matched')) return;
+      document.querySelectorAll('#toolsColumn .quiz-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedTool = card;
+      checkMatch();
+    }
+
+    function selectUsage(card) {
+      if (card.classList.contains('matched')) return;
+      document.querySelectorAll('#usagesColumn .quiz-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedUsage = card;
+      checkMatch();
+    }
+
+    function checkMatch() {
+      if (selectedTool && selectedUsage) {
+        if (selectedTool.dataset.id === selectedUsage.dataset.id) {
+          // Bonne réponse
+          selectedTool.classList.remove('selected');
+          selectedUsage.classList.remove('selected');
+          selectedTool.classList.add('matched');
+          selectedUsage.classList.add('matched');
+          matchesCount++;
+          updateScore();
+        } else {
+          // Mauvaise réponse - Clignotement
+          selectedTool.style.borderColor = 'var(--accent-red)';
+          selectedUsage.style.borderColor = 'var(--accent-red)';
+          setTimeout(() => {
+            if (selectedTool) selectedTool.style.borderColor = '';
+            if (selectedUsage) selectedUsage.style.borderColor = '';
+            selectedTool = null;
+            selectedUsage = null;
+            document.querySelectorAll('.quiz-card').forEach(c => c.classList.remove('selected'));
+          }, 600);
+          return;
+        }
+        selectedTool = null;
+        selectedUsage = null;
+      }
+    }
+
+    function updateScore() {
+      const scoreBoard = document.getElementById('quizScore');
+      scoreBoard.innerText = `Correspondances trouvées : ${matchesCount} / 5`;
+      if (matchesCount === 5) {
+        scoreBoard.innerText = "🎉 Bravo ! Vous avez associé tous les outils avec succès !";
+      }
+    }
+  </script>
+</body>
+</html>
