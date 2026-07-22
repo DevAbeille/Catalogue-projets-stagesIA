@@ -12,8 +12,7 @@
   <link rel="stylesheet" href="../../css/main.css">
 
   <style>
-    /* Surcharges et harmonisation du style aux couleurs HOC (Noir / Anthracite / Orange) */
-    
+    /* Navigation HOC */
     .header-nav {
       display: flex;
       justify-content: space-between;
@@ -54,32 +53,34 @@
       border-color: #38bdf8;
     }
 
-    /* Conteneur des filtres avancés */
-    .filters-stack {
+    /* Section des filtres propre et alignée */
+    .filters-wrapper {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      width: 100%;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
+      align-items: center;
     }
 
-    .filter-group {
+    .filter-row {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 1rem;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     .filter-label {
-      font-size: 0.8rem;
-      font-weight: 700;
+      font-size: 0.75rem;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       color: var(--text-muted, #94a3b8);
-      min-width: 90px;
+      min-width: 80px;
+      text-align: right;
     }
 
-    /* Ajustements pour la grille de cartes d'outils */
+    /* Grille de cartes */
     .tools-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -143,7 +144,7 @@
       flex-grow: 1;
     }
 
-    /* Styles spécifiques au Jeu / Quiz HOC */
+    /* Styles Quiz */
     .quiz-container {
       max-width: 900px;
       margin: 0 auto;
@@ -175,6 +176,7 @@
 
     @media (max-width: 768px) {
       .quiz-grid { grid-template-columns: 1fr; }
+      .filter-label { text-align: center; min-width: auto; }
     }
 
     .quiz-column h3 {
@@ -251,7 +253,6 @@
       color: #22c55e;
     }
 
-    /* Masquage des sections onglets */
     .tab-content {
       display: none;
     }
@@ -265,7 +266,7 @@
 
   <div class="container">
     
-    <!-- En-tête Navigation de haut de page -->
+    <!-- En-tête Navigation -->
     <div class="header-nav">
       <a href="../../index.html" class="back-link">← RETOUR AU HUB DE RESSOURCES</a>
       <a href="https://docs.google.com/spreadsheets/d/1cw2ejZStqj2J9huPTcTWknsLZyrAURpbvuDRGHsw950/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer" class="source-link">
@@ -273,7 +274,7 @@
       </a>
     </div>
 
-    <!-- Header Principal (Charté HOC) -->
+    <!-- Header Principal -->
     <header>
       <span class="logo-badge">Ressources & Interactivité</span>
       <h1>Répertoire & Quiz des Outils IA</h1>
@@ -292,7 +293,7 @@
     <div id="tab-table" class="tab-content active">
       
       <!-- Barre de recherche -->
-      <div class="controls-bar" style="margin-bottom: 1rem;">
+      <div class="controls-bar" style="margin-bottom: 1.5rem;">
         <div class="search-box">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -301,11 +302,11 @@
         </div>
       </div>
 
-      <!-- Filtres Multi-sélection : Éditeurs + Audiences -->
-      <div class="filters-stack">
-        <!-- Ligne 1: Éditeurs -->
-        <div class="filter-group">
-          <span class="filter-label">Éditeur :</span>
+      <!-- Bloc Filtres Harmonisés -->
+      <div class="filters-wrapper">
+        <!-- Ligne Éditeur -->
+        <div class="filter-row">
+          <span class="filter-label">Éditeur</span>
           <div class="view-switcher" id="editorFilters">
             <button class="switch-btn active" onclick="filterEditor('ALL')">Tous</button>
             <button class="switch-btn" onclick="filterEditor('Google')">Google</button>
@@ -314,14 +315,14 @@
           </div>
         </div>
 
-        <!-- Ligne 2: Audience (Multi-Sélection) -->
-        <div class="filter-group">
-          <span class="filter-label">Audience :</span>
+        <!-- Ligne Audience (Choix unique harmonisé) -->
+        <div class="filter-row">
+          <span class="filter-label">Audience</span>
           <div class="view-switcher" id="audienceFilters">
-            <button class="switch-btn active" data-audience="ALL" onclick="toggleAudience('ALL')">Tous</button>
-            <button class="switch-btn" data-audience="utilisateur" onclick="toggleAudience('utilisateur')">👤 Utilisateur / Grand Public</button>
-            <button class="switch-btn" data-audience="dev" onclick="toggleAudience('dev')">💻 Dev / Tech</button>
-            <button class="switch-btn" data-audience="explorateur" onclick="toggleAudience('explorateur')">🚀 Explorateur / Prototypage</button>
+            <button class="switch-btn active" onclick="filterAudience('ALL')">Tous</button>
+            <button class="switch-btn" onclick="filterAudience('utilisateur')">👤 Utilisateur / Grand Public</button>
+            <button class="switch-btn" onclick="filterAudience('dev')">💻 Dev / Tech</button>
+            <button class="switch-btn" onclick="filterAudience('explorateur')">🚀 Explorateur / Prototypage</button>
           </div>
         </div>
       </div>
@@ -777,45 +778,23 @@
       }
     }
 
-    // --- FILTRES DU CATALOGUE (MULTIPLE AUDIENCE + ÉDITEUR) ---
+    // --- FILTRES DU CATALOGUE (SÉLECTION UNIQUE HARMONISÉE) ---
     let currentEditor = 'ALL';
-    let selectedAudiences = new Set(['ALL']);
-
-    function toggleAudience(audience) {
-      const allBtn = document.querySelector('#audienceFilters [data-audience="ALL"]');
-      const targetBtn = document.querySelector(`#audienceFilters [data-audience="${audience}"]`);
-
-      if (audience === 'ALL') {
-        selectedAudiences.clear();
-        selectedAudiences.add('ALL');
-        document.querySelectorAll('#audienceFilters .switch-btn').forEach(btn => btn.classList.remove('active'));
-        allBtn.classList.add('active');
-      } else {
-        selectedAudiences.delete('ALL');
-        allBtn.classList.remove('active');
-
-        if (selectedAudiences.has(audience)) {
-          selectedAudiences.delete(audience);
-          targetBtn.classList.remove('active');
-        } else {
-          selectedAudiences.add(audience);
-          targetBtn.classList.add('active');
-        }
-
-        // Si plus aucune catégorie sélectionnée, on remet "Tous"
-        if (selectedAudiences.size === 0) {
-          selectedAudiences.add('ALL');
-          allBtn.classList.add('active');
-        }
-      }
-
-      filterData();
-    }
+    let currentAudience = 'ALL';
 
     function filterEditor(editor) {
       currentEditor = editor;
       document.querySelectorAll('#editorFilters .switch-btn').forEach(btn => {
         btn.classList.toggle('active', btn.innerText.includes(editor) || (editor === 'ALL' && btn.innerText === 'Tous'));
+      });
+      filterData();
+    }
+
+    function filterAudience(audience) {
+      currentAudience = audience;
+      document.querySelectorAll('#audienceFilters .switch-btn').forEach(btn => {
+        const btnAudience = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+        btn.classList.toggle('active', btnAudience === audience);
       });
       filterData();
     }
@@ -832,12 +811,7 @@
 
         const matchesSearch = searchText.includes(input);
         const matchesEditor = (currentEditor === 'ALL') || (cardEditor === currentEditor);
-        
-        // Match multi-audience (si au moins une sélectionnée correspond, ou si ALL)
-        let matchesAudience = selectedAudiences.has('ALL');
-        if (!matchesAudience) {
-          matchesAudience = cardAudiences.some(aud => selectedAudiences.has(aud));
-        }
+        const matchesAudience = (currentAudience === 'ALL') || cardAudiences.includes(currentAudience);
 
         if (matchesSearch && matchesEditor && matchesAudience) {
           card.style.display = 'flex';
