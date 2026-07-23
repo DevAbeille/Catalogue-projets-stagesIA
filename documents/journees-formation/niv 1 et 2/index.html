@@ -65,6 +65,7 @@
             gap: 1.25rem;
             font-size: 0.8rem;
             font-weight: 600;
+            flex-wrap: wrap;
         }
 
         .legend-item {
@@ -343,6 +344,90 @@
         .modal-close:hover {
             background: var(--primary-hover);
         }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 768px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+                padding: 1rem;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.25rem;
+            }
+
+            .current-time {
+                align-self: flex-start;
+            }
+
+            .columns-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .column-half {
+                height: auto;
+            }
+
+            .dashboard-container {
+                overflow-y: visible;
+                padding-right: 0;
+            }
+
+            .row-item {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                padding: 0.85rem;
+            }
+
+            .time-col {
+                width: auto;
+                font-size: 0.8rem;
+            }
+
+            .duration-col {
+                width: auto;
+                margin-right: auto;
+                font-size: 0.75rem;
+            }
+
+            .type-col {
+                width: auto;
+            }
+
+            .badge-dash {
+                width: auto;
+                padding: 0.2rem 0.5rem;
+            }
+
+            .title-col {
+                width: 100%;
+                padding-right: 0;
+                margin-top: 0.25rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .action-col {
+                width: 100%;
+                text-align: left;
+            }
+
+            .btn-dash {
+                padding: 0.5rem;
+            }
+
+            .modal-box {
+                padding: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -378,11 +463,11 @@
                 <div class="row-item pause">
                     <div class="time-col">09:30 - 10:00</div>
                     <div class="duration-col">30 min</div>
+                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="title-col">
                         <div class="main-title">Accueil café</div>
                         <div class="subtitle">Plage d'arrivée des participants</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Accueil café', 'Bienvenue ! Profitez de ce moment pour vous installer, prendre un café et échanger avant le lancement de la journée.')">ℹ️ Infos</button>
                     </div>
@@ -391,11 +476,11 @@
                 <div class="row-item presentation">
                     <div class="time-col">10:00 - 10:10</div>
                     <div class="duration-col">10 min</div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="title-col">
                         <div class="main-title">Intro HOC</div>
                         <div class="subtitle">Une présentation de HOC</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
                         <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
@@ -404,11 +489,11 @@
                 <div class="row-item presentation">
                     <div class="time-col">10:10 - 10:20</div>
                     <div class="duration-col">10 min</div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="title-col">
                         <div class="main-title">Intro journée</div>
                         <div class="subtitle">Introduction & Présentation du programme</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
                         <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
@@ -417,11 +502,11 @@
                 <div class="row-item presentation">
                     <div class="time-col">10:20 - 11:00</div>
                     <div class="duration-col">40 min</div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="title-col">
                         <div class="main-title">Histoire de l'IA</div>
                         <div class="subtitle">Présentation générale</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
                         <a href="../../../presentations/histoire-ia/" class="btn-dash">🔗 Lien</a>
                     </div>
@@ -430,11 +515,11 @@
                 <div class="row-item atelier">
                     <div class="time-col">11:00 - 11:15</div>
                     <div class="duration-col">15 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Gemini V1</div>
                         <div class="subtitle">Connexion & Prompt</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Gemini V1', '<strong>Exercice pratique :</strong><br>1. Connexion à la plateforme.<br>2. Premier exercice pratique de prompt engineering.<br><br><a href=\'https://gemini.google.com\' target=\'_blank\' style=\'color:var(--primary); font-weight:bold;\'>Accéder à Gemini ↗</a>')">💬 Pop-up</button>
                     </div>
@@ -443,11 +528,11 @@
                 <div class="row-item pause">
                     <div class="time-col">11:15 - 11:30</div>
                     <div class="duration-col">15 min</div>
+                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="title-col">
                         <div class="main-title">Pause</div>
                         <div class="subtitle">Pause de la matinée</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Pause', 'Prenez l\'air, étirez-vous ! Reprise exacte à 11h30.')">⏱️ Timer</button>
                     </div>
@@ -456,25 +541,24 @@
                 <div class="row-item atelier">
                     <div class="time-col">11:30 - 12:30</div>
                     <div class="duration-col">1 h</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">PIX : Intro à l'IA</div>
                         <div class="subtitle">Un moment de débrief libre ou de pause active</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('PIX : Intro à l\'IA', 'Espace de débriefing libre, questions ouvertes et évaluation/découverte via la plateforme PIX IA.')">💬 Pop-up</button>
                     </div>
                 </div>
 
-                <!-- MODIFIÉ ICI EN ATELIER -->
                 <div class="row-item atelier">
                     <div class="time-col">12:30 - 13:00</div>
                     <div class="duration-col">30 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Fonctionnement IA et Environnement</div>
                         <div class="subtitle">Atelier pratique & échanges</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Fonctionnement IA et Environnement', '<strong>Atelier interactif :</strong><br>Mise en pratique et expérimentations guidées sur l\'impact environnemental et le fonctionnement technique des modèles d\'IA.')">💬 Pop-up</button>
                     </div>
@@ -491,11 +575,11 @@
                 <div class="row-item presentation">
                     <div class="time-col">14:00 - 14:40</div>
                     <div class="duration-col">40 min</div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="title-col">
                         <div class="main-title">Machine Learning et Hallucination</div>
                         <div class="subtitle">Présentation approfondie</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
                         <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
@@ -504,11 +588,11 @@
                 <div class="row-item atelier">
                     <div class="time-col">14:40 - 15:00</div>
                     <div class="duration-col">20 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Energizer</div>
                         <div class="subtitle">Activité de dynamisation de groupe</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Energizer', 'Session interactive de réactivation d\'énergie pour aborder l\'après-midi dans les meilleures conditions.')">⚡ Activity</button>
                     </div>
@@ -517,25 +601,24 @@
                 <div class="row-item atelier">
                     <div class="time-col">15:00 - 15:20</div>
                     <div class="duration-col">20 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Gemini V2</div>
                         <div class="subtitle">Usages de nos documents</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Gemini V2', '<strong>Exercice pratique :</strong><br>Analyse de documents internes, extraction de données et synthèses automatisées avec Gemini V2.')">💬 Pop-up</button>
                     </div>
                 </div>
 
-                <!-- NotebookLM avec lien vers la prez dans la pop-up -->
                 <div class="row-item atelier">
                     <div class="time-col">15:20 - 16:00</div>
                     <div class="duration-col">40 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Découverte NotebookLM</div>
                         <div class="subtitle">Utiliser NotebookLM pour créer des espaces de travail.</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('NotebookLM', '<strong>Exercice de configuration :</strong><br>Importez vos documents de travail dans NotebookLM et apprenez à générer des bases de connaissances collaboratives.<br><br><a href=\'../../../presentations/notebooklm/\' style=\'display:inline-block; padding:0.5rem 1rem; background:var(--primary); color:white; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.85rem;\'>📊 Ouvrir la présentation NotebookLM ↗</a>')">💬 Pop-up</button>
                     </div>
@@ -544,11 +627,11 @@
                 <div class="row-item pause">
                     <div class="time-col">16:00 - 16:15</div>
                     <div class="duration-col">15 min</div>
+                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="title-col">
                         <div class="main-title">Pause</div>
                         <div class="subtitle">Pause de l'après-midi</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Pause', 'Courte pause de recharge avant le dernier atelier de co-création.')">⏱️ Timer</button>
                     </div>
@@ -557,11 +640,11 @@
                 <div class="row-item atelier">
                     <div class="time-col">16:15 - 17:00</div>
                     <div class="duration-col">45 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Atelier : Charte collaborative</div>
                         <div class="subtitle">Créer ensemble notre charte IA</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Atelier Charte', '<strong>Co-construction :</strong><br>Mise en commun des idées pour rédiger la charte de bonne conduite et d\'usage de l\'IA au sein de notre structure.')">💬 Pop-up</button>
                     </div>
@@ -570,11 +653,11 @@
                 <div class="row-item atelier">
                     <div class="time-col">17:00 - 17:20</div>
                     <div class="duration-col">20 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Restitution Chartes</div>
                         <div class="subtitle">Un moment de débrief libre ou de pause active</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Restitution', 'Présentation des différentes chartes produites par les groupes et vote / ajustement en direct.')">💬 Pop-up</button>
                     </div>
@@ -583,11 +666,11 @@
                 <div class="row-item presentation">
                     <div class="time-col">17:20 - 17:30</div>
                     <div class="duration-col">10 min</div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="title-col">
                         <div class="main-title">Synthèse</div>
                         <div class="subtitle">Clôture de la journée de formation</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
                         <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
