@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord — Formation IA Niv 1 & 2</title>
-    
-    <!-- Tout le gros du CSS est déjà chargé ici ! -->
+    <title>Tableau de Bord — Formation IA</title>
+
+    <!-- Import du CSS centralisé House of Codesign -->
     <link rel="stylesheet" href="../../../css/main.css">
-    
+
+    <!-- Styles spécifiques au layout du Dashboard (colonnes et défilement) -->
     <style>
-        /* Défilement doux */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Ajustements spécifiques à la hauteur de la page Dashboard */
         body {
             height: 100vh;
             display: flex;
@@ -24,7 +23,6 @@
             box-sizing: border-box;
         }
 
-        /* Ajustements d'affichage en 2 colonnes */
         .columns-container {
             flex: 1;
             min-height: 0;
@@ -50,7 +48,6 @@
             min-height: 0;
         }
 
-        /* Mobile : retour au scroll classique */
         @media (max-width: 768px) {
             body {
                 height: auto;
@@ -65,6 +62,18 @@
             }
         }
     </style>
+
+    <!-- Script de gestion et lecture du thème (Sombre/Clair) -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.add('light-theme');
+            } else {
+                document.documentElement.classList.remove('light-theme');
+            }
+        })();
+    </script>
 </head>
 <body>
 
