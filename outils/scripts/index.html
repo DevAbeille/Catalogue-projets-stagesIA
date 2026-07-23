@@ -184,6 +184,12 @@
       transform: translateY(-2px);
     }
   </style>
+  <!-- Auto-Theme Script -->
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light-theme');
+    }
+  </script>
 </head>
 <body>
 
