@@ -306,3 +306,29 @@ header p {
   grid-column: 1 / -1;
   display: none;
 }
+
+/* ==========================================================================
+   Badges de disponibilité discrets (Dispo / Dispo sur tél)
+   ========================================================================== */
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-pill);
+}
+
+.availability-badge::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #22c55e; /* Puce verte */
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+}
