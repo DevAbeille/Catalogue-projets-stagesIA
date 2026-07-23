@@ -1,227 +1,278 @@
 /* ==========================================================================
-   Variables & Thèmes
+   CHARTE GRAPHIQUE — HOUSE OF CODESIGN (HOC) & THÈMES
    ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 :root {
-  /* Couleur de marque HOC */
-  --primary: #FF5E3A;
-  --primary-hover: #E04D2B;
+  /* Couleurs de marque HOC */
+  --primary: #ff5e3a;         /* Orange Vif / Accent HOC */
+  --primary-hover: #ff785a;   /* Orange légèrement plus lumineux */
+  --primary-light: rgba(255, 94, 58, 0.12); /* Halo orange translucide */
 
   /* THÈME SOMBRE (PAR DÉFAUT) */
-  --bg-main: #0d1117;          /* Fond de page sombre */
-  --bg-card: #161b22;          /* Fond des cartes */
-  --text-main: #f0f6fc;        /* Texte principal */
-  --text-muted: #8b949e;       /* Texte secondaire */
-  --border-color: #30363d;     /* Bordures */
+  --bg-color: #0d1117;        /* Fond sombre signature */
+  --card-bg: #161b22;         /* Cartes anthracite */
+  --card-bg-hover: #1c2128;   /* Survol carte */
+  --border-color: #30363d;     /* Bordures fines sombres */
 
-  /* DISQUES : Fond NOIR sur carte sombre */
+  --text-primary: #f0f6fc;    /* Blanc/Gris clair pour les titres */
+  --text-secondary: #8b949e;  /* Textes explicatifs */
+  --text-muted: #6e7681;      /* Textes secondaires */
+
+  /* Badges Catégories HOC Original (Variables) */
+  --badge-outils: #38bdf8;
+  --badge-outils-bg: rgba(56, 189, 248, 0.12);
+  --badge-outils-border: rgba(56, 189, 248, 0.2);
+  
+  --badge-pres: #c084fc;
+  --badge-pres-bg: rgba(192, 132, 252, 0.12);
+  --badge-pres-border: rgba(192, 132, 252, 0.2);
+  
+  --badge-docs: #4ade80;
+  --badge-docs-bg: rgba(74, 222, 128, 0.12);
+  --badge-docs-border: rgba(74, 222, 128, 0.2);
+
+  /* Puces Équipements : Fond NOIR sur carte sombre */
   --circle-bg: #0d1117;
   --circle-border: #30363d;
+  --circle-text: #f0f6fc;
 
+  /* Effets & Rayons */
+  --radius-lg: 14px;
+  --radius-pill: 9999px;
+  
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --radius: 12px;
+  --shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 94, 58, 0.15);
+  --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* THÈME CLAIR (S'active avec la classe .light-theme) */
 .light-theme {
-  --bg-main: #F8FAFC;          /* Fond de page clair */
-  --bg-card: #FFFFFF;          /* Fond des cartes blanc */
-  --text-main: #0F172A;        /* Texte sombre */
-  --text-muted: #64748B;       /* Texte secondaire */
-  --border-color: #E2E8F0;     /* Bordures claires */
+  --bg-color: #f8fafc;        /* Fond de page blanc/gris très doux */
+  --card-bg: #ffffff;         /* Fond des cartes blanc pur */
+  --card-bg-hover: #f1f5f9;   /* Survol carte clair */
+  --border-color: #e2e8f0;     /* Bordures légères */
 
-  /* DISQUES : Fond BLANC sur carte claire */
-  --circle-bg: #FFFFFF;
-  --circle-border: #CBD5E1;
+  --text-primary: #0f172a;    /* Texte sombre */
+  --text-secondary: #475569;  /* Texte secondaire */
+  --text-muted: #64748b;      /* Textes discrets */
+
+  /* Puces Équipements : Fond BLANC sur carte claire */
+  --circle-bg: #ffffff;
+  --circle-border: #cbd5e1;
+  --circle-text: #0f172a;
+
+  /* Adaptation subtile des badges pour le fond blanc */
+  --badge-outils-bg: rgba(56, 189, 248, 0.15);
+  --badge-pres-bg: rgba(192, 132, 252, 0.15);
+  --badge-docs-bg: rgba(74, 222, 128, 0.18);
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
 }
 
-/* ==========================================================================
-   Reset & Base Styles
-   ========================================================================== */
-* {
+/* Réinitialisation de base */
+*, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  line-height: 1.5;
-  padding: 2rem 1rem;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 2.5rem 1.5rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1040px;
   margin: 0 auto;
 }
 
 /* ==========================================================================
-   Header & View Switcher
+   Header / En-tête
    ========================================================================== */
-.header {
+header, .header {
   margin-bottom: 2.5rem;
   text-align: center;
 }
 
-.header h1 {
-  font-size: 2.25rem;
+header h1, .header h1 {
+  font-size: 2.5rem;
   font-weight: 800;
-  color: var(--text-main);
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.025em;
+  margin: 0 0 0.75rem 0;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
 }
 
-.header p {
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
+header h1::after, .header h1::after {
+  content: '.';
+  color: var(--primary);
 }
 
-.view-switcher {
+header p, .header p {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Barre d'onglets (Tabs & View Switcher) */
+.tabs, .view-switcher {
   display: inline-flex;
-  background-color: var(--bg-card);
-  padding: 0.25rem;
-  border-radius: 9999px;
+  background: var(--card-bg);
+  padding: 0.35rem;
+  border-radius: var(--radius-pill);
   border: 1px solid var(--border-color);
+  gap: 0.3rem;
+  justify-content: center;
+  transition: var(--transition);
 }
 
-.switch-btn {
+.tab-btn, .switch-btn {
   border: none;
   background: transparent;
-  color: var(--text-muted);
-  padding: 0.5rem 1.25rem;
-  border-radius: 9999px;
-  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  font-family: inherit;
   font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-radius: var(--radius-pill);
   cursor: pointer;
   transition: var(--transition);
 }
 
-.switch-btn.active {
-  background-color: var(--primary);
-  color: #FFFFFF;
-  box-shadow: 0 2px 8px rgba(255, 94, 58, 0.35);
+.tab-btn:hover, .switch-btn:hover {
+  color: var(--text-primary);
+}
+
+.tab-btn.active, .switch-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(255, 94, 58, 0.3);
 }
 
 /* ==========================================================================
-   Sections & Cards
+   Grille & Cartes
    ========================================================================== */
-.section {
-  margin-bottom: 3rem;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-  color: var(--text-main);
-}
-
-.section-subtitle {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  margin-bottom: 1.25rem;
-}
-
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.25rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: var(--bg-card);
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
   text-decoration: none;
   color: inherit;
   box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   transition: var(--transition);
+  position: relative;
+  overflow: hidden;
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255, 94, 58, 0.5);
+  transform: translateY(-4px);
+  background-color: var(--card-bg-hover);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(255, 94, 58, 0.4);
 }
 
 .card-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-.card h3 {
-  font-size: 1.15rem;
+/* ==========================================================================
+   BADGES HOC ORIGINAUX (RESTAURÉS À 100%)
+   ========================================================================== */
+.badge {
+  font-size: 0.725rem;
   font-weight: 700;
-  color: var(--text-main);
-  margin-bottom: 0.5rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
 }
 
-.card:hover h3 {
+.badge-outils {
+  color: var(--badge-outils);
+  background: var(--badge-outils-bg);
+  border: 1px solid var(--badge-outils-border);
+}
+
+.badge-presentations {
+  color: var(--badge-pres);
+  background: var(--badge-pres-bg);
+  border: 1px solid var(--badge-pres-border);
+}
+
+.badge-documents {
+  color: var(--badge-docs);
+  background: var(--badge-docs-bg);
+  border: 1px solid var(--badge-docs-border);
+}
+
+/* Contenu Carte */
+.card-body h3, .card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: var(--transition);
+}
+
+.card:hover .card-body h3, .card:hover h3 {
   color: var(--primary);
 }
 
-.card p {
-  color: var(--text-muted);
+.card-body p, .card p {
+  margin: 0;
   font-size: 0.9rem;
-  line-height: 1.4;
+  color: var(--text-secondary);
+  line-height: 1.55;
 }
 
 .card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1.25rem;
-  padding-top: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 0.85rem;
   border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 0.825rem;
   color: var(--text-muted);
   font-weight: 500;
 }
 
 .card-link-text {
+  font-weight: 700;
   color: var(--primary);
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: var(--transition);
+}
+
+.card:hover .card-link-text {
+  transform: translateX(4px);
+  color: var(--primary-hover);
 }
 
 /* ==========================================================================
-   ANCIENS BADGES (RESTAURÉS)
-   ========================================================================== */
-.badge {
-  display: inline-block;
-  padding: 0.25rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.badge-documents { 
-  color: #58a6ff; 
-}
-
-.badge-outils { 
-  color: #d29922; 
-}
-
-.badge-presentations { 
-  color: #bc8cff; 
-}
-
-/* ==========================================================================
-   Indicateurs de périphériques (Disques dynamiques)
+   Indicateurs de Périphériques (Disques Dynamiques)
    ========================================================================== */
 .device-indicators {
   display: flex;
@@ -240,10 +291,11 @@ body {
   line-height: 1;
   flex-shrink: 0;
 
-  /* Fond et bordure dynamiques selon le thème actif */
+  /* Fond et bordure adaptatifs au thème actif (Noir en sombre, Blanc en clair) */
   background-color: var(--circle-bg);
   border: 1px solid var(--circle-border);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: var(--circle-text);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: var(--transition);
 }
 
