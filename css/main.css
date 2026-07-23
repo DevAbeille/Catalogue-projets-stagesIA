@@ -120,7 +120,7 @@ body {
   background-color: var(--bg-color);
   color: var(--text-primary);
   margin: 0;
-  padding: 2.5rem 1.5rem;
+  padding: 1.5rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -132,7 +132,7 @@ body {
 }
 
 /* ==========================================================================
-   Header / En-tête
+   Header / En-tête Global
    ========================================================================== */
 header, .header {
   margin-bottom: 2.5rem;
@@ -194,7 +194,91 @@ header p, .header p {
 }
 
 /* ==========================================================================
-   Grille & Cartes
+   HEADER DASHBOARD & LÉGENDE
+   ========================================================================== */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.dashboard-header h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.dashboard-header h1::after {
+  content: '.';
+  color: var(--primary);
+}
+
+.current-time {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--card-bg);
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.legend {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.legend-badge {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.mobile-quick-nav {
+  display: none;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.quick-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.quick-nav-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   Grille & Cartes Globales
    ========================================================================== */
 .grid {
   display: grid;
@@ -232,8 +316,146 @@ header p, .header p {
   margin-bottom: 1rem;
 }
 
+.card-body h3, .card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: var(--transition);
+}
+
+.card:hover .card-body h3, .card:hover h3 {
+  color: var(--primary);
+}
+
+.card-body p, .card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.card-footer {
+  margin-top: 1.5rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.825rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.card-link-text {
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: var(--transition);
+}
+
+.card:hover .card-link-text {
+  transform: translateX(4px);
+  color: var(--primary-hover);
+}
+
 /* ==========================================================================
-   BADGES & STYLES DASHBOARD HARMONISÉS
+   DISPOSITION LIGNES DU DASHBOARD (ROW-ITEM)
+   ========================================================================== */
+.row-item {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1rem;
+  transition: var(--transition);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.row-item:hover {
+  transform: translateX(4px);
+  background-color: var(--card-bg-hover);
+  border-color: rgba(255, 94, 58, 0.3);
+}
+
+.time-col {
+  width: 110px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.duration-col {
+  width: 60px;
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.title-col {
+  flex-grow: 1;
+  padding-right: 1rem;
+}
+
+.main-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+}
+
+.subtitle {
+  font-size: 0.775rem;
+  color: var(--text-secondary);
+}
+
+.type-col {
+  width: 120px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.action-col {
+  width: 100px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.column-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  padding-left: 0.25rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  scroll-margin-top: 1rem;
+}
+
+/* Custom Scrollbar */
+.dashboard-container::-webkit-scrollbar {
+  width: 6px;
+}
+.dashboard-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dashboard-container::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 9999px;
+}
+.dashboard-container::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* ==========================================================================
+   BADGES & BOUTONS
    ========================================================================== */
 .badge, .badge-dash {
   font-size: 0.725rem;
@@ -244,6 +466,29 @@ header p, .header p {
   letter-spacing: 0.05em;
   display: inline-block;
   transition: var(--transition);
+}
+
+.badge-dash {
+  font-size: 0.675rem;
+  padding: 0.25rem 0.6rem;
+  width: 100px;
+  text-align: center;
+}
+
+.btn-dash {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  text-decoration: none;
+  width: 100%;
 }
 
 /* Outils (Cyan) */
@@ -310,52 +555,6 @@ header p, .header p {
   color: #ffffff;
 }
 
-/* Contenu Carte */
-.card-body h3, .card h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  transition: var(--transition);
-}
-
-.card:hover .card-body h3, .card:hover h3 {
-  color: var(--primary);
-}
-
-.card-body p, .card p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.55;
-}
-
-.card-footer {
-  margin-top: 1.5rem;
-  padding-top: 0.85rem;
-  border-top: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.825rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.card-link-text {
-  font-weight: 700;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  transition: var(--transition);
-}
-
-.card:hover .card-link-text {
-  transform: translateX(4px);
-  color: var(--primary-hover);
-}
-
 /* ==========================================================================
    Indicateurs de Périphériques (Disques Dynamiques)
    ========================================================================== */
@@ -375,8 +574,6 @@ header p, .header p {
   font-size: 0.85rem;
   line-height: 1;
   flex-shrink: 0;
-
-  /* Fond et bordure adaptatifs au thème actif */
   background-color: var(--circle-bg);
   border: 1px solid var(--circle-border);
   color: var(--circle-text);
@@ -386,4 +583,149 @@ header p, .header p {
 
 .card:hover .status-circle {
   transform: scale(1.05);
+}
+
+/* ==========================================================================
+   MODALE POP-UP (DASHBOARD)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--shadow-hover);
+  position: relative;
+  animation: modalScale 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScale {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.modal-close {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  float: right;
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  background: var(--primary-hover);
+}
+
+/* ==========================================================================
+   RESPONSIVE MOBILE
+   ========================================================================== */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .current-time {
+    align-self: flex-start;
+  }
+
+  .mobile-quick-nav {
+    display: flex;
+  }
+
+  .column-aprem {
+    border-top: 1px dashed var(--border-color);
+    padding-top: 1.5rem;
+  }
+
+  .row-item {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.85rem;
+  }
+
+  .time-col {
+    width: auto;
+    font-size: 0.8rem;
+  }
+
+  .duration-col {
+    width: auto;
+    margin-right: auto;
+    font-size: 0.75rem;
+  }
+
+  .type-col {
+    width: auto;
+  }
+
+  .badge-dash {
+    width: auto;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .title-col {
+    width: 100%;
+    padding-right: 0;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .action-col {
+    width: 100%;
+    text-align: left;
+  }
+
+  .btn-dash {
+    padding: 0.5rem;
+  }
+
+  .modal-box {
+    padding: 1.25rem;
+  }
 }
