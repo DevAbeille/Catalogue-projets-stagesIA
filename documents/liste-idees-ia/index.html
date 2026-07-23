@@ -1,4 +1,60 @@
-<!-- BARRE DE FILTRES -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liste des Idées IA & Pistes R&D</title>
+  <link rel="stylesheet" href="../../css/main.css">
+  <style>
+    /* Styles spécifiques pour la barre de filtres */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border-color, #30363d);
+      color: #8b949e;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      color: #f0f6fc;
+      border-color: #ff5e3a;
+    }
+
+    .filter-btn.active {
+      background-color: #ff5e3a;
+      color: #ffffff;
+      border-color: #ff5e3a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- En-tête -->
+    <header class="header">
+      <div style="margin-bottom: 15px;">
+        <a href="../../index.html" style="color: #8b949e; text-decoration: none; font-size: 0.9rem;">← Retour au Hub de Ressources</a>
+      </div>
+      <h1>💡 Liste des Idées IA & Pistes R&D</h1>
+      <p>Retrouvez l'ensemble des fiches d'idées, cas d'usages et réflexions créatives extraits du board Miro.</p>
+    </header>
+
+    <main>
+      <section class="section">
+        
+        <!-- BARRE DE FILTRES -->
 <div class="filter-bar">
   <button class="filter-btn active" onclick="filterCategory(event, 'all')">Tous</button>
   <button class="filter-btn" onclick="filterCategory(event, 'interne')">🏠 Interne</button>
@@ -133,3 +189,24 @@
   </div>
 
 </div>
+
+  <!-- SCRIPT DE FILTRAGE -->
+  <script>
+    function filterCategory(event, category) {
+      // 1. Mettre à jour l'état actif des boutons
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      // 2. Filtrer les cartes
+      const cards = document.querySelectorAll('#ideas-grid .card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
