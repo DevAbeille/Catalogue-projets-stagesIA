@@ -117,87 +117,100 @@
         .video-card p { font-size: 0.85rem; font-family: 'Arial', sans-serif; color: var(--text-muted); line-height: 1.4; margin-bottom: 15px; }
         .video-tag { font-size: 0.65rem; font-weight: bold; text-transform: uppercase; color: var(--primary); border: 1px solid var(--primary); padding: 4px 10px; border-radius: 20px; display: inline-block; }
 
-        /* --- FRESQUE / CHRONOLOGIE OPTIMISÉE --- */
-        .timeline-container { 
-            background: var(--grey); 
-            border-radius: 12px; 
-            padding: 40px 30px 30px 30px; 
-            margin-top: 20px; 
-            border: 1px solid rgba(255,255,255,0.05); 
+        /* --- CARROUSEL SNAP INSTAGRAM TYPE (FRESQUE) --- */
+        .snap-carousel-container {
             width: 100%;
+            margin-top: 25px;
         }
 
-        .tm-scroll-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            padding: 20px 10px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) transparent;
-        }
-
-        .tm-axis { 
-            position: relative; 
-            height: 4px; 
-            background: rgba(255,255,255,0.15); 
-            margin: 40px 0 30px 0; 
-            display: flex; 
-            justify-content: space-between; 
-            min-width: 650px; /* Garantit un espace suffisant entre les jalons */
-        }
-
-        .tm-item {
-            position: relative;
+        .snap-dots {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .tm-node { 
-            width: 36px; 
-            height: 36px; 
-            background: #222; 
-            border: 3px solid rgba(255,255,255,0.3); 
-            border-radius: 50%; 
-            cursor: pointer; 
-            top: -16px; 
-            position: absolute; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 0.95rem; 
-            transition: all 0.3s ease; 
-            z-index: 10; 
+        .snap-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: 0.3s;
         }
 
-        .tm-node.active { 
-            border-color: var(--primary); 
-            background: var(--primary); 
-            box-shadow: 0 0 18px var(--primary); 
-            color: white; 
-            transform: scale(1.15);
+        .snap-dot.active {
+            background: var(--primary);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--primary);
         }
 
-        .tm-node-year { 
-            position: absolute; 
-            top: -32px; 
-            font-size: 0.85rem; 
-            font-weight: bold; 
-            white-space: nowrap; 
+        .snap-carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory; /* AIMANTATION TYPE INSTAGRAM */
+            scroll-behavior: smooth;
+            padding: 10px 0 25px 0;
+            scrollbar-width: none; /* Cache la barre pour un rendu propre */
+        }
+        .snap-carousel::-webkit-scrollbar { display: none; }
+
+        .snap-card {
+            flex: 0 0 280px;
+            scroll-snap-align: center; /* Vient se caler parfaitement au centre */
+            background: var(--grey);
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .snap-card.active {
+            border-color: var(--primary);
+            background: rgba(241, 90, 36, 0.08);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(241, 90, 36, 0.2);
+        }
+
+        .snap-card-year {
+            font-size: 1.8rem;
+            font-weight: 900;
             color: var(--white);
-            letter-spacing: 0.5px;
+            margin-bottom: 10px;
         }
-        
+
+        .snap-card.active .snap-card-year {
+            color: var(--primary);
+        }
+
+        .snap-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .snap-card-title {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .snap-card.active .snap-card-title {
+            color: var(--white);
+        }
+
         .tm-live-card { 
             display: flex; 
             gap: 20px; 
             align-items: center; 
-            background: rgba(0,0,0,0.4); 
+            background: rgba(0,0,0,0.5); 
             padding: 25px; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             min-height: 110px; 
             margin-top: 15px; 
-            border: 1px solid rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .tm-live-icon { 
@@ -253,6 +266,7 @@
                 gap: 20px; 
             }
 
+            .snap-card { flex: 0 0 220px; }
             .doll-arena { transform: scale(0.85); }
         }
     </style>
@@ -318,20 +332,22 @@
         </div>
     </section>
 
-    <!-- FRESQUE / SLIDE CHRONOLOGIE REVISITÉE -->
+    <!-- SLIDE CHRONOLOGIE TYPE INSTAGRAM CAROUSEL -->
     <section class="panel-section" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920&auto=format&fit=crop');">
         <div class="panel-container">
             <h1 class="giant-title">DEPUIS <span>QUAND ?</span></h1>
-            <div class="timeline-container">
-                <div class="tm-scroll-wrapper">
-                    <div class="tm-axis" id="tmAxis"></div>
-                </div>
-                <div class="tm-live-card">
-                    <div class="tm-live-icon" id="liveIcon">📜</div>
-                    <div>
-                        <h3 id="liveTitle" style="font-size: 1.2rem; color: var(--primary);">Sélectionnez un jalon</h3>
-                        <p id="liveBody" style="font-size: 0.95rem; font-family: 'Arial', sans-serif; color: var(--text-muted); margin-top: 5px;"></p>
-                    </div>
+            <p class="desc-text">Faites glisser horizontalement les cartes pour parcourir l'histoire :</p>
+            
+            <div class="snap-carousel-container">
+                <div class="snap-dots" id="snapDots"></div>
+                <div class="snap-carousel" id="snapCarousel"></div>
+            </div>
+
+            <div class="tm-live-card">
+                <div class="tm-live-icon" id="liveIcon">📜</div>
+                <div>
+                    <h3 id="liveTitle" style="font-size: 1.2rem; color: var(--primary);">Sélectionnez un jalon</h3>
+                    <p id="liveBody" style="font-size: 0.95rem; font-family: 'Arial', sans-serif; color: var(--text-muted); margin-top: 5px;"></p>
                 </div>
             </div>
         </div>
@@ -414,7 +430,7 @@
                 </div>
                 <div class="grid-card">
                     <h2 style="color:var(--primary); font-size: 1.8rem; margin-bottom:10px;">Hallucinations mathématiques</h2>
-                    <p style="font-family:'Arial'; font-size:0.95rem;">L'IA priorise la probabilité syntaxique au détriment de la vérité des faits. Elle peut construire une fausse information de façon parfaitement convaincante.</p>
+                    <p style="font-family:'Arial'; font-size:0.95rem;">L'IA priorise la probabilité syntaxique au détriment de la vérité des faits. Elle peut construire une fausse information de façon parfaitement convincing.</p>
                 </div>
             </div>
         </div>
@@ -445,7 +461,7 @@
         "Quel choix ferons-nous ?"
     ];
 
-    // Création de la barre de progression cliquable
+    // Navigation supérieure
     const barsNav = document.getElementById('barsNav');
     for(let i = 0; i <= maxIndex; i++) {
         const bar = document.createElement('button');
@@ -455,7 +471,7 @@
         barsNav.appendChild(bar);
     }
 
-    /* SCROLL VERTICAL -> DEPLACEMENT HORIZONTAL DESKTOP */
+    /* SCROLL VERTICAL DESKTOP */
     window.addEventListener('wheel', (e) => {
         if (window.innerWidth <= 900 || isOverlayOpen) return;
         
@@ -473,7 +489,7 @@
         }
     }, { passive: true });
 
-    // Navigation Clavier (Flèches)
+    // Clavier
     window.addEventListener('keydown', (e) => {
         if (window.innerWidth <= 900 || isOverlayOpen) return;
         if (e.key === 'ArrowRight' && activeIndex < maxIndex) {
@@ -509,7 +525,7 @@
         bars.forEach((b, i) => b.classList.toggle('active', i === idx));
     }
 
-    /* CHRONOLOGIE HISTORIQUE RÉAJUSTÉE */
+    /* CHRONOLOGIE CARROUSEL INSTAGRAM TYPE */
     const historyDataset = [
         { y: "Antiquité", i: "📜", t: "Mythes fondateurs", b: "Du colosse de bronze Talos au Frankenstein de 1818, l'obsession de la création artificielle est ancrée dans la conscience humaine." },
         { y: "1943", i: "🧠", t: "Le neurone logique", b: "McCulloch et Pitts conçoivent l'équation initiale du traitement logique. L'IA se matérialise scientifiquement." },
@@ -519,27 +535,63 @@
         { y: "2022", i: "🚀", t: "Explosion ChatGPT", b: "Le grand public accède aux grands modèles. 100 millions d'utilisateurs actifs atteints en seulement 2 mois." }
     ];
 
-    const tmAxis = document.getElementById('tmAxis');
-    historyDataset.forEach((data, i) => {
-        const itemContainer = document.createElement('div');
-        itemContainer.className = 'tm-item';
+    const snapCarousel = document.getElementById('snapCarousel');
+    const snapDots = document.getElementById('snapDots');
 
-        const node = document.createElement('div');
-        node.className = 'tm-node';
-        node.innerHTML = `${data.i}<span class="tm-node-year">${data.y}</span>`;
+    historyDataset.forEach((data, index) => {
+        // Puces
+        const dot = document.createElement('div');
+        dot.className = `snap-dot ${index === 0 ? 'active' : ''}`;
+        dot.id = `snapDot-${index}`;
+        snapDots.appendChild(dot);
+
+        // Cartes
+        const card = document.createElement('div');
+        card.className = `snap-card ${index === 0 ? 'active' : ''}`;
+        card.dataset.index = index;
+        card.innerHTML = `
+            <div class="snap-card-year">${data.y}</div>
+            <div class="snap-card-icon">${data.i}</div>
+            <div class="snap-card-title">${data.t}</div>
+        `;
         
-        node.onclick = () => {
-            document.querySelectorAll('.tm-node').forEach(n => n.classList.remove('active'));
-            node.classList.add('active');
-            document.getElementById('liveIcon').innerText = data.i;
-            document.getElementById('liveTitle').innerText = `${data.y} — ${data.t}`;
-            document.getElementById('liveBody').innerText = data.b;
+        card.onclick = () => {
+            card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         };
 
-        itemContainer.appendChild(node);
-        tmAxis.appendChild(itemContainer);
+        snapCarousel.appendChild(card);
+    });
 
-        if(i === 0) node.click();
+    // ÉCOUTEUR "SNAP" PAR INTERSECTION OBSERVER
+    const observerOptions = {
+        root: snapCarousel,
+        threshold: 0.6 // S'active dès que 60% de la carte est centrée
+    };
+
+    const carouselObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const idx = entry.target.dataset.index;
+                const data = historyDataset[idx];
+
+                // Activer la carte
+                document.querySelectorAll('.snap-card').forEach(c => c.classList.remove('active'));
+                entry.target.classList.add('active');
+
+                // Activer la puce
+                document.querySelectorAll('.snap-dot').forEach(d => d.classList.remove('active'));
+                document.getElementById(`snapDot-${idx}`).classList.add('active');
+
+                // Mettre à jour la carte d'information du bas
+                document.getElementById('liveIcon').innerText = data.i;
+                document.getElementById('liveTitle').innerText = `${data.y} — ${data.t}`;
+                document.getElementById('liveBody').innerText = data.b;
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.snap-card').forEach(card => {
+        carouselObserver.observe(card);
     });
 
     /* POUPÉES RUSSES INTERACTIVES */
