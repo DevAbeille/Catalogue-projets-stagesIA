@@ -308,8 +308,15 @@ header p {
 }
 
 /* ==========================================================================
-   Indicateurs sous forme de Disques / Pastilles avec Émoji
+   Indicateurs de périphériques (Pastilles Ordi & Tél)
    ========================================================================== */
+
+/* Conteneur pour grouper les puces si plusieurs sont présentes */
+.device-indicators {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
 
 .status-circle {
   display: inline-flex;
@@ -331,7 +338,7 @@ header p {
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* 2. Statut Non recommandé / Secondaire -> Disque Noir / Anthracite */
+/* 2. Statut Non recommandé / Secondaire -> Disque Anthracite */
 .status-circle.not-recommended {
   background-color: #0d1117;
   border: 1px solid var(--border-color);
