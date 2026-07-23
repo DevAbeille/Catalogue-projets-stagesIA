@@ -17,6 +17,10 @@
             --badge-atelier-bg: rgba(255, 94, 58, 0.12);
         }
 
+        html {
+            scroll-behavior: smooth; /* Animation de défilé doux vers les ancres */
+        }
+
         body {
             height: 100vh;
             display: flex;
@@ -81,6 +85,33 @@
             border-radius: 3px;
         }
 
+        /* Navigation rapide Ancre (masquée sur Desktop, visible sur Mobile) */
+        .mobile-quick-nav {
+            display: none;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .quick-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: var(--radius-pill);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .quick-nav-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
         /* Disposition en 2 colonnes dynamique */
         .columns-container {
             flex: 1;
@@ -106,6 +137,7 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
             flex-shrink: 0;
+            scroll-margin-top: 1rem;
         }
 
         .dashboard-container {
@@ -368,13 +400,24 @@
                 align-self: flex-start;
             }
 
+            /* Affichage des boutons d'ancrage rapide sur Mobile */
+            .mobile-quick-nav {
+                display: flex;
+            }
+
             .columns-container {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 2.5rem; /* Augmentation de l'espace entre matin et après-midi */
             }
 
             .column-half {
                 height: auto;
+            }
+
+            /* Séparateur visuel au-dessus de la colonne Après-midi */
+            .column-aprem {
+                border-top: 1px dashed var(--border-color);
+                padding-top: 1.5rem;
             }
 
             .dashboard-container {
@@ -450,6 +493,12 @@
                     <span>Atelier / Exercice</span>
                 </div>
             </div>
+
+            <!-- Boutons de saut d'ancre visibles sur mobile -->
+            <div class="mobile-quick-nav">
+                <a href="#matin" class="quick-nav-btn">☀️ Matinée</a>
+                <a href="#aprem" class="quick-nav-btn">🌌 Après-midi &darr;</a>
+            </div>
         </div>
         <div class="current-time" id="clock">00:00</div>
     </div>
@@ -457,7 +506,7 @@
     <div class="columns-container">
         <!-- COLONNE MATIN -->
         <div class="column-half">
-            <div class="column-title">☀️ Matinée</div>
+            <div class="column-title" id="matin">☀️ Matinée</div>
             <div class="dashboard-container">
                 
                 <div class="row-item pause">
@@ -568,8 +617,8 @@
         </div>
 
         <!-- COLONNE APRÈS-MIDI -->
-        <div class="column-half">
-            <div class="column-title">🌌 Après-midi</div>
+        <div class="column-half column-aprem">
+            <div class="column-title" id="aprem">🌌 Après-midi</div>
             <div class="dashboard-container">
                 
                 <div class="row-item presentation">
