@@ -2,7 +2,7 @@
    Variables & Thèmes
    ========================================================================== */
 :root {
-  /* Couleur de marque HOC (Préservée dans les 2 thèmes) */
+  /* Couleur de marque HOC */
   --primary: #FF5E3A;
   --primary-hover: #E04D2B;
 
@@ -12,7 +12,6 @@
   --text-main: #f0f6fc;        /* Texte principal */
   --text-muted: #8b949e;       /* Texte secondaire */
   --border-color: #30363d;     /* Bordures */
-  --badge-bg: #21262d;         /* Fond des badges neutres */
 
   /* DISQUES : Fond NOIR sur carte sombre */
   --circle-bg: #0d1117;
@@ -23,14 +22,13 @@
   --radius: 12px;
 }
 
-/* THÈME CLAIR (Pour vos collègues : s'active en ajoutant class="light-theme" sur <body>) */
-body.light-theme {
-  --bg-main: #F8FAFC;          /* Fond de page blanc/gris clair */
+/* THÈME CLAIR (S'active avec la classe .light-theme) */
+.light-theme {
+  --bg-main: #F8FAFC;          /* Fond de page clair */
   --bg-card: #FFFFFF;          /* Fond des cartes blanc */
   --text-main: #0F172A;        /* Texte sombre */
   --text-muted: #64748B;       /* Texte secondaire */
   --border-color: #E2E8F0;     /* Bordures claires */
-  --badge-bg: #F1F5F9;         /* Fond des badges neutres */
 
   /* DISQUES : Fond BLANC sur carte claire */
   --circle-bg: #FFFFFF;
@@ -86,7 +84,7 @@ body {
 
 .view-switcher {
   display: inline-flex;
-  background-color: var(--badge-bg);
+  background-color: var(--bg-card);
   padding: 0.25rem;
   border-radius: 9999px;
   border: 1px solid var(--border-color);
@@ -197,7 +195,9 @@ body {
   font-weight: 600;
 }
 
-/* Badges */
+/* ==========================================================================
+   ANCIENS BADGES (RESTAURÉS)
+   ========================================================================== */
 .badge {
   display: inline-block;
   padding: 0.25rem 0.6rem;
@@ -206,16 +206,22 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  background-color: var(--badge-bg);
-  color: var(--text-muted);
 }
 
-.badge-documents { color: #58a6ff; }
-.badge-outils { color: #d29922; }
-.badge-presentations { color: #bc8cff; }
+.badge-documents { 
+  color: #58a6ff; 
+}
+
+.badge-outils { 
+  color: #d29922; 
+}
+
+.badge-presentations { 
+  color: #bc8cff; 
+}
 
 /* ==========================================================================
-   Indicateurs (Disques dynamiques : Noir en sombre / Blanc en clair)
+   Indicateurs de périphériques (Disques dynamiques)
    ========================================================================== */
 .device-indicators {
   display: flex;
@@ -234,7 +240,7 @@ body {
   line-height: 1;
   flex-shrink: 0;
 
-  /* Utilise les variables adaptatives du thème */
+  /* Fond et bordure dynamiques selon le thème actif */
   background-color: var(--circle-bg);
   border: 1px solid var(--circle-border);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
