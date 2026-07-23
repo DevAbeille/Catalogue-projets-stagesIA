@@ -33,6 +33,11 @@
   --badge-docs-bg: rgba(74, 222, 128, 0.12);
   --badge-docs-border: rgba(74, 222, 128, 0.2);
 
+  /* Badge Jaune / Pause (Sombre) */
+  --badge-pause-color: #fde047;
+  --badge-pause-bg: rgba(253, 224, 71, 0.12);
+  --badge-pause-border: rgba(253, 224, 71, 0.2);
+
   /* Puces Équipements : Fond NOIR sur carte sombre */
   --circle-bg: #0d1117;
   --circle-border: #30363d;
@@ -47,8 +52,8 @@
   --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* THÈME CLAIR (S'active avec la classe .light-theme) */
-.light-theme {
+/* THÈME CLAIR (S'active avec la classe .light-theme sur html ou body) */
+.light-theme, :root.light-theme {
   --bg-color: #f8fafc;        /* Fond de page blanc/gris très doux */
   --card-bg: #ffffff;         /* Fond des cartes blanc pur */
   --card-bg-hover: #f1f5f9;   /* Survol carte clair */
@@ -67,6 +72,11 @@
   --badge-outils-bg: rgba(56, 189, 248, 0.15);
   --badge-pres-bg: rgba(192, 132, 252, 0.15);
   --badge-docs-bg: rgba(74, 222, 128, 0.18);
+
+  /* Badge Jaune / Pause (Clair — Ambré pour meilleure lisibilité) */
+  --badge-pause-color: #a16207;
+  --badge-pause-bg: rgba(234, 179, 8, 0.18);
+  --badge-pause-border: rgba(234, 179, 8, 0.3);
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
   --shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
@@ -195,7 +205,7 @@ header p, .header p {
 }
 
 /* ==========================================================================
-   BADGES HOC ORIGINAUX (RESTAURÉS À 100%)
+   BADGES HOC ORIGINAUX
    ========================================================================== */
 .badge {
   font-size: 0.725rem;
@@ -223,6 +233,12 @@ header p, .header p {
   color: var(--badge-docs);
   background: var(--badge-docs-bg);
   border: 1px solid var(--badge-docs-border);
+}
+
+.badge-pause, .badge-yellow {
+  color: var(--badge-pause-color);
+  background: var(--badge-pause-bg);
+  border: 1px solid var(--badge-pause-border);
 }
 
 /* Contenu Carte */
