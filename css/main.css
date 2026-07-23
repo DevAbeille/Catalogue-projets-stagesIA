@@ -10,7 +10,9 @@
   --primary-hover: #ff785a;   /* Orange légèrement plus lumineux */
   --primary-light: rgba(255, 94, 58, 0.12); /* Halo orange translucide */
 
-  /* THÈME SOMBRE (PAR DÉFAUT) */
+  /* ==========================================================================
+     THÈME SOMBRE (PAR DÉFAUT)
+     ========================================================================== */
   --bg-color: #0d1117;        /* Fond sombre signature */
   --card-bg: #161b22;         /* Cartes anthracite */
   --card-bg-hover: #1c2128;   /* Survol carte */
@@ -20,23 +22,31 @@
   --text-secondary: #8b949e;  /* Textes explicatifs */
   --text-muted: #6e7681;      /* Textes secondaires */
 
-  /* Badges Catégories HOC Original (Variables) */
+  /* --- BADGES (SOMBRER) --- */
+  /* Cyan / Outils */
   --badge-outils: #38bdf8;
   --badge-outils-bg: rgba(56, 189, 248, 0.12);
   --badge-outils-border: rgba(56, 189, 248, 0.2);
   
+  /* Violet / Présentations */
   --badge-pres: #c084fc;
   --badge-pres-bg: rgba(192, 132, 252, 0.12);
   --badge-pres-border: rgba(192, 132, 252, 0.2);
   
+  /* Vert / Documents */
   --badge-docs: #4ade80;
   --badge-docs-bg: rgba(74, 222, 128, 0.12);
   --badge-docs-border: rgba(74, 222, 128, 0.2);
 
-  /* Badge Jaune / Pause (Sombre) */
+  /* Jaune / Pause */
   --badge-pause-color: #fde047;
   --badge-pause-bg: rgba(253, 224, 71, 0.12);
   --badge-pause-border: rgba(253, 224, 71, 0.2);
+
+  /* Orange / Atelier & Ex */
+  --badge-atelier-color: #ff5e3a;
+  --badge-atelier-bg: rgba(255, 94, 58, 0.12);
+  --badge-atelier-border: rgba(255, 94, 58, 0.2);
 
   /* Puces Équipements : Fond NOIR sur carte sombre */
   --circle-bg: #0d1117;
@@ -52,7 +62,9 @@
   --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* THÈME CLAIR (S'active avec la classe .light-theme sur html ou body) */
+/* ==========================================================================
+   THÈME CLAIR (S'active avec la classe .light-theme)
+   ========================================================================== */
 .light-theme, :root.light-theme {
   --bg-color: #f8fafc;        /* Fond de page blanc/gris très doux */
   --card-bg: #ffffff;         /* Fond des cartes blanc pur */
@@ -68,15 +80,31 @@
   --circle-border: #cbd5e1;
   --circle-text: #0f172a;
 
-  /* Adaptation subtile des badges pour le fond blanc */
+  /* --- BADGES ADAPTÉS (CLAIR — Teintes renforcées pour un super contraste) --- */
+  /* Cyan / Outils */
+  --badge-outils: #0284c7;
   --badge-outils-bg: rgba(56, 189, 248, 0.15);
-  --badge-pres-bg: rgba(192, 132, 252, 0.15);
-  --badge-docs-bg: rgba(74, 222, 128, 0.18);
+  --badge-outils-border: rgba(56, 189, 248, 0.3);
 
-  /* Badge Jaune / Pause (Clair — Ambré pour meilleure lisibilité) */
+  /* Violet / Présentations */
+  --badge-pres: #7e22ce;
+  --badge-pres-bg: rgba(192, 132, 252, 0.15);
+  --badge-pres-border: rgba(192, 132, 252, 0.3);
+
+  /* Vert / Documents */
+  --badge-docs: #15803d;
+  --badge-docs-bg: rgba(74, 222, 128, 0.18);
+  --badge-docs-border: rgba(74, 222, 128, 0.3);
+
+  /* Jaune / Pause (Ambré) */
   --badge-pause-color: #a16207;
   --badge-pause-bg: rgba(234, 179, 8, 0.18);
   --badge-pause-border: rgba(234, 179, 8, 0.3);
+
+  /* Orange / Atelier (Corail Sombre) */
+  --badge-atelier-color: #c2410c;
+  --badge-atelier-bg: rgba(255, 94, 58, 0.15);
+  --badge-atelier-border: rgba(255, 94, 58, 0.3);
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
   --shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
@@ -205,7 +233,7 @@ header p, .header p {
 }
 
 /* ==========================================================================
-   BADGES HOC ORIGINAUX
+   CLASSES BADGES DYNAMIQUES HOC
    ========================================================================== */
 .badge {
   font-size: 0.725rem;
@@ -215,6 +243,7 @@ header p, .header p {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   display: inline-block;
+  transition: var(--transition);
 }
 
 .badge-outils {
@@ -239,6 +268,12 @@ header p, .header p {
   color: var(--badge-pause-color);
   background: var(--badge-pause-bg);
   border: 1px solid var(--badge-pause-border);
+}
+
+.badge-atelier, .badge-orange {
+  color: var(--badge-atelier-color);
+  background: var(--badge-atelier-bg);
+  border: 1px solid var(--badge-atelier-border);
 }
 
 /* Contenu Carte */
