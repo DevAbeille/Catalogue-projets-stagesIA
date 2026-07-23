@@ -311,7 +311,6 @@ header p {
    Indicateurs de périphériques (Pastilles Ordi & Tél)
    ========================================================================== */
 
-/* Conteneur pour grouper les puces si plusieurs sont présentes */
 .device-indicators {
   display: flex;
   align-items: center;
@@ -329,17 +328,17 @@ header p {
   line-height: 1;
   flex-shrink: 0;
   transition: var(--transition);
-}
 
-/* 1. Statut Recommandé -> Disque Orange HOC */
-.status-circle.recommended {
+  /* Style par défaut (Ordinateur) : Orange HOC */
   background-color: var(--primary);
   box-shadow: 0 0 10px rgba(255, 94, 58, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* 2. Statut Non recommandé / Secondaire -> Disque Anthracite */
-.status-circle.not-recommended {
+/* Cibler spécifiquement les pastilles qui contiennent l'émoji téléphone */
+/* (Ou le 2ème élément dans les indicateurs) */
+.status-circle:has(📱),
+.status-circle.mobile {
   background-color: #0d1117;
   border: 1px solid var(--border-color);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
