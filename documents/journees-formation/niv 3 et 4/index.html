@@ -17,6 +17,10 @@
             --badge-atelier-bg: rgba(255, 94, 58, 0.12);
         }
 
+        html {
+            scroll-behavior: smooth; /* Animation de défilé doux vers les ancres */
+        }
+
         body {
             height: 100vh;
             display: flex;
@@ -65,6 +69,7 @@
             gap: 1.25rem;
             font-size: 0.8rem;
             font-weight: 600;
+            flex-wrap: wrap;
         }
 
         .legend-item {
@@ -78,6 +83,33 @@
             width: 10px;
             height: 10px;
             border-radius: 3px;
+        }
+
+        /* Navigation rapide Ancre (masquée sur Desktop, visible sur Mobile) */
+        .mobile-quick-nav {
+            display: none;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .quick-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: var(--radius-pill);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .quick-nav-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         /* Disposition en 2 colonnes dynamique */
@@ -105,6 +137,7 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
             flex-shrink: 0;
+            scroll-margin-top: 1rem;
         }
 
         .dashboard-container {
@@ -343,6 +376,101 @@
         .modal-close:hover {
             background: var(--primary-hover);
         }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 768px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+                padding: 1rem;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.25rem;
+            }
+
+            .current-time {
+                align-self: flex-start;
+            }
+
+            /* Affichage des boutons d'ancrage rapide sur Mobile */
+            .mobile-quick-nav {
+                display: flex;
+            }
+
+            .columns-container {
+                grid-template-columns: 1fr;
+                gap: 2.5rem; /* Augmentation de l'espace entre matin et après-midi */
+            }
+
+            .column-half {
+                height: auto;
+            }
+
+            /* Séparateur visuel au-dessus de la colonne Après-midi */
+            .column-aprem {
+                border-top: 1px dashed var(--border-color);
+                padding-top: 1.5rem;
+            }
+
+            .dashboard-container {
+                overflow-y: visible;
+                padding-right: 0;
+            }
+
+            .row-item {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                padding: 0.85rem;
+            }
+
+            .time-col {
+                width: auto;
+                font-size: 0.8rem;
+            }
+
+            .duration-col {
+                width: auto;
+                margin-right: auto;
+                font-size: 0.75rem;
+            }
+
+            .type-col {
+                width: auto;
+            }
+
+            .badge-dash {
+                width: auto;
+                padding: 0.2rem 0.5rem;
+            }
+
+            .title-col {
+                width: 100%;
+                padding-right: 0;
+                margin-top: 0.25rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .action-col {
+                width: 100%;
+                text-align: left;
+            }
+
+            .btn-dash {
+                padding: 0.5rem;
+            }
+
+            .modal-box {
+                padding: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -365,6 +493,12 @@
                     <span>Atelier / Exercice</span>
                 </div>
             </div>
+
+            <!-- Boutons de saut d'ancre visibles sur mobile -->
+            <div class="mobile-quick-nav">
+                <a href="#matin" class="quick-nav-btn">☀️ Matinée</a>
+                <a href="#aprem" class="quick-nav-btn">🌌 Après-midi &darr;</a>
+            </div>
         </div>
         <div class="current-time" id="clock">00:00</div>
     </div>
@@ -372,17 +506,17 @@
     <div class="columns-container">
         <!-- COLONNE MATIN -->
         <div class="column-half">
-            <div class="column-title">☀️ Matinée</div>
+            <div class="column-title" id="matin">☀️ Matinée</div>
             <div class="dashboard-container">
                 
                 <div class="row-item pause">
                     <div class="time-col">09:30 - 10:00</div>
                     <div class="duration-col">30 min</div>
+                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="title-col">
                         <div class="main-title">Accueil café</div>
                         <div class="subtitle">Plage d'arrivée des participants</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Accueil café', 'Bienvenue ! Profitez de ce moment pour vous installer, prendre un café et échanger avant le lancement de la journée.')">ℹ️ Infos</button>
                     </div>
@@ -391,11 +525,11 @@
                 <div class="row-item presentation">
                     <div class="time-col">10:00 - 10:10</div>
                     <div class="duration-col">10 min</div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="title-col">
                         <div class="main-title">Intro HOC</div>
                         <div class="subtitle">Une présentation de HOC</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
                         <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
@@ -404,11 +538,11 @@
                 <div class="row-item presentation">
                     <div class="time-col">10:10 - 10:20</div>
                     <div class="duration-col">10 min</div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="title-col">
                         <div class="main-title">Intro journée</div>
                         <div class="subtitle">Introduction & Présentation du programme</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
                         <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
@@ -417,11 +551,11 @@
                 <div class="row-item presentation">
                     <div class="time-col">10:20 - 11:00</div>
                     <div class="duration-col">40 min</div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="title-col">
                         <div class="main-title">Mémoire & Deeplearning</div>
                         <div class="subtitle">Présentation théorique et architectures</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
                         <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
@@ -430,11 +564,11 @@
                 <div class="row-item atelier">
                     <div class="time-col">11:00 - 11:20</div>
                     <div class="duration-col">20 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Gemini V3</div>
                         <div class="subtitle">Création de Gems personnalisés</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Gemini V3 : Création de Gems', '<strong>Exercice pratique :</strong><br>Apprenez à structurer des instructions systèmes personnalisées (Gems) pour automatiser vos tâches récurrentes.')">💬 Pop-up</button>
                     </div>
@@ -443,11 +577,11 @@
                 <div class="row-item pause">
                     <div class="time-col">11:20 - 11:35</div>
                     <div class="duration-col">15 min</div>
+                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="title-col">
                         <div class="main-title">Pause</div>
                         <div class="subtitle">Pause de la matinée</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Pause', 'Pause de milieu de matinée. Reprise à 11h35 !')">⏱️ Timer</button>
                     </div>
@@ -456,11 +590,11 @@
                 <div class="row-item atelier">
                     <div class="time-col">11:35 - 12:35</div>
                     <div class="duration-col">1 h</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Découverte de l'IA locale</div>
                         <div class="subtitle">Téléchargement & Tests de modèles autonomes</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('IA Locale', '<strong>Exercice pratique :</strong><br>Manipulation de modèles en local. Analyse des avantages (confidentialité, coût) et limites matérielles.')">💬 Pop-up</button>
                     </div>
@@ -469,11 +603,11 @@
                 <div class="row-item atelier">
                     <div class="time-col">12:35 - 13:00</div>
                     <div class="duration-col">25 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Restitution & Débat</div>
                         <div class="subtitle">Mise en commun des retours sur l'IA locale</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Restitution', '<strong>Restitution collective :</strong><br>Échanges autour des cas d\'usage, des performances constatées et des opportunités d\'intégration.')">💬 Pop-up</button>
                     </div>
@@ -483,18 +617,18 @@
         </div>
 
         <!-- COLONNE APRÈS-MIDI -->
-        <div class="column-half">
-            <div class="column-title">🌌 Après-midi</div>
+        <div class="column-half column-aprem">
+            <div class="column-title" id="aprem">🌌 Après-midi</div>
             <div class="dashboard-container">
                 
                 <div class="row-item presentation">
                     <div class="time-col">14:00 - 15:00</div>
                     <div class="duration-col">1 h</div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="title-col">
                         <div class="main-title">Workflows & Agents</div>
                         <div class="subtitle">Présentation des systèmes multi-agents complexes</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
                         <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
@@ -503,11 +637,11 @@
                 <div class="row-item atelier">
                     <div class="time-col">15:00 - 15:20</div>
                     <div class="duration-col">20 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Gemini V4</div>
                         <div class="subtitle">Création et configuration d'une clé API</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Gemini V4', '<strong>Exercice pratique :</strong><br>Génération d\'une clé d\'accès API sécurisée pour préparer l\'intégration dans des automatisations tierces.')">💬 Pop-up</button>
                     </div>
@@ -516,25 +650,24 @@
                 <div class="row-item pause">
                     <div class="time-col">15:20 - 15:35</div>
                     <div class="duration-col">15 min</div>
+                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="title-col">
                         <div class="main-title">Pause</div>
                         <div class="subtitle">Pause fraîcheur de l'après-midi</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Pause</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Pause', 'Profitez-en pour vous aérer avant la séquence finale de création !')">⏱️ Timer</button>
                     </div>
                 </div>
 
-                <!-- ATELIER FINALE DÉCOUPÉ (Restitution de 25 min conservée) -->
                 <div class="row-item atelier">
                     <div class="time-col">15:35 - 16:05</div>
                     <div class="duration-col">30 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Projet : Idéation</div>
                         <div class="subtitle">Atelier collectif, réflexion & cadrage des besoins métiers</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Projet : Idéation', '<strong>Phase 1 — Idéation (en groupe) :</strong><br>Brainstorming approfondi et définition du cas d\'usage métier. Choix de l\'architecture du workflow et des agents/APIs à solliciter.')">💬 Pop-up</button>
                     </div>
@@ -543,11 +676,11 @@
                 <div class="row-item atelier">
                     <div class="time-col">16:05 - 16:55</div>
                     <div class="duration-col">50 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Projet : Création</div>
                         <div class="subtitle">Conception pratique du workflow (seul ou à plusieurs)</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Projet : Création', '<strong>Phase 2 — Création :</strong><br>Mise en place pratique du workflow automatisé. Assemblage des briques, configuration des clés API et tests en conditions réelles.')">💬 Pop-up</button>
                     </div>
@@ -556,11 +689,11 @@
                 <div class="row-item atelier">
                     <div class="time-col">16:55 - 17:20</div>
                     <div class="duration-col">25 min</div>
+                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="title-col">
                         <div class="main-title">Projet : Restitution</div>
                         <div class="subtitle">Démos des pépites, partage des réussites et blocages</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Atelier / Ex</span></div>
                     <div class="action-col">
                         <button class="btn-dash" onclick="openModal('Projet : Restitution', '<strong>Phase 3 — Restitution & Échanges :</strong><br>Présentation rapide des résultats marquants, mise en avant des meilleures solutions trouvées et discussion sur les difficultés rencontrées.')">💬 Pop-up</button>
                     </div>
@@ -569,11 +702,11 @@
                 <div class="row-item presentation">
                     <div class="time-col">17:20 - 17:30</div>
                     <div class="duration-col">10 min</div>
+                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="title-col">
                         <div class="main-title">Mot de fin</div>
                         <div class="subtitle">Débriefing final, questions libres et clôture</div>
                     </div>
-                    <div class="type-col"><span class="badge-dash">Présentation</span></div>
                     <div class="action-col">
                         <a href="#" class="btn-dash">🔗 Lien</a>
                     </div>
