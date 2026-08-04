@@ -118,6 +118,37 @@
             transform: translateY(-1px);
         }
 
+        /* Action Buttons Container & Styles */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--card-border);
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--wave-blue);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        .btn-action:hover {
+            background-color: var(--wave-magenta);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
         /* Main Container */
         .main-container {
             max-width: 1100px;
@@ -376,6 +407,10 @@
                     <p>Stockez tous les fichiers du projet dans l'arborescence créée tout au long de la mission, en veillant à respecter au mieux les catégories de dossiers.</p>
                 </div>
             </div>
+
+            <div class="action-buttons">
+                <a href="#" target="_blank" class="btn-action">📂 Ouvrir le Modèle Dossier Projet</a>
+            </div>
         </section>
 
         <!-- SECTION 2: RÉFÉRENCES PROJETS -->
@@ -428,6 +463,12 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="action-buttons">
+                <a href="#" target="_blank" class="btn-action">📊 Google Sheet — Suivi des Projets</a>
+                <a href="#" target="_blank" class="btn-action">⚙️ Apps Script — Suivi des Projets</a>
+                <a href="#" target="_blank" class="btn-action">🖼️ Presentation Google Slides — Références Projets</a>
+            </div>
         </section>
 
         <!-- SECTION 3: POST LINKEDIN -->
@@ -457,6 +498,10 @@
                     Le document est directement accessible via le lien du tableau. Notez qu'il ne se trouve pas dans l'arborescence du dossier projet, mais dans le dossier regroupant tous les contenus LinkedIn :<br>
                     <code>Drive Partagé HOC > 25. COM 2025-2026 > Textes des postes</code>
                 </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="#" target="_blank" class="btn-action">📝 Dossier Brouillon Posts LinkedIn</a>
             </div>
         </section>
 
@@ -508,9 +553,14 @@
                     <ul>
                         <li><strong>Contrôle visuel obligatoire :</strong> Pensez à toujours vérifier si les logos insérés sur la slide sont les bons, car des erreurs de correspondance peuvent parfois se produire via l'API.</li>
                         <li><strong>Mise à jour automatique de la liste :</strong> Les clients de la liste cyan s'ajoutent automatiquement à chaque fois qu'un nouveau nom de client est détecté dans la feuille Références Projets.</li>
-                        <li><strong>Ajout manuel :</strong> Si vous souhaitez ajouter un client qui n'est pas encore présent dans la feuille des références projets, vous pouvez l'inscrire directement à la hand dans la liste cyan.</li>
+                        <li><strong>Ajout manuel :</strong> Si vous souhaitez ajouter un client qui n'est pas encore présent dans la feuille des références projets, vous pouvez l'inscrire directement à la main dans la liste cyan.</li>
                     </ul>
                 </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="#" target="_blank" class="btn-action">📊 Feuille Vitrine Logos (Google Sheet)</a>
+                <a href="#" target="_blank" class="btn-action">🖼️ Presentation Vitrine Logos (Google Slides)</a>
             </div>
         </section>
 
