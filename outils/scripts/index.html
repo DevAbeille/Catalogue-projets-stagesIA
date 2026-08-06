@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Guide d'Utilisation — Automatisations HOC</title> 
+    <title>Guide d'Utilisation — Automatisations & Hub HOC</title> 
     <!-- Google Fonts --> 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"> 
     <style> 
@@ -21,6 +21,11 @@
             --sheet-blue: #5BB2FE; 
             --sheet-green: #3DDC67; 
             --sheet-yellow: #FFFF43; 
+
+            /* UI Web Application Theme Dark Accents */
+            --web-accent-orange: #ff5722;
+            --web-accent-green: #10b981;
+            --web-dark-bg: #0f172a;
 
             /* UI Base Theme */ 
             --ui-bg: #e6f0eb; 
@@ -91,20 +96,27 @@
             top: 0; 
             z-index: 1000; 
             display: flex; 
-            justify-content: center; 
+            justify-content: space-between; 
             align-items: center; 
-            gap: 1rem; 
-            padding: 0.75rem 1rem; 
+            padding: 0.75rem 2rem; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.12); 
             flex-wrap: wrap;
+            gap: 1rem;
         } 
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
 
         .nav-link { 
             color: #ffffff; 
             text-decoration: none; 
             font-weight: 800; 
-            font-size: 0.9rem; 
-            padding: 0.5rem 1.2rem; 
+            font-size: 0.85rem; 
+            padding: 0.5rem 1rem; 
             border-radius: 20px; 
             background-color: rgba(255, 255, 255, 0.15); 
             border: 1px solid rgba(255, 255, 255, 0.25); 
@@ -118,6 +130,43 @@
             border-color: var(--wave-light-mint); 
             transform: translateY(-1px); 
         } 
+
+        /* Switch View Toggle Menu */
+        .mode-switch-container {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .switch-btn {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .switch-btn.active {
+            background-color: var(--wave-orange);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        /* Views visibility management */
+        .doc-view {
+            display: none;
+        }
+
+        .doc-view.active-view {
+            display: block;
+        }
 
         /* Action Buttons Container & Styles */ 
         .action-buttons { 
@@ -194,7 +243,7 @@
             margin: 0; 
         } 
 
-        /* Flow Step Cards Grid - Structured in 3s */ 
+        /* Flow Step Cards Grid */ 
         .flow-grid { 
             display: grid; 
             grid-template-columns: repeat(1, 1fr); 
@@ -218,7 +267,6 @@
             transition: all 0.25s ease; 
         } 
 
-        /* Full width card for long step in Admin section */
         @media (min-width: 768px) {
             .flow-card-full {
                 grid-column: 1 / -1;
@@ -289,6 +337,21 @@
             margin-top: 0.35rem;
         }
 
+        /* UI Feature Tags */ 
+        .web-tag { 
+            display: inline-block; 
+            vertical-align: middle; 
+            padding: 2px 8px; 
+            border-radius: 6px; 
+            font-size: 0.8rem; 
+            font-weight: 800; 
+            color: #ffffff; 
+            white-space: nowrap; 
+        } 
+
+        .tag-orange { background-color: var(--web-accent-orange); } 
+        .tag-green { background-color: var(--web-accent-green); } 
+
         /* Exact Sheet Color Tags */ 
         .sheet-tag { 
             display: inline-block; 
@@ -303,9 +366,9 @@
         } 
 
         .tag-cyan { background-color: var(--sheet-cyan); } 
-        .tag-orange { background-color: var(--sheet-orange); } 
+        .tag-orange-sheet { background-color: var(--sheet-orange); } 
         .tag-blue { background-color: var(--sheet-blue); } 
-        .tag-green { background-color: var(--sheet-green); } 
+        .tag-green-sheet { background-color: var(--sheet-green); } 
         .tag-yellow { background-color: var(--sheet-yellow); } 
 
         /* Callout Boxes */ 
@@ -398,284 +461,518 @@
 </head> 
 <body> 
 
-    <!-- Hero Banner --> 
+    <!-- Hero Banner Dynamic Header --> 
     <header class="hero-banner"> 
-        <span class="badge">Outil Interne HOC</span> 
-        <h1>Guide d'Utilisation : Automatisations</h1> 
-        <p>Générez facilement vos fiches de références projets, vos posts LinkedIn et vos vitrines logos en quelques clics.</p> 
+        <span class="badge" id="hero-badge">Outil Interne HOC</span> 
+        <h1 id="hero-title">Guide d'Utilisation : Automatisations</h1> 
+        <p id="hero-subtitle">Générez facilement vos fiches de références projets, vos posts LinkedIn et vos vitrines logos en quelques clics.</p> 
     </header> 
 
-    <!-- Navigation Bar --> 
+    <!-- Navigation Bar with Switcher --> 
     <nav class="nav-bar"> 
-        <a href="#creation" class="nav-link">1. Création Projet</a> 
-        <a href="#refs" class="nav-link">2. Références Projets</a> 
-        <a href="#linkedin" class="nav-link">3. Post LinkedIn</a> 
-        <a href="#vitrine" class="nav-link">4. Vitrine Logos</a> 
-        <a href="#admin-type" class="nav-link">⚙️ Admin : Ajouter un Type de Projet</a>
+        <!-- Menu Vue Drive / Sheet (Défaut) -->
+        <div id="nav-drive-sheet" class="nav-links">
+            <a href="#creation" class="nav-link">1. Création Projet</a> 
+            <a href="#refs" class="nav-link">2. Références Projets</a> 
+            <a href="#linkedin" class="nav-link">3. Post LinkedIn</a> 
+            <a href="#vitrine" class="nav-link">4. Vitrine Logos</a> 
+            <a href="#admin-type" class="nav-link">⚙️ Admin : Ajouter un Type</a>
+        </div>
+
+        <!-- Menu Vue Hub Web -->
+        <div id="nav-hub-web" class="nav-links" style="display: none;">
+            <a href="#navigation-web" class="nav-link">1. Navigation & Filtres</a> 
+            <a href="#creation-web" class="nav-link">2. Nouveau Projet</a> 
+            <a href="#fiche-mission" class="nav-link">3. Fiche Mission</a> 
+            <a href="#edition-web" class="nav-link">4. Mode Édition</a> 
+            <a href="#fullscreen-web" class="nav-link">5. Rédaction Plein Écran</a>
+        </div>
+
+        <!-- Switch View Toggle Buttons (PRIO DRIVE/SHEET) -->
+        <div class="mode-switch-container">
+            <button id="btn-drive-sheet" class="switch-btn active" onclick="switchNotice('drive-sheet')">📊 Drive / Sheet</button>
+            <button id="btn-hub-web" class="switch-btn" onclick="switchNotice('hub-web')">🌐 Hub Web</button>
+        </div>
     </nav> 
 
     <div class="main-container"> 
 
-        <!-- SECTION 1: CRÉATION PROJET --> 
-        <section id="creation" class="doc-section"> 
-            <div class="section-header"> 
-                <div class="section-icon">📁</div> 
-                <h2 class="section-title">1. Initialisation d'un Nouveau Projet</h2> 
-            </div> 
+        <!-- ================================================================= -->
+        <!-- NOTICE 1: DRIVE / SHEET (PRIORITAIRE / PAR DÉFAUT) -->
+        <!-- ================================================================= -->
+        <div id="view-drive-sheet" class="doc-view active-view">
 
-            <div class="action-buttons"> 
-                <a href="https://drive.google.com/drive/folders/1RqIS3P_hxiKuIQYqME5s8rQZYh7OPanl" target="_blank" class="btn-action">📂 Ouvrir le Template Dossier Projet</a> 
-            </div> 
-            
-            <p style="color: var(--text-muted);">Dès qu'un nouveau projet démarre, suivez cette procédure simple pour initialiser automatiquement les fichiers et le suivi :</p> 
-
-            <div class="flow-grid"> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">1</span> 
-                    <h4>Créer le dossier Drive</h4> 
-                    <p>Dans le Drive partagé HOC, créez un nouveau dossier au nom de votre projet directement sous le dossier parent <code>5-projets</code>.</p> 
+            <!-- SECTION 1: CRÉATION PROJET --> 
+            <section id="creation" class="doc-section"> 
+                <div class="section-header"> 
+                    <div class="section-icon">📁</div> 
+                    <h2 class="section-title">1. Initialisation d'un Nouveau Projet</h2> 
                 </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">2</span> 
-                    <h4>Arborescence automatique</h4> 
-                    <p>Cette création déclenche automatiquement la génération d'un modèle complet de sous-dossiers, ainsi que deux documents Google Docs vierges : <strong>Fichier synthèse</strong> et <strong>Post LinkedIn</strong>.</p> 
-                </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">3</span> 
-                    <h4>Ajout dans le Suivi</h4> 
-                    <p>Une nouvelle ligne est ajoutée automatiquement dans le Google Sheet <em>Suivi des projets</em> avec le titre de votre projet et les liens vers les fiches vierges.</p> 
-                </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">4</span> 
-                    <h4>Centralisation des infos</h4> 
-                    <p>Stockez tous les fichiers du projet dans l'arborescence créée tout au long de la mission, en veillant à respecter au mieux les catégories de dossiers.</p> 
-                </div> 
-            </div> 
-        </section> 
 
-        <!-- SECTION 2: RÉFÉRENCES PROJETS --> 
-        <section id="refs" class="doc-section"> 
-            <div class="section-header"> 
-                <div class="section-icon">🚀</div> 
-                <h2 class="section-title">2. Génération de la Référence Projet</h2> 
-            </div> 
-
-            <div class="action-buttons"> 
-                <a href="https://docs.google.com/spreadsheets/d/17NIrXHUAnFslvmKbc9JF0HMd0eyQL7CNSgjtf23_03g/edit?gid=0#gid=0" target="_blank" class="btn-action">📊 Google Sheet — Suivi des Projets</a> 
-                <a href="https://script.google.com/u/0/home/projects/15h7wxuCVEjZKky8APQig9AzMDkMFTSvXDyxalk-usfadJe7b-q7L2wsD/edit" target="_blank" class="btn-action">⚙️ Apps Script — Suivi des Projets</a> 
-                <a href="https://docs.google.com/presentation/d/14BeaTYt9NkBJXHO6B24GFFapf-EzhC3UkWyW6sJDvTw/edit?slide=id.g3f58b8d8d68_0_30#slide=id.g3f58b8d8d68_0_30" target="_blank" class="btn-action">🖼️ Presentation Google Slides — Références Projets</a> 
-            </div> 
-
-            <p style="color: var(--text-muted);">Lorsque le projet est terminé et que vous souhaitez créer la diapositive de référence, rendez-vous sur le Google Sheet <strong>Suivi des projets</strong> et repérez la ligne correspondant à votre projet :</p> 
-
-            <!-- SCREENSHOT 1 --> 
-            <div class="screen-preview"> 
-                <img src="../../img/05-suivi-des-projets.png" alt="Capture d'écran Références Projets"> 
-                <div class="screen-caption">📍 Google Sheet : Zone Cyan (Actions) | Zone Orange (Livrables) | Zone Bleue (Données)</div> 
-            </div> 
-
-            <h3 style="color: var(--wave-blue); margin-top: 1.75rem;">Procédure étape par étape :</h3> 
-            <div class="flow-grid"> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">1</span> 
-                    <h4><span class="sheet-tag tag-cyan">Fichier synthèse</span></h4> 
-                    <p>Cochez la case dans la première colonne cyan <code>Fichier synthèse</code> tout à gauche. L'outil va rédiger la synthèse du projet dans le lien associé. Une notification apparaîtra en bas à droite dès que c'est terminé.</p> 
-                </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">2</span> 
-                    <h4><span class="sheet-tag tag-cyan">Remplissage colonnes</span></h4> 
-                    <p>Cochez ensuite la case dans la colonne <code>Remplissage colonnes</code>. L'outil va compléter automatiquement les cases descriptives du tableau (zone <span class="sheet-tag tag-blue">Bleue</span>).</p> 
-                </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">3</span> 
-                    <h4>Relecture & Validation</h4> 
-                    <p>Vérifiez que le <strong>Type de projet</strong> attribué est correct et contrôlez l'exactitude des données saisies dans les différentes colonnes.</p> 
-                </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">4</span> 
-                    <h4><span class="sheet-tag tag-cyan">Slide automatique</span></h4> 
-                    <p>Une fois les informations validées, cochez la 3ème case <code>Slide automatique</code> pour générer la présentation de votre référence projet.</p> 
-                </div> 
-            </div> 
-
-            <div class="callout-box callout-info"> 
-                <div class="callout-icon">💡</div> 
-                <div class="callout-body"> 
-                    <strong>Consultation, Édition et Finalisation :</strong> 
-                    <ul> 
-                        <li>Un lien apparaît dans la colonne orange <span class="sheet-tag tag-orange">Lien slide</span> dès que la génération est terminée. Cliquez dessus pour ouvrir et consulter la diapositive.</li> 
-                        <li>Vous pouvez éditer directement la slide pour affiner le texte, corriger la mise en page ou insérer une image provenant du Google Drive.</li> 
-                        <li>Une fois la diapositive validée, copiez-la et ajoutez-la au <strong>Slide Deck officiel des références projets HOC !</strong></li> 
-                    </ul> 
-                </div> 
-            </div> 
-        </section> 
-
-        <!-- SECTION 3: POST LINKEDIN --> 
-        <section id="linkedin" class="doc-section"> 
-            <div class="section-header"> 
-                <div class="section-icon">📱</div> 
-                <h2 class="section-title">3. Rédaction du Brouillon LinkedIn</h2> 
-            </div> 
-
-            <div class="action-buttons"> 
-                <a href="https://drive.google.com/drive/folders/1P66B6QMS0ggJS8eGDJYuh78yrPt2Nz10" target="_blank" class="btn-action">📝 Dossier Brouillon Posts LinkedIn</a> 
-            </div> 
-
-            <div class="flow-grid"> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">1</span> 
-                    <h4>Déclenchement</h4> 
-                    <p>Une fois que toutes les colonnes associées au projet contiennent des informations exactes, cochez la case cyan <span class="sheet-tag tag-cyan">LinkedIn post draft</span>.</p> 
-                </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">2</span> 
-                    <h4>Consultation du Brouillon</h4> 
-                    <p>Cliquez sur le lien généré dans la colonne <span class="sheet-tag tag-orange">Lien LinkedIn</span> pour consulter et retravailler le document Google Doc.</p> 
-                </div> 
-            </div> 
-
-            <div class="callout-box callout-info"> 
-                <div class="callout-icon">📍</div> 
-                <div class="callout-body"> 
-                    <strong>Où retrouver votre fichier ?</strong><br> 
-                    Le document est directement accessible via le lien du tableau. Notez qu'il ne se trouve pas dans l'arborescence du dossier projet, mais dans le dossier regroupant tous les contenus LinkedIn :<br> 
-                    <code>Drive Partagé HOC > 25. COM 2025-2026 > Textes des postes > Brouillons postes linkedin</code> 
-                </div> 
-            </div> 
-        </section> 
-
-        <!-- SECTION 4: VITRINE LOGOS --> 
-        <section id="vitrine" class="doc-section"> 
-            <div class="section-header"> 
-                <div class="section-icon">🖼️</div> 
-                <h2 class="section-title">4. Création d'une Vitrine Logos</h2> 
-            </div> 
-
-            <div class="action-buttons"> 
-                <a href="https://docs.google.com/spreadsheets/d/17NIrXHUAnFslvmKbc9JF0HMd0eyQL7CNSgjtf23_03g/edit?gid=822581003#gid=822581003" target="_blank" class="btn-action">📊 Google Sheet - Vitrine Logos </a> 
-                <a href="https://docs.google.com/presentation/d/1-HJt5zBHN-dhzzkom10vY_CcdEiD7Dm9fF3Bj7Qc5bs/edit?slide=id.SLIDES_API1093025547_0#slide=id.SLIDES_API1093025547_0" target="_blank" class="btn-action">🖼️ Google Slides - Vitrine Logos </a> 
-            </div> 
-
-            <p style="color: var(--text-muted);">Pour générer une diapositive vitrine regroupant plusieurs logos clients :</p> 
-
-            <!-- SCREENSHOT 2 --> 
-            <div class="screen-preview"> 
-                <img src="../../img/06-vitrine-logos.png" alt="Capture d'écran Vitrine Logos"> 
-                <div class="screen-caption">📍 Google Sheet — Vue Onglet Vitrine Logos : Zone Cyan (Sélection) | Ligne Jaune (Nouveau) | Lien Slide (Vert)</div> 
-            </div> 
-
-            <div class="flow-grid"> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">1</span> 
-                    <h4>Sélectionner les clients</h4> 
-                    <p>Ouvrez l'onglet <strong>Vitrine logos</strong> en bas à gauche du Google Sheet. Dans la liste <span class="sheet-tag tag-cyan">Cyan</span> située à gauche, cochez les clients à ajouter. Leurs noms apparaissent automatiquement à droite sur la ligne jaune <span class="sheet-tag tag-yellow">NOUVEAU</span>.</p> 
-                </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">2</span> 
-                    <h4>Déclencher la slide</h4> 
-                    <p>Une fois tous les clients cochés, cochez la case <span class="sheet-tag tag-yellow">VITRINE</span> située sur la ligne jaune pour lancer la création de la présentation.</p> 
-                </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">3</span> 
-                    <h4>Ouvrir le lien</h4> 
-                    <p>Lorsque la slide est créée, un lien apparaît dans la colonne <span class="sheet-tag tag-green">LIEN SLIDE</span> située dans la zone verte juste en-dessous. Cliquez dessus pour visualiser la vitrine.</p> 
-                </div> 
-            </div> 
-
-            <div class="callout-box callout-info"> 
-                <div class="callout-icon">🌐</div> 
-                <div class="callout-body"> 
-                    <strong>Récupération et gestion des logos clients :</strong>
-                    <ul>
-                        <li><strong>Automatique via Logo.dev :</strong> Les logos sont recherchés automatiquement sur le Web via l'API Logo.dev. Dès qu'un logo est trouvé pour la première fois, son URL d'image est enregistrée dans la colonne <code>Lien logo</code>.</li>
-                        <li><strong>Modification manuelle (Remplacement Google Images) :</strong> Si Logo.dev récupère un visuel incorrect, vous pouvez remplacer le lien de la colonne <code>Lien logo</code> par n'importe quelle URL d'image provenant de Google Images.</li>
-                        <li><strong>Mise en mémoire :</strong> Ce lien personnalisé sera conservé et réutilisé automatiquement pour toutes les futures générations de vitrines et de slides pour ce client.</li>
-                    </ul>
-                </div> 
-            </div> 
-
-            <div class="callout-box callout-warning"> 
-                <div class="callout-icon">⚠️</div> 
-                <div class="callout-body"> 
-                    <strong>Point d'attention & Fonctionnement de la liste :</strong> 
-                    <ul> 
-                        <li><strong>Contrôle visuel obligatoire :</strong> Pensez à toujours vérifier si les logos insérés sur la slide sont les bons, car des erreurs de correspondance peuvent parfois se produire via l'API.</li> 
-                        <li><strong>Mise à jour automatique de la liste :</strong> Les clients de la liste cyan s'ajoutent automatiquement à chaque fois qu'un nouveau nom de client est détecté dans la feuille Références Projets.</li> 
-                        <li><strong>Ajout manuel :</strong> Si vous souhaitez ajouter un client qui n'est pas encore présent dans la feuille des références projets, vous pouvez l'inscrire directement à la main dans la liste cyan.</li> 
-                    </ul> 
-                </div> 
-            </div> 
-        </section> 
-
-        <!-- SECTION 5: ADMIN - AJOUTER UN TYPE DE PROJET --> 
-        <section id="admin-type" class="doc-section"> 
-            <div class="section-header"> 
-                <div class="section-icon">⚙️</div> 
-                <h2 class="section-title">5. Administration : Ajouter un Nouveau Type de Projet</h2> 
-            </div> 
-
-            <p style="color: var(--text-muted);">Si votre projet appartient à une catégorie inédite qui nécessite son propre modèle de présentation, suivez ces étapes pour ajouter ce nouveau type au système :</p> 
-
-            <div class="flow-grid"> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">1</span> 
-                    <h4>Menu déroulant Google Sheet</h4> 
-                    <p>Ouvrez le Google Sheet <em>Suivi des Projets</em> et ajoutez le nouveau type de projet au menu déroulant de la <strong>Colonne 3 (Type de projet)</strong>.</p> 
-                </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">2</span> 
-                    <h4>Créer le modèle dans le thème</h4> 
-                    <p>Ouvrez le Slide Deck des références projets. Cliquez sur <code>Diapositive</code> &gt; <code>Modifier le thème</code>, puis créez un nouveau modèle de disposition (layout) spécifique pour cette nouvelle catégorie.</p> 
-                </div> 
-                <div class="flow-card"> 
-                    <span class="flow-badge">3</span> 
-                    <h4>Structure et balises <code>{{...}}</code></h4> 
-                    <p>Ajoutez la nouvelle diapositive modèle dans le deck et insérez des balises au format <code>{{nom_de_variable}}</code> là où vous souhaitez que les données du Google Sheet s'injectent automatiquement.</p> 
+                <div class="action-buttons"> 
+                    <a href="https://drive.google.com/drive/folders/1RqIS3P_hxiKuIQYqME5s8rQZYh7OPanl" target="_blank" class="btn-action">📂 Ouvrir le Template Dossier Projet</a> 
                 </div> 
                 
-                <!-- Long Step 4 taking full row width -->
-                <div class="flow-card flow-card-full"> 
-                    <span class="flow-badge">4</span> 
-                    <h4>Mise à jour des Apps Scripts</h4> 
-                    <p style="margin-bottom: 0.75rem;">Accédez aux scripts via <code>Extensions</code> &gt; <code>Apps Script</code> et mettez à jour <strong>3 fichiers</strong> <em>(n'oubliez pas de cliquer sur la disquette 💾 pour enregistrer chaque fichier)</em> :</p> 
+                <p style="color: var(--text-muted);">Dès qu'un nouveau projet démarre, suivez cette procédure simple pour initialiser automatiquement les fichiers et le suivi :</p> 
+
+                <div class="flow-grid"> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">1</span> 
+                        <h4>Créer le dossier Drive</h4> 
+                        <p>Dans le Drive partagé HOC, créez un nouveau dossier au nom de votre projet directement sous le dossier parent <code>5-projets</code>.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">2</span> 
+                        <h4>Arborescence automatique</h4> 
+                        <p>Cette création déclenche automatiquement la génération d'un modèle complet de sous-dossiers, ainsi que deux documents Google Docs vierges : <strong>Fichier synthèse</strong> et <strong>Post LinkedIn</strong>.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">3</span> 
+                        <h4>Ajout dans le Suivi</h4> 
+                        <p>Une nouvelle ligne est ajoutée automatiquement dans le Google Sheet <em>Suivi des projets</em> avec le titre de votre projet et les liens vers les fiches vierges.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">4</span> 
+                        <h4>Centralisation des infos</h4> 
+                        <p>Stockez tous les fichiers du projet dans l'arborescence créée tout au long de la mission, en veillant à respecter au mieux les catégories de dossiers.</p> 
+                    </div> 
+                </div> 
+            </section> 
+
+            <!-- SECTION 2: RÉFÉRENCES PROJETS --> 
+            <section id="refs" class="doc-section"> 
+                <div class="section-header"> 
+                    <div class="section-icon">🚀</div> 
+                    <h2 class="section-title">2. Génération de la Référence Projet</h2> 
+                </div> 
+
+                <div class="action-buttons"> 
+                    <a href="https://docs.google.com/spreadsheets/d/17NIrXHUAnFslvmKbc9JF0HMd0eyQL7CNSgjtf23_03g/edit?gid=0#gid=0" target="_blank" class="btn-action">📊 Google Sheet — Suivi des Projets</a> 
+                    <a href="https://script.google.com/u/0/home/projects/15h7wxuCVEjZKky8APQig9AzMDkMFTSvXDyxalk-usfadJe7b-q7L2wsD/edit" target="_blank" class="btn-action">⚙️ Apps Script — Suivi des Projets</a> 
+                    <a href="https://docs.google.com/presentation/d/14BeaTYt9NkBJXHO6B24GFFapf-EzhC3UkWyW6sJDvTw/edit?slide=id.g3f58b8d8d68_0_30#slide=id.g3f58b8d8d68_0_30" target="_blank" class="btn-action">🖼️ Presentation Google Slides — Références Projets</a> 
+                </div> 
+
+                <p style="color: var(--text-muted);">Lorsque le projet est terminé et que vous souhaitez créer la diapositive de référence, rendez-vous sur le Google Sheet <strong>Suivi des projets</strong> et repérez la ligne correspondant à votre projet :</p> 
+
+                <div class="screen-preview"> 
+                    <img src="../../img/05-suivi-des-projets.png" alt="Capture d'écran Références Projets"> 
+                    <div class="screen-caption">📍 Google Sheet : Zone Cyan (Actions) | Zone Orange (Livrables) | Zone Bleue (Données)</div> 
+                </div> 
+
+                <h3 style="color: var(--wave-blue); margin-top: 1.75rem;">Procédure étape par étape :</h3> 
+                <div class="flow-grid"> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">1</span> 
+                        <h4><span class="sheet-tag tag-cyan">Fichier synthèse</span></h4> 
+                        <p>Cochez la case dans la première colonne cyan <code>Fichier synthèse</code> tout à gauche. L'outil va rédiger la synthèse du projet dans le lien associé. Une notification apparaîtra en bas à droite dès que c'est terminé.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">2</span> 
+                        <h4><span class="sheet-tag tag-cyan">Remplissage colonnes</span></h4> 
+                        <p>Cochez ensuite la case dans la colonne <code>Remplissage colonnes</code>. L'outil va compléter automatiquement les cases descriptives du tableau (zone <span class="sheet-tag tag-blue">Bleue</span>).</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">3</span> 
+                        <h4>Relecture & Validation</h4> 
+                        <p>Vérifiez que le <strong>Type de projet</strong> attribué est correct et contrôlez l'exactitude des données saisies dans les différentes colonnes.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">4</span> 
+                        <h4><span class="sheet-tag tag-cyan">Slide automatique</span></h4> 
+                        <p>Une fois les informations validées, cochez la 3ème case <code>Slide automatique</code> pour générer la présentation de votre référence projet.</p> 
+                    </div> 
+                </div> 
+
+                <div class="callout-box callout-info"> 
+                    <div class="callout-icon">💡</div> 
+                    <div class="callout-body"> 
+                        <strong>Consultation, Édition et Finalisation :</strong> 
+                        <ul> 
+                            <li>Un lien apparaît dans la colonne orange <span class="sheet-tag tag-orange-sheet">Lien slide</span> dès que la génération est terminée. Cliquez dessus pour ouvrir et consulter la diapositive.</li> 
+                            <li>Vous pouvez éditer directement la slide pour affiner le texte, corriger la mise en page ou insérer une image provenant du Google Drive.</li> 
+                            <li>Une fois la diapositive validée, copiez-la et ajoutez-la au <strong>Slide Deck officiel des références projets HOC !</strong></li> 
+                        </ul> 
+                    </div> 
+                </div> 
+            </section> 
+
+            <!-- SECTION 3: POST LINKEDIN --> 
+            <section id="linkedin" class="doc-section"> 
+                <div class="section-header"> 
+                    <div class="section-icon">📱</div> 
+                    <h2 class="section-title">3. Rédaction du Brouillon LinkedIn</h2> 
+                </div> 
+
+                <div class="action-buttons"> 
+                    <a href="https://drive.google.com/drive/folders/1P66B6QMS0ggJS8eGDJYuh78yrPt2Nz10" target="_blank" class="btn-action">📝 Dossier Brouillon Posts LinkedIn</a> 
+                </div> 
+
+                <div class="flow-grid"> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">1</span> 
+                        <h4>Déclenchement</h4> 
+                        <p>Une fois que toutes les colonnes associées au projet contiennent des informations exactes, cochez la case cyan <span class="sheet-tag tag-cyan">LinkedIn post draft</span>.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">2</span> 
+                        <h4>Consultation du Brouillon</h4> 
+                        <p>Cliquez sur le lien généré dans la colonne <span class="sheet-tag tag-orange-sheet">Lien LinkedIn</span> pour consulter et retravailler le document Google Doc.</p> 
+                    </div> 
+                </div> 
+
+                <div class="callout-box callout-info"> 
+                    <div class="callout-icon">📍</div> 
+                    <div class="callout-body"> 
+                        <strong>Où retrouver votre fichier ?</strong><br> 
+                        Le document est directement accessible via le lien du tableau. Notez qu'il ne se trouve pas dans l'arborescence du dossier projet, mais dans le dossier regroupant tous les contenus LinkedIn :<br> 
+                        <code>Drive Partagé HOC > 25. COM 2025-2026 > Textes des postes > Brouillons postes linkedin</code> 
+                    </div> 
+                </div> 
+            </section> 
+
+            <!-- SECTION 4: VITRINE LOGOS --> 
+            <section id="vitrine" class="doc-section"> 
+                <div class="section-header"> 
+                    <div class="section-icon">🖼️</div> 
+                    <h2 class="section-title">4. Création d'une Vitrine Logos</h2> 
+                </div> 
+
+                <div class="action-buttons"> 
+                    <a href="https://docs.google.com/spreadsheets/d/17NIrXHUAnFslvmKbc9JF0HMd0eyQL7CNSgjtf23_03g/edit?gid=822581003#gid=822581003" target="_blank" class="btn-action">📊 Google Sheet - Vitrine Logos </a> 
+                    <a href="https://docs.google.com/presentation/d/1-HJt5zBHN-dhzzkom10vY_CcdEiD7Dm9fF3Bj7Qc5bs/edit?slide=id.SLIDES_API1093025547_0#slide=id.SLIDES_API1093025547_0" target="_blank" class="btn-action">🖼️ Google Slides - Vitrine Logos </a> 
+                </div> 
+
+                <p style="color: var(--text-muted);">Pour générer une diapositive vitrine regroupant plusieurs logos clients :</p> 
+
+                <div class="screen-preview"> 
+                    <img src="../../img/06-vitrine-logos.png" alt="Capture d'écran Vitrine Logos"> 
+                    <div class="screen-caption">📍 Google Sheet — Vue Onglet Vitrine Logos : Zone Cyan (Sélection) | Ligne Jaune (Nouveau) | Lien Slide (Vert)</div> 
+                </div> 
+
+                <div class="flow-grid"> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">1</span> 
+                        <h4>Sélectionner les clients</h4> 
+                        <p>Ouvrez l'onglet <strong>Vitrine logos</strong> en bas à gauche du Google Sheet. Dans la liste <span class="sheet-tag tag-cyan">Cyan</span> située à gauche, cochez les clients à ajouter. Leurs noms apparaissent automatiquement à droite sur la ligne jaune <span class="sheet-tag tag-yellow">NOUVEAU</span>.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">2</span> 
+                        <h4>Déclencher la slide</h4> 
+                        <p>Une fois tous les clients cochés, cochez la case <span class="sheet-tag tag-yellow">VITRINE</span> située sur la ligne jaune pour lancer la création de la présentation.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">3</span> 
+                        <h4>Ouvrir le lien</h4> 
+                        <p>Lorsque la slide est créée, un lien apparaît dans la colonne <span class="sheet-tag tag-green-sheet">LIEN SLIDE</span> située dans la zone verte juste en-dessous. Cliquez dessus pour visualiser la vitrine.</p> 
+                    </div> 
+                </div> 
+
+                <div class="callout-box callout-info"> 
+                    <div class="callout-icon">🌐</div> 
+                    <div class="callout-body"> 
+                        <strong>Récupération et gestion des logos clients :</strong>
+                        <ul>
+                            <li><strong>Automatique via Logo.dev :</strong> Les logos sont recherchés automatiquement sur le Web via l'API Logo.dev. Dès qu'un logo est trouvé pour la première fois, son URL d'image est enregistrée dans la colonne <code>Lien logo</code>.</li>
+                            <li><strong>Modification manuelle (Remplacement Google Images) :</strong> Si Logo.dev récupère un visuel incorrect, vous pouvez remplacer le lien de la colonne <code>Lien logo</code> par n'importe quelle URL d'image provenant de Google Images.</li>
+                            <li><strong>Mise en mémoire :</strong> Ce lien personnalisé sera conservé et réutilisé automatiquement pour toutes les futures générations de vitrines et de slides pour ce client.</li>
+                        </ul>
+                    </div> 
+                </div> 
+
+                <div class="callout-box callout-warning"> 
+                    <div class="callout-icon">⚠️</div> 
+                    <div class="callout-body"> 
+                        <strong>Point d'attention & Fonctionnement de la liste :</strong> 
+                        <ul> 
+                            <li><strong>Contrôle visuel obligatoire :</strong> Pensez à toujours vérifier si les logos insérés sur la slide sont les bons, car des erreurs de correspondance peuvent parfois se produire via l'API.</li> 
+                            <li><strong>Mise à jour automatique de la liste :</strong> Les clients de la liste cyan s'ajoutent automatiquement à chaque fois qu'un nouveau nom de client est détecté dans la feuille Références Projets.</li> 
+                            <li><strong>Ajout manuel :</strong> Si vous souhaitez ajouter un client qui n'est pas encore présent dans la feuille des références projets, vous pouvez l'inscrire directement à la main dans la liste cyan.</li> 
+                        </ul> 
+                    </div> 
+                </div> 
+            </section> 
+
+            <!-- SECTION 5: ADMIN - AJOUTER UN TYPE DE PROJET --> 
+            <section id="admin-type" class="doc-section"> 
+                <div class="section-header"> 
+                    <div class="section-icon">⚙️</div> 
+                    <h2 class="section-title">5. Administration : Ajouter un Nouveau Type de Projet</h2> 
+                </div> 
+
+                <p style="color: var(--text-muted);">Si votre projet appartient à une catégorie inédite qui nécessite son propre modèle de présentation, suivez ces étapes pour ajouter ce nouveau type au système :</p> 
+
+                <div class="flow-grid"> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">1</span> 
+                        <h4>Menu déroulant Google Sheet</h4> 
+                        <p>Ouvrez le Google Sheet <em>Suivi des Projets</em> et ajoutez le nouveau type de projet au menu déroulant de la <strong>Colonne 3 (Type de projet)</strong>.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">2</span> 
+                        <h4>Créer le modèle dans le thème</h4> 
+                        <p>Ouvrez le Slide Deck des références projets. Cliquez sur <code>Diapositive</code> &gt; <code>Modifier le thème</code>, puis créez un nouveau modèle de disposition (layout) spécifique pour cette nouvelle catégorie.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">3</span> 
+                        <h4>Structure et balises <code>{{...}}</code></h4> 
+                        <p>Ajoutez la nouvelle diapositive modèle dans le deck et insérez des balises au format <code>{{nom_de_variable}}</code> là où vous souhaitez que les données du Google Sheet s'injectent automatiquement.</p> 
+                    </div> 
                     
-                    <div class="script-step-block">
-                        <span class="file-tag">slide_automatique.gs</span>
-                        <p>Dans la barre latérale de gauche, ouvrez <code>slide_automatique.gs</code>. En haut du code sous la ligne <code>// 🔑 IDs des slides modèles (templates)</code>, ajoutez une nouvelle ligne associant le type de projet à l'ID de sa slide. L'ID de la slide se récupère directement dans l'URL de votre diapositive modèle, juste après <code>slide=id.</code>.</p>
-                    </div>
+                    <div class="flow-card flow-card-full"> 
+                        <span class="flow-badge">4</span> 
+                        <h4>Mise à jour des Apps Scripts</h4> 
+                        <p style="margin-bottom: 0.75rem;">Accédez aux scripts via <code>Extensions</code> &gt; <code>Apps Script</code> et mettez à jour <strong>3 fichiers</strong> <em>(n'oubliez pas de cliquer sur la disquette 💾 pour enregistrer chaque fichier)</em> :</p> 
+                        
+                        <div class="script-step-block">
+                            <span class="file-tag">slide_automatique.gs</span>
+                            <p>Dans la barre latérale de gauche, ouvrez <code>slide_automatique.gs</code>. En haut du code sous la ligne <code>// 🔑 IDs des slides modèles (templates)</code>, ajoutez une nouvelle ligne associant le type de projet à l'ID de sa slide. L'ID de la slide se récupère directement dans l'URL de votre diapositive modèle, juste après <code>slide=id.</code>.</p>
+                        </div>
 
-                    <div class="script-step-block">
-                        <span class="file-tag">fichier_synthese.gs</span>
-                        <span class="file-tag">remplir_colonnes.gs</span>
-                        <p>Faites un <code>Cmd + F</code> pour rechercher la section <code>// PROMPT GEMINI</code>. Lisez le prompt et ajoutez-y les consignes spécifiques à votre nouveau type de projet là où les autres types sont déjà mentionnés.</p>
-                    </div>
+                        <div class="script-step-block">
+                            <span class="file-tag">fichier_synthese.gs</span>
+                            <span class="file-tag">remplir_colonnes.gs</span>
+                            <p>Faites un <code>Cmd + F</code> pour rechercher la section <code>// PROMPT GEMINI</code>. Lisez le prompt et ajoutez-y les consignes spécifiques à votre nouveau type de projet là où les autres types sont déjà mentionnés.</p>
+                        </div>
+                    </div> 
+                    
+                    <div class="flow-card"> 
+                        <span class="flow-badge">5</span> 
+                        <h4>Test complet de validation</h4> 
+                        <p>Créez une ligne de test dans le Google Sheet, sélectionnez votre nouveau type de projet, puis cochez successivement les cases d'action pour vérifier que la synthèse, le remplissage des colonnes et la génération de la slide fonctionnent sans erreur.</p> 
+                    </div> 
                 </div> 
-                
-                <!-- Step 5 placed below -->
-                <div class="flow-card"> 
-                    <span class="flow-badge">5</span> 
-                    <h4>Test complet de validation</h4> 
-                    <p>Créez une ligne de test dans le Google Sheet, sélectionnez votre nouveau type de projet, puis cochez successivement les cases d'action pour vérifier que la synthèse, le remplissage des colonnes et la génération de la slide fonctionnent sans erreur.</p> 
-                </div> 
-            </div> 
 
-            <!-- SCREENSHOT: APPS SCRIPT TEMPLATE MAPPING --> 
-            <div class="screen-preview"> 
-                <img src="../../img/07-apps-script-slide-automatique.png" alt="Capture d'écran Apps Script - slide_automatique.gs"> 
-                <div class="screen-caption">📍 Apps Script : Fichier slide_automatique.gs | Zone d'édition des IDs des slides modèles (templates)</div> 
-            </div> 
-
-            <div class="callout-box callout-info"> 
-                <div class="callout-icon">🎉</div> 
-                <div class="callout-body"> 
-                    <strong>Configuration terminée !</strong><br> 
-                    Votre nouveau type de projet, ses prompts Gemini et sa diapositive modèle sont désormais totalement configurés et prêts pour la génération automatique. 
+                <div class="screen-preview"> 
+                    <img src="../../img/07-apps-script-slide-automatique.png" alt="Capture d'écran Apps Script - slide_automatique.gs"> 
+                    <div class="screen-caption">📍 Apps Script : Fichier slide_automatique.gs | Zone d'édition des IDs des slides modèles (templates)</div> 
                 </div> 
-            </div> 
-        </section> 
+
+                <div class="callout-box callout-info"> 
+                    <div class="callout-icon">🎉</div> 
+                    <div class="callout-body"> 
+                        <strong>Configuration terminée !</strong><br> 
+                        Votre nouveau type de projet, ses prompts Gemini et sa diapositive modèle sont désormais totalement configurés et prêts pour la génération automatique. 
+                    </div> 
+                </div> 
+            </section> 
+        </div>
+
+
+        <!-- ================================================================= -->
+        <!-- NOTICE 2: HUB WEB (SECONDAIRE / ACCESSIBLE VIA SWITCH) -->
+        <!-- ================================================================= -->
+        <div id="view-hub-web" class="doc-view">
+
+            <!-- SECTION 1: NAVIGATION & FILTRES --> 
+            <section id="navigation-web" class="doc-section"> 
+                <div class="section-header"> 
+                    <div class="section-icon">🔍</div> 
+                    <h2 class="section-title">1. Navigation et Recherche Intelligente</h2> 
+                </div> 
+
+                <p style="color: var(--text-muted);">L'interface d'accueil vous offre une vue globale sur toutes les missions enregistrées dans le système :</p> 
+
+                <div class="screen-preview"> 
+                    <img src="Capture d’écran (836).png" alt="Aperçu de la page d'accueil de l'application Web"> 
+                    <div class="screen-caption">📍 Accueil Application Web : Barre de recherche | Boutons de filtre (Types / Clients) | Thème Sombre</div> 
+                </div> 
+
+                <div class="flow-grid"> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">1</span> 
+                        <h4>Recherche Temps Réel</h4> 
+                        <p>Saisissez n'importe quel mot-clé, nom de client ou titre dans la barre de recherche centrale pour filtrer instantanément la liste des cartes.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">2</span> 
+                        <h4>Vues par Filtres</h4> 
+                        <p>Basculez entre l'affichage par <span class="web-tag tag-blue">Vue par Types</span> et <span class="web-tag tag-orange">Vue par Clients</span> pour regrouper vos projets selon vos besoins d'analyse.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">3</span> 
+                        <h4>Thème d'affichage</h4> 
+                        <p>Passez du mode sombre au mode clair en utilisant le bouton situé en haut à droite selon votre préférence de lecture.</p> 
+                    </div> 
+                </div> 
+            </section> 
+
+            <!-- SECTION 2: CRÉATION VIA MODALE --> 
+            <section id="creation-web" class="doc-section"> 
+                <div class="section-header"> 
+                    <div class="section-icon">➕</div> 
+                    <h2 class="section-title">2. Création de Projet depuis l'Interface</h2> 
+                </div> 
+
+                <div class="action-buttons"> 
+                    <span class="btn-action" style="cursor: default;">✨ Bouton "+ Nouveau Projet" en haut de page</span> 
+                </div> 
+
+                <p style="color: var(--text-muted);">Vous pouvez initialiser un projet directement sans ouvrir le Drive ou le Google Sheet :</p> 
+
+                <div class="screen-preview"> 
+                    <img src="Capture d’écran (837).png" alt="Modale de création de projet"> 
+                    <div class="screen-caption">📍 Modale de Création : Auto-complétion Client | Titre du Projet | Type de Mission</div> 
+                </div> 
+
+                <div class="flow-grid"> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">1</span> 
+                        <h4>Nom du Client</h4> 
+                        <p>Tapez le nom du client. Le champ propose une autocomplétion intelligente basée sur les clients existants dans la base.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">2</span> 
+                        <h4>Champs obligatoires</h4> 
+                        <p>Saisissez le titre explicite de la mission et choisissez le <strong>Type de mission</strong> dans la liste déroulante.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">3</span> 
+                        <h4>Génération globale</h4> 
+                        <p>Cliquez sur <span class="web-tag tag-orange">Créer le projet et générer les fichiers</span>. L'outil crée le dossier Drive, les fichiers Docs vierges et la ligne dans le Sheet de façon transparente.</p> 
+                    </div> 
+                </div> 
+            </section> 
+
+            <!-- SECTION 3: CONSULTATION FICHE MISSION --> 
+            <section id="fiche-mission" class="doc-section"> 
+                <div class="section-header"> 
+                    <div class="section-icon">📑</div> 
+                    <h2 class="section-title">3. Consultation de la Fiche Mission</h2> 
+                </div> 
+
+                <p style="color: var(--text-muted);">En cliquant sur n'importe quelle carte de projet depuis l'accueil, une fenêtre modale s'ouvre avec tous les éléments associés :</p> 
+
+                <div class="screen-preview"> 
+                    <img src="Capture d’écran (838).png" alt="Aperçu du détail d'une fiche mission"> 
+                    <div class="screen-caption">📍 Modale Détail Mission : Accès direct aux fichiers Drive/Slide/LinkedIn | Contenu textuel récapitulatif</div> 
+                </div> 
+
+                <div class="flow-grid"> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">1</span> 
+                        <h4>Accès Direct aux Documents</h4> 
+                        <p>Ouvrez directement d'un clic le dossier Drive, la Synthèse, la Slide Google ou le brouillon du Post LinkedIn.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">2</span> 
+                        <h4>Régénération Automatique</h4> 
+                        <p>Relancez individuellement la génération IA de la synthèse ou de la slide avec les boutons <code>Régénérer</code> à droite de chaque ligne.</p> 
+                    </div> 
+                </div> 
+
+                <div class="callout-box callout-info"> 
+                    <div class="callout-icon">💡</div> 
+                    <div class="callout-body"> 
+                        <strong>Navigation et recherche dans le contenu :</strong> 
+                        <ul> 
+                            <li>Utilisez la barre <code>Rechercher une section...</code> dans la modale pour sauter rapidement aux blocs textuels clés (Contexte, Objectifs, Livrables...).</li> 
+                        </ul> 
+                    </div> 
+                </div> 
+            </section> 
+
+            <!-- SECTION 4: MODE ÉDITION --> 
+            <section id="edition-web" class="doc-section"> 
+                <div class="section-header"> 
+                    <div class="section-icon">✏️</div> 
+                    <h2 class="section-title">4. Modification des Contenus du Projet</h2> 
+                </div> 
+
+                <p style="color: var(--text-muted);">Modifiez le texte descriptif du projet sans aller toucher aux cellules du Google Sheet :</p> 
+
+                <div class="screen-preview"> 
+                    <img src="Capture d’écran (839).png" alt="Mode édition de la modale"> 
+                    <div class="screen-caption">📍 Mode Édition : Champs de texte éditables | Bouton de sauvegarde Google Sheets</div> 
+                </div> 
+
+                <div class="flow-grid"> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">1</span> 
+                        <h4>Bascule en Mode Édition</h4> 
+                        <p>Cliquez sur le bouton <span class="web-tag tag-orange">✏️ Mode Édition</span> situé au-dessus des sections de texte.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">2</span> 
+                        <h4>Saisie du contenu</h4> 
+                        <p>Tous les champs se transforment en zones de saisie textuelles pour vous permettre de retravailler le contexte, les objectifs ou le déroulé.</p> 
+                    </div> 
+                    <div class="flow-card"> 
+                        <span class="flow-badge">3</span> 
+                        <h4>Enregistrement centralisé</h4> 
+                        <p>Cliquez sur <span class="web-tag tag-green">💾 Sauvegarder dans Google Sheets</span> pour enregistrer et mettre à jour le Sheet principal.</p> 
+                    </div> 
+                </div> 
+            </section> 
+
+            <!-- SECTION 5: MODE PLEIN ÉCRAN --> 
+            <section id="fullscreen-web" class="doc-section"> 
+                <div class="section-header"> 
+                    <div class="section-icon">⛶</div> 
+                    <h2 class="section-title">5. Environnement de Rédaction Plein Écran</h2> 
+                </div> 
+
+                <p style="color: var(--text-muted);">Pour travailler sur de longs textes sans distractions visuelles, activez l'affichage étendu :</p> 
+
+                <div class="screen-preview"> 
+                    <img src="Capture d’écran (840).png" alt="Espace de rédaction plein écran"> 
+                    <div class="screen-caption">📍 Interface Plein Écran : Masquage des liens d'en-tête | Maximisation de la surface de saisie</div> 
+                </div> 
+
+                <div class="callout-box callout-info"> 
+                    <div class="callout-icon">🎯</div> 
+                    <div class="callout-body"> 
+                        <strong>Comment ça marche ?</strong><br> 
+                        En cliquant sur le bouton plein écran <strong>⛶</strong> en haut à droite de la modale :
+                        <ul>
+                            <li>Les liens d'en-tête volumineux sont automatiquement masqués pour libérer l'espace vertical.</li>
+                            <li>Les zones de texte s'agrandissent à 100% de la hauteur disponible.</li>
+                            <li>Vous pouvez revenir à l'affichage classique à tout moment en recliquant sur l'icône de réduction.</li>
+                        </ul>
+                    </div> 
+                </div> 
+            </section> 
+        </div>
 
     </div> 
 
+    <!-- Script JavaScript pour l'alternance fluide (Switch) -->
+    <script>
+        function switchNotice(mode) {
+            const viewDriveSheet = document.getElementById('view-drive-sheet');
+            const viewHubWeb = document.getElementById('view-hub-web');
+            const btnDriveSheet = document.getElementById('btn-drive-sheet');
+            const btnHubWeb = document.getElementById('btn-hub-web');
+            const navDriveSheet = document.getElementById('nav-drive-sheet');
+            const navHubWeb = document.getElementById('nav-hub-web');
+
+            const heroBadge = document.getElementById('hero-badge');
+            const heroTitle = document.getElementById('hero-title');
+            const heroSubtitle = document.getElementById('hero-subtitle');
+
+            if (mode === 'drive-sheet') {
+                viewDriveSheet.classList.add('active-view');
+                viewHubWeb.classList.remove('active-view');
+                btnDriveSheet.classList.add('active');
+                btnHubWeb.classList.remove('active');
+                navDriveSheet.style.display = 'flex';
+                navHubWeb.style.display = 'none';
+
+                heroBadge.textContent = "Outil Interne HOC";
+                heroTitle.textContent = "Guide d'Utilisation : Automatisations";
+                heroSubtitle.textContent = "Générez facilement vos fiches de références projets, vos posts LinkedIn et vos vitrines logos en quelques clics.";
+            } else {
+                viewHubWeb.classList.add('active-view');
+                viewDriveSheet.classList.remove('active-view');
+                btnHubWeb.classList.add('active');
+                btnDriveSheet.classList.remove('active');
+                navHubWeb.style.display = 'flex';
+                navDriveSheet.style.display = 'none';
+
+                heroBadge.textContent = "Interface Web HOC";
+                heroTitle.textContent = "Guide d'Utilisation : Application Web Hub";
+                heroSubtitle.textContent = "Gérez, éditez et visualisez l'ensemble de vos projets directement depuis l'application Web dynamique sans manipuler les tableurs.";
+            }
+        }
+    </script>
 </body> 
 </html>
