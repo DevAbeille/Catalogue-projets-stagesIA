@@ -1,0 +1,891 @@
+/* ==========================================================================
+   CHARTE GRAPHIQUE — HOUSE OF CODESIGN (HOC) & THÈMES
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Couleurs de marque HOC */
+  --primary: #ff5e3a;         /* Orange Vif / Accent HOC */
+  --primary-hover: #ff785a;   /* Orange légèrement plus lumineux */
+  --primary-light: rgba(255, 94, 58, 0.12); /* Halo orange translucide */
+
+  /* ==========================================================================
+     THÈME SOMBRE (PAR DÉFAUT)
+     ========================================================================== */
+  --bg-color: #0d1117;        /* Fond sombre signature */
+  --card-bg: #161b22;         /* Cartes anthracite */
+  --card-bg-hover: #1c2128;   /* Survol carte */
+  --border-color: #30363d;     /* Bordures fines sombres */
+
+  --text-primary: #f0f6fc;    /* Blanc/Gris clair pour les titres */
+  --text-secondary: #8b949e;  /* Textes explicatifs */
+  --text-muted: #6e7681;      /* Textes secondaires */
+
+  /* --- BADGES (THÈME SOMBRE) --- */
+  /* Cyan / Outils */
+  --badge-outils-color: #38bdf8;
+  --badge-outils-bg: rgba(56, 189, 248, 0.12);
+  --badge-outils-border: rgba(56, 189, 248, 0.25);
+  
+  /* Violet / Présentations */
+  --badge-pres-color: #c084fc;
+  --badge-pres-bg: rgba(192, 132, 252, 0.12);
+  --badge-pres-border: rgba(192, 132, 252, 0.25);
+  
+  /* Vert / Documents */
+  --badge-docs-color: #4ade80;
+  --badge-docs-bg: rgba(74, 222, 128, 0.12);
+  --badge-docs-border: rgba(74, 222, 128, 0.25);
+
+  /* Jaune / Pause */
+  --badge-pause-color: #fde047;
+  --badge-pause-bg: rgba(253, 224, 71, 0.12);
+  --badge-pause-border: rgba(253, 224, 71, 0.25);
+
+  /* Orange / Atelier & Exercices */
+  --badge-atelier-color: #ff5e3a;
+  --badge-atelier-bg: rgba(255, 94, 58, 0.12);
+  --badge-atelier-border: rgba(255, 94, 58, 0.25);
+
+  /* Puces Équipements : Fond NOIR sur carte sombre */
+  --circle-bg: #0d1117;
+  --circle-border: #30363d;
+  --circle-text: #f0f6fc;
+
+  /* Effets & Rayons */
+  --radius-lg: 14px;
+  --radius-pill: 9999px;
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 94, 58, 0.15);
+  --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   THÈME CLAIR (S'active avec la classe .light-theme sur html ou body)
+   ========================================================================== */
+.light-theme, :root.light-theme {
+  --bg-color: #f8fafc;        /* Fond de page blanc/gris très doux */
+  --card-bg: #ffffff;         /* Fond des cartes blanc pur */
+  --card-bg-hover: #f1f5f9;   /* Survol carte clair */
+  --border-color: #e2e8f0;     /* Bordures légères */
+
+  --text-primary: #0f172a;    /* Texte sombre */
+  --text-secondary: #475569;  /* Texte secondaire */
+  --text-muted: #64748b;      /* Textes discrets */
+
+  /* Puces Équipements : Fond BLANC sur carte claire */
+  --circle-bg: #ffffff;
+  --circle-border: #cbd5e1;
+  --circle-text: #0f172a;
+
+  /* --- BADGES (THÈME CLAIR — Teintes renforcées pour un super contraste) --- */
+  /* Cyan / Outils */
+  --badge-outils-color: #0284c7;
+  --badge-outils-bg: rgba(56, 189, 248, 0.18);
+  --badge-outils-border: rgba(56, 189, 248, 0.35);
+
+  /* Violet / Présentations */
+  --badge-pres-color: #7e22ce;
+  --badge-pres-bg: rgba(192, 132, 252, 0.18);
+  --badge-pres-border: rgba(192, 132, 252, 0.35);
+
+  /* Vert / Documents */
+  --badge-docs-color: #15803d;
+  --badge-docs-bg: rgba(74, 222, 128, 0.18);
+  --badge-docs-border: rgba(74, 222, 128, 0.35);
+
+  /* Jaune / Pause (Ambré) */
+  --badge-pause-color: #a16207;
+  --badge-pause-bg: rgba(234, 179, 8, 0.18);
+  --badge-pause-border: rgba(234, 179, 8, 0.35);
+
+  /* Orange / Atelier & Exercices (Corail foncé) */
+  --badge-atelier-color: #c2410c;
+  --badge-atelier-bg: rgba(255, 94, 58, 0.18);
+  --badge-atelier-border: rgba(255, 94, 58, 0.35);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+/* Réinitialisation de base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 1.5rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   Header / En-tête Global
+   ========================================================================== */
+header, .header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+header h1, .header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 0.75rem 0;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+}
+
+header h1::after, .header h1::after {
+  content: '.';
+  color: var(--primary);
+}
+
+header p, .header p {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Barre d'onglets (Tabs & View Switcher) */
+.tabs, .view-switcher {
+  display: inline-flex;
+  background: var(--card-bg);
+  padding: 0.35rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+  gap: 0.3rem;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.tab-btn, .switch-btn {
+  border: none;
+  background: transparent;
+  padding: 0.6rem 1.4rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.tab-btn:hover, .switch-btn:hover {
+  color: var(--text-primary);
+}
+
+.tab-btn.active, .switch-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(255, 94, 58, 0.3);
+}
+
+/* ==========================================================================
+   HEADER DASHBOARD & LÉGENDE
+   ========================================================================== */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.dashboard-header h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.dashboard-header h1::after {
+  content: '.';
+  color: var(--primary);
+}
+
+.current-time {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--card-bg);
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.legend {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.legend-badge {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.mobile-quick-nav {
+  display: none;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.quick-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.quick-nav-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   Grille & Cartes Globales
+   ========================================================================== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  background-color: var(--card-bg-hover);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(255, 94, 58, 0.4);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-body h3, .card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: var(--transition);
+}
+
+.card:hover .card-body h3, .card:hover h3 {
+  color: var(--primary);
+}
+
+.card-body p, .card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.card-footer {
+  margin-top: 1.5rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.825rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.card-link-text {
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: var(--transition);
+}
+
+.card:hover .card-link-text {
+  transform: translateX(4px);
+  color: var(--primary-hover);
+}
+
+/* ==========================================================================
+   DISPOSITION LIGNES DU DASHBOARD (ROW-ITEM)
+   ========================================================================== */
+.row-item {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1rem;
+  transition: var(--transition);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.row-item:hover {
+  transform: translateX(4px);
+  background-color: var(--card-bg-hover);
+  border-color: rgba(255, 94, 58, 0.3);
+}
+
+.time-col {
+  width: 110px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.duration-col {
+  width: 60px;
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.title-col {
+  flex-grow: 1;
+  padding-right: 1rem;
+}
+
+.main-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+}
+
+.subtitle {
+  font-size: 0.775rem;
+  color: var(--text-secondary);
+}
+
+.type-col {
+  width: 120px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.action-col {
+  width: 100px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.column-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  padding-left: 0.25rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  scroll-margin-top: 1rem;
+}
+
+/* Custom Scrollbar */
+.dashboard-container::-webkit-scrollbar {
+  width: 6px;
+}
+.dashboard-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dashboard-container::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 9999px;
+}
+.dashboard-container::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* ==========================================================================
+   BADGES & BOUTONS
+   ========================================================================== */
+.badge, .badge-dash {
+  font-size: 0.725rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  transition: var(--transition);
+}
+
+.badge-dash {
+  font-size: 0.675rem;
+  padding: 0.25rem 0.6rem;
+  width: 100px;
+  text-align: center;
+}
+
+.btn-dash {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  text-decoration: none;
+  width: 100%;
+}
+
+/* Outils (Cyan) */
+.badge-outils {
+  color: var(--badge-outils-color);
+  background: var(--badge-outils-bg);
+  border: 1px solid var(--badge-outils-border);
+}
+
+/* Documents (Vert) */
+.badge-documents {
+  color: var(--badge-docs-color);
+  background: var(--badge-docs-bg);
+  border: 1px solid var(--badge-docs-border);
+}
+
+/* Présentations (Violet) */
+.presentation {
+  border-left: 3px solid var(--badge-pres-color);
+}
+.badge-presentations,
+.presentation .badge-dash,
+.presentation .btn-dash {
+  color: var(--badge-pres-color);
+  background: var(--badge-pres-bg);
+  border: 1px solid var(--badge-pres-border);
+}
+.presentation .btn-dash:hover {
+  background: var(--badge-pres-color);
+  color: #ffffff;
+}
+
+/* Pause (Jaune) */
+.pause {
+  border-left: 3px solid var(--badge-pause-color);
+}
+.badge-pause,
+.badge-yellow,
+.pause .badge-dash,
+.pause .btn-dash {
+  color: var(--badge-pause-color);
+  background: var(--badge-pause-bg);
+  border: 1px solid var(--badge-pause-border);
+}
+.pause .btn-dash:hover {
+  background: var(--badge-pause-color);
+  color: #ffffff;
+}
+
+/* Atelier / Exercice (Orange) */
+.atelier {
+  border-left: 3px solid var(--badge-atelier-color);
+}
+.badge-atelier,
+.badge-orange,
+.atelier .badge-dash,
+.atelier .btn-dash {
+  color: var(--badge-atelier-color);
+  background: var(--badge-atelier-bg);
+  border: 1px solid var(--badge-atelier-border);
+}
+.atelier .btn-dash:hover {
+  background: var(--badge-atelier-color);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Indicateurs de Périphériques (Disques Dynamiques)
+   ========================================================================== */
+.device-indicators {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.status-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  line-height: 1;
+  flex-shrink: 0;
+  background-color: var(--circle-bg);
+  border: 1px solid var(--circle-border);
+  color: var(--circle-text);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: var(--transition);
+}
+
+.card:hover .status-circle {
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   MODALE POP-UP (DASHBOARD)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--shadow-hover);
+  position: relative;
+  animation: modalScale 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScale {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.modal-close {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  float: right;
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  background: var(--primary-hover);
+}
+
+/* ==========================================================================
+   STYLES SPÉCIFIQUES - PAGES PIPELINE & DOCUMENTATION
+   ========================================================================== */
+.header-nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted, #94a3b8);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  background-color: var(--card-bg, #161b22);
+  padding: 0.52rem 1.25rem;
+  border-radius: var(--radius-pill, 50px);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  transition: var(--transition, all 0.2s ease);
+}
+
+.back-link:hover {
+  background-color: var(--card-bg-hover, #1f242d);
+  color: var(--text-primary, #ffffff);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.pipeline-step {
+  background: var(--card-bg, #161b22);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: var(--radius-lg, 16px);
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm, 0 4px 6px -1px rgba(0, 0, 0, 0.3));
+  transition: var(--transition, all 0.2s ease);
+}
+
+.pipeline-step:hover {
+  border-color: rgba(255, 94, 58, 0.3);
+}
+
+.pipeline-intro {
+  background: rgba(255, 94, 58, 0.05);
+  border: 1px solid rgba(255, 94, 58, 0.2);
+  border-left: 4px solid var(--primary, #FF5E3A);
+}
+
+.pipeline-intro h2 {
+  color: var(--primary, #FF5E3A);
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.pipeline-intro p {
+  color: var(--text-secondary, #cbd5e1);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.step-number {
+  background: var(--primary, #FF5E3A);
+  color: #ffffff;
+  font-weight: 800;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(255, 94, 58, 0.3);
+}
+
+.step-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+.pipeline-step p {
+  color: var(--text-secondary, #cbd5e1);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.pipeline-step ul {
+  color: var(--text-secondary, #cbd5e1);
+  padding-left: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.pipeline-step li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.pipeline-step strong {
+  color: var(--text-primary, #ffffff);
+}
+
+.pipeline-step code {
+  background: rgba(255, 255, 255, 0.08);
+  color: #38bdf8;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.links-block {
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px dashed var(--border-color, rgba(255, 255, 255, 0.1));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-pill, 50px);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition, all 0.2s ease);
+  border: 1px solid transparent;
+}
+
+.btn-target {
+  background-color: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.25);
+}
+
+.btn-target:hover {
+  background-color: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   RESPONSIVE MOBILE
+   ========================================================================== */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .current-time {
+    align-self: flex-start;
+  }
+
+  .mobile-quick-nav {
+    display: flex;
+  }
+
+  .column-aprem {
+    border-top: 1px dashed var(--border-color);
+    padding-top: 1.5rem;
+  }
+
+  .row-item {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.85rem;
+  }
+
+  .time-col {
+    width: auto;
+    font-size: 0.8rem;
+  }
+
+  .duration-col {
+    width: auto;
+    margin-right: auto;
+    font-size: 0.75rem;
+  }
+
+  .type-col {
+    width: auto;
+  }
+
+  .badge-dash {
+    width: auto;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .title-col {
+    width: 100%;
+    padding-right: 0;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .action-col {
+    width: 100%;
+    text-align: left;
+  }
+
+  .btn-dash {
+    padding: 0.5rem;
+  }
+
+  .modal-box {
+    padding: 1.25rem;
+  }
+}

@@ -1,0 +1,681 @@
+<!DOCTYPE html> 
+<html lang="fr"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Guide d'Utilisation — Automatisations HOC</title> 
+    <!-- Google Fonts --> 
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"> 
+    <style> 
+        :root { 
+            /* Palette Dynamic Wave */ 
+            --wave-light-mint: #D5EADC; 
+            --wave-orange: #F5712D; 
+            --wave-teal: #75B5C8; 
+            --wave-magenta: #D93C85; 
+            --wave-blue: #3738C9; 
+
+            /* Exact Google Sheet Hex Colors */ 
+            --sheet-cyan: #22DEEE; 
+            --sheet-orange: #FFBF66; 
+            --sheet-blue: #5BB2FE; 
+            --sheet-green: #3DDC67; 
+            --sheet-yellow: #FFFF43; 
+
+            /* UI Base Theme */ 
+            --ui-bg: #e6f0eb; 
+            --card-bg: #f4f9f6; 
+            --card-border: #b8d8c6; 
+            --text-dark: #111827; 
+            --text-muted: #374151; 
+        } 
+
+        html { 
+            scroll-behavior: smooth; 
+        } 
+
+        * { 
+            box-sizing: border-box; 
+        } 
+
+        body { 
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; 
+            color: var(--text-dark); 
+            background-color: var(--ui-bg); 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6; 
+        } 
+
+        /* Solid Hero Banner */ 
+        .hero-banner { 
+            background-color: var(--wave-blue); 
+            color: #ffffff; 
+            padding: 3rem 2rem 2rem 2rem; 
+            text-align: center; 
+        } 
+
+        .badge { 
+            background-color: var(--wave-magenta); 
+            color: #ffffff; 
+            padding: 6px 16px; 
+            border-radius: 20px; 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1.2px; 
+            font-weight: 800; 
+            display: inline-block; 
+            margin-bottom: 0.75rem; 
+        } 
+
+        .hero-banner h1 { 
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            margin: 0 0 0.5rem 0; 
+            color: #ffffff; 
+            letter-spacing: -0.5px; 
+        } 
+
+        .hero-banner p { 
+            font-size: 1rem; 
+            color: var(--wave-light-mint); 
+            max-width: 650px; 
+            margin: 0 auto; 
+            font-weight: 500; 
+        } 
+
+        /* Navigation Bar */ 
+        .nav-bar { 
+            background-color: var(--wave-teal); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 1rem; 
+            padding: 0.75rem 1rem; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12); 
+            flex-wrap: wrap;
+        } 
+
+        .nav-link { 
+            color: #ffffff; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            padding: 0.5rem 1.2rem; 
+            border-radius: 20px; 
+            background-color: rgba(255, 255, 255, 0.15); 
+            border: 1px solid rgba(255, 255, 255, 0.25); 
+            transition: all 0.2s ease-in-out; 
+            cursor: pointer; 
+        } 
+
+        .nav-link:hover { 
+            color: var(--wave-blue); 
+            background-color: var(--wave-light-mint); 
+            border-color: var(--wave-light-mint); 
+            transform: translateY(-1px); 
+        } 
+
+        /* Action Buttons Container & Styles */ 
+        .action-buttons { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 0.75rem; 
+            margin: 1.25rem 0 1.5rem 0; 
+        } 
+
+        .btn-action { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            background-color: var(--wave-blue); 
+            color: #ffffff; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.85rem; 
+            padding: 0.6rem 1.2rem; 
+            border-radius: 8px; 
+            transition: all 0.2s ease; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08); 
+        } 
+
+        .btn-action:hover { 
+            background-color: var(--wave-magenta); 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
+        } 
+
+        /* Main Container */ 
+        .main-container { 
+            max-width: 1100px; 
+            margin: 2rem auto; 
+            padding: 0 1.5rem; 
+        } 
+
+        /* Card Section */ 
+        .doc-section { 
+            background: var(--card-bg); 
+            border-radius: 16px; 
+            padding: 2.5rem; 
+            margin-bottom: 2.5rem; 
+            border: 2px solid var(--card-border); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
+            scroll-margin-top: 80px; 
+        } 
+
+        .section-header { 
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+            margin-bottom: 1.25rem; 
+            padding-bottom: 1rem; 
+            border-bottom: 2px solid var(--wave-teal); 
+        } 
+
+        .section-icon { 
+            width: 46px; 
+            height: 46px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.4rem; 
+            background: var(--wave-light-mint); 
+            border: 1px solid var(--card-border); 
+        } 
+
+        .section-title { 
+            font-size: 1.45rem; 
+            font-weight: 800; 
+            color: var(--wave-blue); 
+            margin: 0; 
+        } 
+
+        /* Flow Step Cards Grid - Structured in 3s */ 
+        .flow-grid { 
+            display: grid; 
+            grid-template-columns: repeat(1, 1fr); 
+            gap: 1.25rem; 
+            margin: 1.5rem 0; 
+        } 
+
+        @media (min-width: 768px) {
+            .flow-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .flow-card { 
+            background: var(--wave-light-mint); 
+            border: 1px solid var(--card-border); 
+            border-top: 4px solid var(--wave-orange); 
+            border-radius: 12px; 
+            padding: 1.25rem; 
+            position: relative; 
+            transition: all 0.25s ease; 
+        } 
+
+        /* Full width card for long step in Admin section */
+        @media (min-width: 768px) {
+            .flow-card-full {
+                grid-column: 1 / -1;
+            }
+        }
+
+        .flow-card:hover { 
+            border-top-color: var(--wave-magenta); 
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06); 
+        } 
+
+        .flow-badge { 
+            position: absolute; 
+            top: 1.25rem; 
+            right: 1.25rem; 
+            width: 28px; 
+            height: 28px; 
+            border-radius: 50%; 
+            background: var(--wave-blue); 
+            color: #ffffff; 
+            font-weight: 800; 
+            font-size: 0.85rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        } 
+
+        .flow-card h4 { 
+            margin: 0 0 0.5rem 0; 
+            font-size: 1rem; 
+            font-weight: 700; 
+            color: var(--text-dark); 
+            padding-right: 2.2rem; 
+            line-height: 1.4; 
+        } 
+
+        .flow-card p { 
+            margin: 0; 
+            font-size: 0.9rem; 
+            color: var(--text-muted); 
+            line-height: 1.5;
+        } 
+
+        /* High contrast File Tags Styling */
+        .file-tag {
+            display: inline-block;
+            background-color: var(--wave-blue);
+            color: #ffffff;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.82rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+
+        .script-step-block {
+            background: rgba(255, 255, 255, 0.65);
+            border-left: 3px solid var(--wave-blue);
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 0.75rem;
+        }
+
+        .script-step-block p {
+            margin-top: 0.35rem;
+        }
+
+        /* Exact Sheet Color Tags */ 
+        .sheet-tag { 
+            display: inline-block; 
+            vertical-align: middle; 
+            padding: 2px 8px; 
+            border-radius: 6px; 
+            font-size: 0.8rem; 
+            font-weight: 800; 
+            color: #0f172a; 
+            border: 1px solid rgba(0,0,0,0.15); 
+            white-space: nowrap; 
+        } 
+
+        .tag-cyan { background-color: var(--sheet-cyan); } 
+        .tag-orange { background-color: var(--sheet-orange); } 
+        .tag-blue { background-color: var(--sheet-blue); } 
+        .tag-green { background-color: var(--sheet-green); } 
+        .tag-yellow { background-color: var(--sheet-yellow); } 
+
+        /* Callout Boxes */ 
+        .callout-box { 
+            border-radius: 12px; 
+            padding: 1.25rem; 
+            margin: 1.5rem 0; 
+            display: flex; 
+            gap: 1rem; 
+            align-items: flex-start; 
+        } 
+
+        .callout-info { 
+            background: #dceef4; 
+            border: 2px solid var(--wave-teal); 
+            color: var(--text-dark); 
+        } 
+
+        .callout-warning { 
+            background: #fcebe3; 
+            border: 2px solid var(--wave-orange); 
+            color: #722703; 
+        } 
+
+        .callout-icon { 
+            font-size: 1.4rem; 
+            line-height: 1; 
+        } 
+
+        .callout-body { 
+            font-size: 0.92rem; 
+        } 
+
+        .callout-body strong { 
+            display: block; 
+            margin-bottom: 0.25rem; 
+            font-size: 0.98rem; 
+            color: var(--text-dark); 
+        } 
+
+        .callout-body ul { 
+            margin: 0.5rem 0 0 0; 
+            padding-left: 1.2rem; 
+        } 
+
+        /* Screenshot Containers */ 
+        .screen-preview { 
+            margin: 1.75rem 0; 
+            background: var(--wave-light-mint); 
+            border: 2px dashed var(--wave-teal); 
+            border-radius: 12px; 
+            padding: 1rem; 
+            text-align: center; 
+        } 
+
+        .screen-preview img { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 8px; 
+            border: 1px solid var(--card-border); 
+        } 
+
+        .screen-caption { 
+            font-size: 0.88rem; 
+            color: var(--text-muted); 
+            margin-top: 0.75rem; 
+            font-weight: 600; 
+        } 
+
+        code { 
+            background: #ffffff; 
+            color: var(--wave-magenta); 
+            padding: 2px 7px; 
+            border-radius: 4px; 
+            font-family: monospace; 
+            font-size: 0.88em; 
+            font-weight: 700; 
+            border: 1px solid var(--card-border); 
+        } 
+
+        ul { 
+            padding-left: 1.2rem; 
+            margin-top: 0.5rem; 
+        } 
+
+        li { 
+            margin-bottom: 0.4rem; 
+        } 
+    </style> 
+</head> 
+<body> 
+
+    <!-- Hero Banner --> 
+    <header class="hero-banner"> 
+        <span class="badge">Outil Interne HOC</span> 
+        <h1>Guide d'Utilisation : Automatisations</h1> 
+        <p>Générez facilement vos fiches de références projets, vos posts LinkedIn et vos vitrines logos en quelques clics.</p> 
+    </header> 
+
+    <!-- Navigation Bar --> 
+    <nav class="nav-bar"> 
+        <a href="#creation" class="nav-link">1. Création Projet</a> 
+        <a href="#refs" class="nav-link">2. Références Projets</a> 
+        <a href="#linkedin" class="nav-link">3. Post LinkedIn</a> 
+        <a href="#vitrine" class="nav-link">4. Vitrine Logos</a> 
+        <a href="#admin-type" class="nav-link">⚙️ Admin : Ajouter un Type de Projet</a>
+    </nav> 
+
+    <div class="main-container"> 
+
+        <!-- SECTION 1: CRÉATION PROJET --> 
+        <section id="creation" class="doc-section"> 
+            <div class="section-header"> 
+                <div class="section-icon">📁</div> 
+                <h2 class="section-title">1. Initialisation d'un Nouveau Projet</h2> 
+            </div> 
+
+            <div class="action-buttons"> 
+                <a href="https://drive.google.com/drive/folders/1RqIS3P_hxiKuIQYqME5s8rQZYh7OPanl" target="_blank" class="btn-action">📂 Ouvrir le Template Dossier Projet</a> 
+            </div> 
+            
+            <p style="color: var(--text-muted);">Dès qu'un nouveau projet démarre, suivez cette procédure simple pour initialiser automatiquement les fichiers et le suivi :</p> 
+
+            <div class="flow-grid"> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">1</span> 
+                    <h4>Créer le dossier Drive</h4> 
+                    <p>Dans le Drive partagé HOC, créez un nouveau dossier au nom de votre projet directement sous le dossier parent <code>5-projets</code>.</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">2</span> 
+                    <h4>Arborescence automatique</h4> 
+                    <p>Cette création déclenche automatiquement la génération d'un modèle complet de sous-dossiers, ainsi que deux documents Google Docs vierges : <strong>Fichier synthèse</strong> et <strong>Post LinkedIn</strong>.</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">3</span> 
+                    <h4>Ajout dans le Suivi</h4> 
+                    <p>Une nouvelle ligne est ajoutée automatiquement dans le Google Sheet <em>Suivi des projets</em> avec le titre de votre projet et les liens vers les fiches vierges.</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">4</span> 
+                    <h4>Centralisation des infos</h4> 
+                    <p>Stockez tous les fichiers du projet dans l'arborescence créée tout au long de la mission, en veillant à respecter au mieux les catégories de dossiers.</p> 
+                </div> 
+            </div> 
+        </section> 
+
+        <!-- SECTION 2: RÉFÉRENCES PROJETS --> 
+        <section id="refs" class="doc-section"> 
+            <div class="section-header"> 
+                <div class="section-icon">🚀</div> 
+                <h2 class="section-title">2. Génération de la Référence Projet</h2> 
+            </div> 
+
+            <div class="action-buttons"> 
+                <a href="https://docs.google.com/spreadsheets/d/17NIrXHUAnFslvmKbc9JF0HMd0eyQL7CNSgjtf23_03g/edit?gid=0#gid=0" target="_blank" class="btn-action">📊 Google Sheet — Suivi des Projets</a> 
+                <a href="https://script.google.com/u/0/home/projects/15h7wxuCVEjZKky8APQig9AzMDkMFTSvXDyxalk-usfadJe7b-q7L2wsD/edit" target="_blank" class="btn-action">⚙️ Apps Script — Suivi des Projets</a> 
+                <a href="https://docs.google.com/presentation/d/14BeaTYt9NkBJXHO6B24GFFapf-EzhC3UkWyW6sJDvTw/edit?slide=id.g3f58b8d8d68_0_30#slide=id.g3f58b8d8d68_0_30" target="_blank" class="btn-action">🖼️ Presentation Google Slides — Références Projets</a> 
+            </div> 
+
+            <p style="color: var(--text-muted);">Lorsque le projet est terminé et que vous souhaitez créer la diapositive de référence, rendez-vous sur le Google Sheet <strong>Suivi des projets</strong> et repérez la ligne correspondant à votre projet :</p> 
+
+            <!-- SCREENSHOT 1 --> 
+            <div class="screen-preview"> 
+                <img src="../../img/05-suivi-des-projets.png" alt="Capture d'écran Références Projets"> 
+                <div class="screen-caption">📍 Google Sheet : Zone Cyan (Actions) | Zone Orange (Livrables) | Zone Bleue (Données)</div> 
+            </div> 
+
+            <h3 style="color: var(--wave-blue); margin-top: 1.75rem;">Procédure étape par étape :</h3> 
+            <div class="flow-grid"> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">1</span> 
+                    <h4><span class="sheet-tag tag-cyan">Fichier synthèse</span></h4> 
+                    <p>Cochez la case dans la première colonne cyan <code>Fichier synthèse</code> tout à gauche. L'outil va rédiger la synthèse du projet dans le lien associé. Une notification apparaîtra en bas à droite dès que c'est terminé.</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">2</span> 
+                    <h4><span class="sheet-tag tag-cyan">Remplissage colonnes</span></h4> 
+                    <p>Cochez ensuite la case dans la colonne <code>Remplissage colonnes</code>. L'outil va compléter automatiquement les cases descriptives du tableau (zone <span class="sheet-tag tag-blue">Bleue</span>).</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">3</span> 
+                    <h4>Relecture & Validation</h4> 
+                    <p>Vérifiez que le <strong>Type de projet</strong> attribué est correct et contrôlez l'exactitude des données saisies dans les différentes colonnes.</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">4</span> 
+                    <h4><span class="sheet-tag tag-cyan">Slide automatique</span></h4> 
+                    <p>Une fois les informations validées, cochez la 3ème case <code>Slide automatique</code> pour générer la présentation de votre référence projet.</p> 
+                </div> 
+            </div> 
+
+            <div class="callout-box callout-info"> 
+                <div class="callout-icon">💡</div> 
+                <div class="callout-body"> 
+                    <strong>Consultation, Édition et Finalisation :</strong> 
+                    <ul> 
+                        <li>Un lien apparaît dans la colonne orange <span class="sheet-tag tag-orange">Lien slide</span> dès que la génération est terminée. Cliquez dessus pour ouvrir et consulter la diapositive.</li> 
+                        <li>Vous pouvez éditer directement la slide pour affiner le texte, corriger la mise en page ou insérer une image provenant du Google Drive.</li> 
+                        <li>Une fois la diapositive validée, copiez-la et ajoutez-la au <strong>Slide Deck officiel des références projets HOC !</strong></li> 
+                    </ul> 
+                </div> 
+            </div> 
+        </section> 
+
+        <!-- SECTION 3: POST LINKEDIN --> 
+        <section id="linkedin" class="doc-section"> 
+            <div class="section-header"> 
+                <div class="section-icon">📱</div> 
+                <h2 class="section-title">3. Rédaction du Brouillon LinkedIn</h2> 
+            </div> 
+
+            <div class="action-buttons"> 
+                <a href="https://drive.google.com/drive/folders/1P66B6QMS0ggJS8eGDJYuh78yrPt2Nz10" target="_blank" class="btn-action">📝 Dossier Brouillon Posts LinkedIn</a> 
+            </div> 
+
+            <div class="flow-grid"> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">1</span> 
+                    <h4>Déclenchement</h4> 
+                    <p>Une fois que toutes les colonnes associées au projet contiennent des informations exactes, cochez la case cyan <span class="sheet-tag tag-cyan">LinkedIn post draft</span>.</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">2</span> 
+                    <h4>Consultation du Brouillon</h4> 
+                    <p>Cliquez sur le lien généré dans la colonne <span class="sheet-tag tag-orange">Lien LinkedIn</span> pour consulter et retravailler le document Google Doc.</p> 
+                </div> 
+            </div> 
+
+            <div class="callout-box callout-info"> 
+                <div class="callout-icon">📍</div> 
+                <div class="callout-body"> 
+                    <strong>Où retrouver votre fichier ?</strong><br> 
+                    Le document est directement accessible via le lien du tableau. Notez qu'il ne se trouve pas dans l'arborescence du dossier projet, mais dans le dossier regroupant tous les contenus LinkedIn :<br> 
+                    <code>Drive Partagé HOC > 25. COM 2025-2026 > Textes des postes > Brouillons postes linkedin</code> 
+                </div> 
+            </div> 
+        </section> 
+
+        <!-- SECTION 4: VITRINE LOGOS --> 
+        <section id="vitrine" class="doc-section"> 
+            <div class="section-header"> 
+                <div class="section-icon">🖼️</div> 
+                <h2 class="section-title">4. Création d'une Vitrine Logos</h2> 
+            </div> 
+
+            <div class="action-buttons"> 
+                <a href="https://docs.google.com/spreadsheets/d/17NIrXHUAnFslvmKbc9JF0HMd0eyQL7CNSgjtf23_03g/edit?gid=822581003#gid=822581003" target="_blank" class="btn-action">📊 Google Sheet - Vitrine Logos </a> 
+                <a href="https://docs.google.com/presentation/d/1-HJt5zBHN-dhzzkom10vY_CcdEiD7Dm9fF3Bj7Qc5bs/edit?slide=id.SLIDES_API1093025547_0#slide=id.SLIDES_API1093025547_0" target="_blank" class="btn-action">🖼️ Google Slides - Vitrine Logos </a> 
+            </div> 
+
+            <p style="color: var(--text-muted);">Pour générer une diapositive vitrine regroupant plusieurs logos clients :</p> 
+
+            <!-- SCREENSHOT 2 --> 
+            <div class="screen-preview"> 
+                <img src="../../img/06-vitrine-logos.png" alt="Capture d'écran Vitrine Logos"> 
+                <div class="screen-caption">📍 Google Sheet — Vue Onglet Vitrine Logos : Zone Cyan (Sélection) | Ligne Jaune (Nouveau) | Lien Slide (Vert)</div> 
+            </div> 
+
+            <div class="flow-grid"> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">1</span> 
+                    <h4>Sélectionner les clients</h4> 
+                    <p>Ouvrez l'onglet <strong>Vitrine logos</strong> en bas à gauche du Google Sheet. Dans la liste <span class="sheet-tag tag-cyan">Cyan</span> située à gauche, cochez les clients à ajouter. Leurs noms apparaissent automatiquement à droite sur la ligne jaune <span class="sheet-tag tag-yellow">NOUVEAU</span>.</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">2</span> 
+                    <h4>Déclencher la slide</h4> 
+                    <p>Une fois tous les clients cochés, cochez la case <span class="sheet-tag tag-yellow">VITRINE</span> située sur la ligne jaune pour lancer la création de la présentation.</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">3</span> 
+                    <h4>Ouvrir le lien</h4> 
+                    <p>Lorsque la slide est créée, un lien apparaît dans la colonne <span class="sheet-tag tag-green">LIEN SLIDE</span> située dans la zone verte juste en-dessous. Cliquez dessus pour visualiser la vitrine.</p> 
+                </div> 
+            </div> 
+
+            <div class="callout-box callout-info"> 
+                <div class="callout-icon">🌐</div> 
+                <div class="callout-body"> 
+                    <strong>Récupération et gestion des logos clients :</strong>
+                    <ul>
+                        <li><strong>Automatique via Logo.dev :</strong> Les logos sont recherchés automatiquement sur le Web via l'API Logo.dev. Dès qu'un logo est trouvé pour la première fois, son URL d'image est enregistrée dans la colonne <code>Lien logo</code>.</li>
+                        <li><strong>Modification manuelle (Remplacement Google Images) :</strong> Si Logo.dev récupère un visuel incorrect, vous pouvez remplacer le lien de la colonne <code>Lien logo</code> par n'importe quelle URL d'image provenant de Google Images.</li>
+                        <li><strong>Mise en mémoire :</strong> Ce lien personnalisé sera conservé et réutilisé automatiquement pour toutes les futures générations de vitrines et de slides pour ce client.</li>
+                    </ul>
+                </div> 
+            </div> 
+
+            <div class="callout-box callout-warning"> 
+                <div class="callout-icon">⚠️</div> 
+                <div class="callout-body"> 
+                    <strong>Point d'attention & Fonctionnement de la liste :</strong> 
+                    <ul> 
+                        <li><strong>Contrôle visuel obligatoire :</strong> Pensez à toujours vérifier si les logos insérés sur la slide sont les bons, car des erreurs de correspondance peuvent parfois se produire via l'API.</li> 
+                        <li><strong>Mise à jour automatique de la liste :</strong> Les clients de la liste cyan s'ajoutent automatiquement à chaque fois qu'un nouveau nom de client est détecté dans la feuille Références Projets.</li> 
+                        <li><strong>Ajout manuel :</strong> Si vous souhaitez ajouter un client qui n'est pas encore présent dans la feuille des références projets, vous pouvez l'inscrire directement à la main dans la liste cyan.</li> 
+                    </ul> 
+                </div> 
+            </div> 
+        </section> 
+
+        <!-- SECTION 5: ADMIN - AJOUTER UN TYPE DE PROJET --> 
+        <section id="admin-type" class="doc-section"> 
+            <div class="section-header"> 
+                <div class="section-icon">⚙️</div> 
+                <h2 class="section-title">5. Administration : Ajouter un Nouveau Type de Projet</h2> 
+            </div> 
+
+            <p style="color: var(--text-muted);">Si votre projet appartient à une catégorie inédite qui nécessite son propre modèle de présentation, suivez ces étapes pour ajouter ce nouveau type au système :</p> 
+
+            <div class="flow-grid"> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">1</span> 
+                    <h4>Menu déroulant Google Sheet</h4> 
+                    <p>Ouvrez le Google Sheet <em>Suivi des Projets</em> et ajoutez le nouveau type de projet au menu déroulant de la <strong>Colonne 3 (Type de projet)</strong>.</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">2</span> 
+                    <h4>Créer le modèle dans le thème</h4> 
+                    <p>Ouvrez le Slide Deck des références projets. Cliquez sur <code>Diapositive</code> &gt; <code>Modifier le thème</code>, puis créez un nouveau modèle de disposition (layout) spécifique pour cette nouvelle catégorie.</p> 
+                </div> 
+                <div class="flow-card"> 
+                    <span class="flow-badge">3</span> 
+                    <h4>Structure et balises <code>{{...}}</code></h4> 
+                    <p>Ajoutez la nouvelle diapositive modèle dans le deck et insérez des balises au format <code>{{nom_de_variable}}</code> là où vous souhaitez que les données du Google Sheet s'injectent automatiquement.</p> 
+                </div> 
+                
+                <!-- Long Step 4 taking full row width -->
+                <div class="flow-card flow-card-full"> 
+                    <span class="flow-badge">4</span> 
+                    <h4>Mise à jour des Apps Scripts</h4> 
+                    <p style="margin-bottom: 0.75rem;">Accédez aux scripts via <code>Extensions</code> &gt; <code>Apps Script</code> et mettez à jour <strong>3 fichiers</strong> <em>(n'oubliez pas de cliquer sur la disquette 💾 pour enregistrer chaque fichier)</em> :</p> 
+                    
+                    <div class="script-step-block">
+                        <span class="file-tag">slide_automatique.gs</span>
+                        <p>Dans la barre latérale de gauche, ouvrez <code>slide_automatique.gs</code>. En haut du code sous la ligne <code>// 🔑 IDs des slides modèles (templates)</code>, ajoutez une nouvelle ligne associant le type de projet à l'ID de sa slide. L'ID de la slide se récupère directement dans l'URL de votre diapositive modèle, juste après <code>slide=id.</code>.</p>
+                    </div>
+
+                    <div class="script-step-block">
+                        <span class="file-tag">fichier_synthese.gs</span>
+                        <span class="file-tag">remplir_colonnes.gs</span>
+                        <p>Faites un <code>Cmd + F</code> pour rechercher la section <code>// PROMPT GEMINI</code>. Lisez le prompt et ajoutez-y les consignes spécifiques à votre nouveau type de projet là où les autres types sont déjà mentionnés.</p>
+                    </div>
+                </div> 
+                
+                <!-- Step 5 placed below -->
+                <div class="flow-card"> 
+                    <span class="flow-badge">5</span> 
+                    <h4>Test complet de validation</h4> 
+                    <p>Créez une ligne de test dans le Google Sheet, sélectionnez votre nouveau type de projet, puis cochez successivement les cases d'action pour vérifier que la synthèse, le remplissage des colonnes et la génération de la slide fonctionnent sans erreur.</p> 
+                </div> 
+            </div> 
+
+            <!-- SCREENSHOT: APPS SCRIPT TEMPLATE MAPPING --> 
+            <div class="screen-preview"> 
+                <img src="../../img/07-apps-script-slide-automatique.png" alt="Capture d'écran Apps Script - slide_automatique.gs"> 
+                <div class="screen-caption">📍 Apps Script : Fichier slide_automatique.gs | Zone d'édition des IDs des slides modèles (templates)</div> 
+            </div> 
+
+            <div class="callout-box callout-info"> 
+                <div class="callout-icon">🎉</div> 
+                <div class="callout-body"> 
+                    <strong>Configuration terminée !</strong><br> 
+                    Votre nouveau type de projet, ses prompts Gemini et sa diapositive modèle sont désormais totalement configurés et prêts pour la génération automatique. 
+                </div> 
+            </div> 
+        </section> 
+
+    </div> 
+
+</body> 
+</html>
