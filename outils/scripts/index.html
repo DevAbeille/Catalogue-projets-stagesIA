@@ -519,7 +519,7 @@
                     <div class="flow-card"> 
                         <span class="flow-badge">1</span> 
                         <h4>Créer le dossier Drive</h4> 
-                        <p>Dans le Drive partagé HOC, créez un nouveau dossier au nom de votre projet directement sous le dossier parent <code>5-projets</code>.</p> 
+                        <p>Dans le Drive partagé HOC, créez un nouveau dossier au nom de votre projet directement sous le dossier parent <code>5.2-projets</code>.</p> 
                     </div> 
                     <div class="flow-card"> 
                         <span class="flow-badge">2</span> 
@@ -529,7 +529,7 @@
                     <div class="flow-card"> 
                         <span class="flow-badge">3</span> 
                         <h4>Ajout dans le Suivi</h4> 
-                        <p>Une nouvelle ligne est ajoutée automatiquement dans le Google Sheet <em>Suivi des projets</em> avec le titre de votre projet et les liens vers les fiches vierges.</p> 
+                        <p>Une nouvelle ligne est ajoutée automatiquement dans le Google Sheet <em>Abeille - Suivi des projets</em> avec le titre de votre projet, le nom du client,  et les liens vers les fiches vierges.</p> 
                     </div> 
                     <div class="flow-card"> 
                         <span class="flow-badge">4</span> 
@@ -539,62 +539,68 @@
                 </div> 
             </section> 
 
-            <!-- SECTION 2: RÉFÉRENCES PROJETS --> 
-            <section id="refs" class="doc-section"> 
-                <div class="section-header"> 
-                    <div class="section-icon">🚀</div> 
-                    <h2 class="section-title">2. Génération de la Référence Projet</h2> 
-                </div> 
+           <!-- SECTION 2: RÉFÉRENCES PROJETS --> 
+<section id="refs" class="doc-section"> 
+    <div class="section-header"> 
+        <div class="section-icon">🚀</div> 
+        <h2 class="section-title">2. Génération de la Référence Projet</h2> 
+    </div> 
 
-                <div class="action-buttons"> 
-                    <a href="https://docs.google.com/spreadsheets/d/17NIrXHUAnFslvmKbc9JF0HMd0eyQL7CNSgjtf23_03g/edit?gid=0#gid=0" target="_blank" class="btn-action">📊 Google Sheet — Suivi des Projets</a> 
-                    <a href="https://script.google.com/u/0/home/projects/15h7wxuCVEjZKky8APQig9AzMDkMFTSvXDyxalk-usfadJe7b-q7L2wsD/edit" target="_blank" class="btn-action">⚙️ Apps Script — Suivi des Projets</a> 
-                    <a href="https://docs.google.com/presentation/d/14BeaTYt9NkBJXHO6B24GFFapf-EzhC3UkWyW6sJDvTw/edit?slide=id.g3f58b8d8d68_0_30#slide=id.g3f58b8d8d68_0_30" target="_blank" class="btn-action">🖼️ Presentation Google Slides — Références Projets</a> 
-                </div> 
+    <div class="action-buttons"> 
+        <a href="https://docs.google.com/spreadsheets/d/17NIrXHUAnFslvmKbc9JF0HMd0eyQL7CNSgjtf23_03g/edit?gid=0#gid=0" target="_blank" class="btn-action">📊 Google Sheet — Suivi des Projets</a> 
+        <a href="https://script.google.com/u/0/home/projects/15h7wxuCVEjZKky8APQig9AzMDkMFTSvXDyxalk-usfadJe7b-q7L2wsD/edit" target="_blank" class="btn-action">⚙️ Apps Script — Suivi des Projets</a> 
+        <a href="https://docs.google.com/presentation/d/14BeaTYt9NkBJXHO6B24GFFapf-EzhC3UkWyW6sJDvTw/edit?slide=id.g3f58b8d8d68_0_30#slide=id.g3f58b8d8d68_0_30" target="_blank" class="btn-action">🖼️ Presentation Google Slides — Références Projets</a> 
+    </div> 
 
-                <p style="color: var(--text-muted);">Lorsque le projet est terminé et que vous souhaitez créer la diapositive de référence, rendez-vous sur le Google Sheet <strong>Suivi des projets</strong> et repérez la ligne correspondant à votre projet :</p> 
+    <p style="color: var(--text-muted);">Lorsque le projet est terminé et que vous souhaitez créer la diapositive de référence, rendez-vous sur le Google Sheet <strong>Abeille - Suivi des projets</strong> et repérez la ligne correspondant à votre projet :</p> 
 
-                <div class="screen-preview"> 
-                    <img src="../../img/05-suivi-des-projets.png" alt="Capture d'écran Références Projets"> 
-                    <div class="screen-caption">📍 Google Sheet : Zone Cyan (Actions) | Zone Orange (Livrables) | Zone Bleue (Données)</div> 
-                </div> 
+    <div class="screen-preview"> 
+        <img src="../../img/05-suivi-des-projets.png" alt="Capture d'écran Références Projets"> 
+        <div class="screen-caption">📍 Google Sheet : Zone Cyan (Actions) | Zone Orange (Livrables) | Zone Bleue (Données)</div> 
+    </div> 
 
-                <h3 style="color: var(--wave-blue); margin-top: 1.75rem;">Procédure étape par étape :</h3> 
-                <div class="flow-grid"> 
-                    <div class="flow-card"> 
-                        <span class="flow-badge">1</span> 
-                        <h4><span class="sheet-tag tag-cyan">Fichier synthèse</span></h4> 
-                        <p>Cochez la case dans la première colonne cyan <code>Fichier synthèse</code> tout à gauche. L'outil va rédiger la synthèse du projet dans le lien associé. Une notification apparaîtra en bas à droite dès que c'est terminé.</p> 
-                    </div> 
-                    <div class="flow-card"> 
-                        <span class="flow-badge">2</span> 
-                        <h4><span class="sheet-tag tag-cyan">Remplissage colonnes</span></h4> 
-                        <p>Cochez ensuite la case dans la colonne <code>Remplissage colonnes</code>. L'outil va compléter automatiquement les cases descriptives du tableau (zone <span class="sheet-tag tag-blue">Bleue</span>).</p> 
-                    </div> 
-                    <div class="flow-card"> 
-                        <span class="flow-badge">3</span> 
-                        <h4>Relecture & Validation</h4> 
-                        <p>Vérifiez que le <strong>Type de projet</strong> attribué est correct et contrôlez l'exactitude des données saisies dans les différentes colonnes.</p> 
-                    </div> 
-                    <div class="flow-card"> 
-                        <span class="flow-badge">4</span> 
-                        <h4><span class="sheet-tag tag-cyan">Slide automatique</span></h4> 
-                        <p>Une fois les informations validées, cochez la 3ème case <code>Slide automatique</code> pour générer la présentation de votre référence projet.</p> 
-                    </div> 
-                </div> 
+    <h3 style="color: var(--wave-blue); margin-top: 1.75rem;">Procédure étape par étape :</h3> 
+    <div class="flow-grid"> 
+        <div class="flow-card"> 
+            <span class="flow-badge">1</span> 
+            <h4><span class="sheet-tag tag-cyan">Fichier synthèse</span></h4> 
+            <p>Cochez la case dans la première colonne cyan <code>Fichier synthèse</code>. L'outil va rédiger la synthèse du projet dans le lien associé. Une notification apparaîtra dès que c'est terminé.</p> 
+        </div> 
+        <div class="flow-card"> 
+            <span class="flow-badge">2</span> 
+            <h4><span class="sheet-tag tag-cyan">Remplissage colonnes</span></h4> 
+            <p>Cochez ensuite la case <code>Remplissage colonnes</code>. L'outil va compléter automatiquement les cases descriptives du tableau (zone <span class="sheet-tag tag-blue">Bleue</span>).</p> 
+        </div> 
+        <div class="flow-card"> 
+            <span class="flow-badge">3</span> 
+            <h4>Relecture & Validation</h4> 
+            <p>Vérifiez que le <strong>Type de projet</strong> attribué est correct et contrôlez l'exactitude des données saisies dans les colonnes bleues.</p> 
+        </div> 
+        <div class="flow-card"> 
+            <span class="flow-badge">4</span> 
+            <h4><span class="sheet-tag tag-cyan">Slide automatique</span></h4> 
+            <p>Une fois les informations validées, cochez la case <code>Slide automatique</code> pour générer la présentation de votre référence projet.</p> 
+        </div> 
+        <div class="flow-card"> 
+            <span class="flow-badge">5</span> 
+            <h4><span class="sheet-tag tag-orange-sheet">Accès à la Slide</span></h4> 
+            <p>Cliquez sur le lien qui apparaît dans la colonne orange <code>Lien slide</code> pour ouvrir directement la diapositive générée.</p> 
+        </div> 
+        <div class="flow-card"> 
+            <span class="flow-badge">6</span> 
+            <h4>Édition & Personnalisation</h4> 
+            <p>Ajustez le contenu directement sur la slide : modifiez le texte, affinez la mise en page ou ajoutez des visuels depuis le Google Drive.</p> 
+        </div> 
+    </div> 
 
-                <div class="callout-box callout-info"> 
-                    <div class="callout-icon">💡</div> 
-                    <div class="callout-body"> 
-                        <strong>Consultation, Édition et Finalisation :</strong> 
-                        <ul> 
-                            <li>Un lien apparaît dans la colonne orange <span class="sheet-tag tag-orange-sheet">Lien slide</span> dès que la génération est terminée. Cliquez dessus pour ouvrir et consulter la diapositive.</li> 
-                            <li>Vous pouvez éditer directement la slide pour affiner le texte, corriger la mise en page ou insérer une image provenant du Google Drive.</li> 
-                            <li>Une fois la diapositive validée, copiez-la et ajoutez-la au <strong>Slide Deck officiel des références projets HOC !</strong></li> 
-                        </ul> 
-                    </div> 
-                </div> 
-            </section> 
+    <div class="callout-box callout-info" style="margin-top: 1.5rem;"> 
+        <div class="callout-icon">💡</div> 
+        <div class="callout-body"> 
+            <strong>Finalisation :</strong> 
+            <p>Une fois votre diapositive relue et personnalisée, copiez-la puis collez-la dans le <strong>Slide Deck officiel des références projets HOC</strong>.</p> 
+        </div> 
+    </div> 
+</section>
 
             <!-- SECTION 3: POST LINKEDIN --> 
             <section id="linkedin" class="doc-section"> 
